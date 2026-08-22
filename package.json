@@ -1,0 +1,17 @@
+{
+  "name": "landingpage-iskcon-ceara-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "test": "npm --prefix frontend test",
+    "lint": "npm --prefix frontend run lint",
+    "lint:fix": "npm --prefix frontend run lint:fix",
+    "typecheck": "npm --prefix frontend run typecheck",
+    "security:check": "npm --prefix frontend run security:check",
+    "docker:up": "docker compose -f docker/docker-compose-local.yml up -d --build",
+    "docker:down": "docker compose -f docker/docker-compose-local.yml down",
+    "docker:logs": "docker logs -f iskcon_landingpage_local"
+  }
+}

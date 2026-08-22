@@ -1,0 +1,10 @@
+services:
+  landingpage:
+    image: iskcon_landingpage:local
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: iskcon_landingpage_local
+    ports:
+      - "8080:80"
+    restart: unless-stopped

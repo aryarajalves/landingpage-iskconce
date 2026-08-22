@@ -1,0 +1,37 @@
+#!/bin/sh
+# Hook de verificação de qualidade e segurança antes de realizar git push
+
+echo "🔍 Executando Linter (ESLint)..."
+npm run lint
+
+if [ $? -ne 0 ]; then
+  echo "❌ Push cancelado: Foram encontrados erros de Linter no código."
+  exit 1
+fi
+
+echo "📐 Executando verificação de tipos TypeScript..."
+npm run typecheck
+
+if [ $? -ne 0 ]; then
+  echo "❌ Push cancelado: Erros de tipos TypeScript encontrados."
+  exit 1
+fi
+
+echo "🛡️ Executando varredura de vulnerabilidades nas bibliotecas..."
+npm run security:check
+
+if [ $? -ne 0 ]; then
+  echo "❌ Push cancelado: Existem vulnerabilidades de segurança detectadas nas dependências do frontend."
+  exit 1
+fi
+
+echo "🧪 Executando suíte de testes unitários..."
+npm test
+
+if [ $? -ne 0 ]; then
+  echo "❌ Push cancelado: Os testes unitários falharam."
+  exit 1
+fi
+
+echo "✅ Linter, TypeScript, Segurança e Testes aprovados com sucesso!"
+exit 0

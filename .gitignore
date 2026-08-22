@@ -1,0 +1,71 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependências (Node / NPM)
+node_modules
+**/node_modules
+.pnp
+.pnp.js
+
+# Build & Distribuição
+dist
+dist-ssr
+**/dist
+build
+out
+*.local
+*.tsbuildinfo
+
+# Variáveis de Ambiente & Segredos
+.env
+.env.*
+!.env.example
+*.env
+*.key
+*.pem
+*.cert
+
+# Backups & Arquivos Temporários
+*.bak
+*.backup
+*.orig
+*.original.*
+*.bak.*
+_backups/
+backups/
+
+# Arquivos do Sistema Operacional
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDEs e Editores
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Cobertura de Testes
+coverage
+.nyc_output
+
+# Cache
+.eslintcache
+.cache
+.vite
