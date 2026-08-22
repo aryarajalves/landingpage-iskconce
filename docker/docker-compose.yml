@@ -1,6 +1,6 @@
 services:
   iskcon_landingpage:
-    image: aryalvesfernandes/landingpage-iskcon-ce:1.0.0
+    image: aryalvesfernandes/landingpage-iskcon-ce:1.0.1
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -22,7 +22,7 @@ services:
           memory: 64M
       labels:
         - "traefik.enable=1"
-        - "traefik.http.routers.iskcon_landingpage.rule=Host(`iskcon.aryaraj.shop`)"
+        - "traefik.http.routers.iskcon_landingpage.rule=Host(`infotemplo-hare-krsna.aryaraj.shop`)"
         - "traefik.http.routers.iskcon_landingpage.entrypoints=websecure"
         - "traefik.http.routers.iskcon_landingpage.priority=1"
         - "traefik.http.routers.iskcon_landingpage.tls.certresolver=letsencryptresolver"

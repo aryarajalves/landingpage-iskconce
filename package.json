@@ -1,6 +1,6 @@
 {
   "name": "landingpage-iskcon-ceara-root",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "npm --prefix frontend run dev",
