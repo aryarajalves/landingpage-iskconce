@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       auto_deploy:
-        description: 'Atualizar stack automaticamente no Portainer?'
+        description: 'Atualizar stack/serviço automaticamente no Portainer?'
         required: true
         type: boolean
         default: true
@@ -17,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     # Pula o build se a mensagem de commit contiver [skip docker]
     if: "!contains(github.event.head_commit.message, '[skip docker]')"
+    outputs:
+      version: ${{ steps.get_version.outputs.VERSION }}
 
     steps:
       - name: 📥 Clonar Repositório
@@ -55,27 +57,32 @@ jobs:
           echo "🎉 Imagem aryalvesfernandes/landingpage-iskcon-ce:${{ steps.get_version.outputs.VERSION }} publicada com sucesso no Docker Hub!"
 
   deploy-portainer:
-    name: Atualizar Stack no Portainer (Deploy Automático)
+    name: Atualizar Stack/Serviço no Portainer
     needs: build-and-push
     runs-on: ubuntu-latest
     # Executa se não houver [skip deploy] no commit
     if: "!contains(github.event.head_commit.message, '[skip deploy]')"
 
     steps:
-      - name: 🌐 Disparar Webhook do Portainer
+      - name: 🌐 Disparar Webhook do Portainer (com Tag da Nova Versão)
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_PORTAINER || secrets.PORTAINER_WEBHOOK_URL || secrets.WEBHOOK_OFICIAL }}
+          VERSION: ${{ needs.build-and-push.outputs.version }}
         run: |
           if [ -z "$WEBHOOK_URL" ]; then
             echo "ℹ️ Webhook do Portainer não configurado nos Secrets (WEBHOOK_PORTAINER). O build no Docker Hub foi concluído, mas o deploy automático no Portainer foi pulado."
             exit 0
           fi
 
-          echo "📡 Disparando Webhook de atualização da Stack no Portainer..."
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$WEBHOOK_URL")
+          echo "📡 Disparando atualização no Portainer para a versão: $VERSION..."
           
-          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
-            echo "🚀 Sucesso! Portainer respondeu com status HTTP $HTTP_STATUS e iniciou a atualização da stack."
+          # Se a URL já contiver '?', usa '&tag=', senão usa '?tag=' (compatível com Stack Webhook e Service Webhook)
+          if [[ "$WEBHOOK_URL" == *"?"* ]]; then
+            TARGET_URL="${WEBHOOK_URL}&tag=${VERSION}"
           else
-            echo "⚠️ Webhook disparado, resposta HTTP: $HTTP_STATUS."
+            TARGET_URL="${WEBHOOK_URL}?tag=${VERSION}"
           fi
+
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$TARGET_URL" || curl -s -o /dev/null -w "%{http_code}" -X POST "$WEBHOOK_URL")
+          
+          echo "🚀 Portainer notificado com sucesso (HTTP $HTTP_STATUS)! Nova imagem $VERSION aplicada."
