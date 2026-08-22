@@ -1,8 +1,15 @@
-name: Publicar Imagem no Docker Hub
+name: Publicar Imagem no Docker Hub & Deploy Portainer
 
 on:
   push:
     branches: [ "main", "master" ]
+  workflow_dispatch:
+    inputs:
+      auto_deploy:
+        description: 'Atualizar stack automaticamente no Portainer?'
+        required: true
+        type: boolean
+        default: true
 
 jobs:
   build-and-push:
@@ -24,7 +31,7 @@ jobs:
             VERSION=$(node -p "require('./package.json').version")
           fi
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "Publicando versao: $VERSION"
+          echo "Versão a ser publicada: $VERSION"
 
       - name: 🔐 Login no Docker Hub
         uses: docker/login-action@v3
@@ -43,6 +50,32 @@ jobs:
           push: true
           tags: aryalvesfernandes/landingpage-iskcon-ce:${{ steps.get_version.outputs.VERSION }}
 
-      - name: ✅ Confirmação do Deploy
+      - name: ✅ Confirmação do Build
         run: |
           echo "🎉 Imagem aryalvesfernandes/landingpage-iskcon-ce:${{ steps.get_version.outputs.VERSION }} publicada com sucesso no Docker Hub!"
+
+  deploy-portainer:
+    name: Atualizar Stack no Portainer (Deploy Automático)
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    # Executa se não houver [skip deploy] no commit
+    if: "!contains(github.event.head_commit.message, '[skip deploy]')"
+
+    steps:
+      - name: 🌐 Disparar Webhook do Portainer
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_PORTAINER || secrets.PORTAINER_WEBHOOK_URL || secrets.WEBHOOK_OFICIAL }}
+        run: |
+          if [ -z "$WEBHOOK_URL" ]; then
+            echo "ℹ️ Webhook do Portainer não configurado nos Secrets (WEBHOOK_PORTAINER). O build no Docker Hub foi concluído, mas o deploy automático no Portainer foi pulado."
+            exit 0
+          fi
+
+          echo "📡 Disparando Webhook de atualização da Stack no Portainer..."
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$WEBHOOK_URL")
+          
+          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+            echo "🚀 Sucesso! Portainer respondeu com status HTTP $HTTP_STATUS e iniciou a atualização da stack."
+          else
+            echo "⚠️ Webhook disparado, resposta HTTP: $HTTP_STATUS."
+          fi
