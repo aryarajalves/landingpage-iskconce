@@ -2,7 +2,7 @@ name: iskcon-landingpage
 
 services:
   iskcon_landingpage:
-    image: aryalvesfernandes/landingpage-iskcon-ce:1.0.1
+    image: aryalvesfernandes/landingpage-iskcon-ce:1.0.3
     build:
       context: ..
       dockerfile: docker/Dockerfile
