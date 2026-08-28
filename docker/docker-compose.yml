@@ -1,11 +1,8 @@
-name: iskcon-landingpage
+version: '3.8'
 
 services:
   iskcon_landingpage:
     image: aryalvesfernandes/landingpage-iskcon-ce:1.0.3
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
     hostname: "{{.Service.Name}}.{{.Task.Slot}}"
     networks:
       - network_swarm_public
