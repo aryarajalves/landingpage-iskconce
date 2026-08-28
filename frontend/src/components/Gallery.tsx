@@ -138,7 +138,7 @@ export const Gallery: React.FC = () => {
   }, [selectedPhoto, handleNext, handlePrev]);
 
   return (
-    <div id="galeria" className="bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-md border border-amber-200/80 mb-8" data-testid="gallery-section">
+    <div id="galeria" className="scroll-mt-24 bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-md border border-amber-200/80 mb-8" data-testid="gallery-section">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 pb-4 border-b border-amber-100 text-center sm:text-left">

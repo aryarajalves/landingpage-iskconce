@@ -3,7 +3,7 @@ import { Utensils, BookOpen, Music, Users } from 'lucide-react';
 
 export const AboutTemple: React.FC = () => {
   return (
-    <div className="bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-md border border-amber-200/80 mb-8" data-testid="about-temple-section">
+    <div id="sobre" className="scroll-mt-24 bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-md border border-amber-200/80 mb-8" data-testid="about-temple-section">
       
       {/* Title */}
       <div className="text-center max-w-2xl mx-auto mb-8">

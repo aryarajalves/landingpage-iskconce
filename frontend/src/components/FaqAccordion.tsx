@@ -10,7 +10,7 @@ export const FaqAccordion: React.FC = () => {
   };
 
   return (
-    <div id="faq" className="bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-md border border-amber-200/80 mb-8" data-testid="faq-section">
+    <div id="faq" className="scroll-mt-24 bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-md border border-amber-200/80 mb-8" data-testid="faq-section">
       
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-8">

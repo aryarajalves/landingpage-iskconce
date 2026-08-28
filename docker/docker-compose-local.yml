@@ -1,3 +1,5 @@
+name: iskcon-landingpage
+
 services:
   landingpage:
     image: iskcon_landingpage:local

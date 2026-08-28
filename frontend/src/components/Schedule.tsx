@@ -19,7 +19,7 @@ const getScheduleIcon = (iconName: ScheduleItem['iconName']) => {
 
 export const Schedule: React.FC = () => {
   return (
-    <div id="programacao" className="bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-md border border-amber-200/80 mb-8" data-testid="schedule-section">
+    <div id="programacao" className="scroll-mt-24 bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-md border border-amber-200/80 mb-8" data-testid="schedule-section">
       
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-8">

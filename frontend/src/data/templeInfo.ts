@@ -21,6 +21,23 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface WeeklyMeeting {
+  id: string;
+  title: string;
+  region: string;
+  tag: string;
+  description: string;
+  bookTitle?: string;
+  day: string;
+  time: string;
+  platform: string;
+  isOnline: boolean;
+  contactName: string;
+  contactPhone: string;
+  whatsappUrl: string;
+  highlights: string[];
+}
+
 export interface TempleInfo {
   name: string;
   subtitle: string;
@@ -44,7 +61,13 @@ export interface TempleInfo {
     featuredShortVideoId: string;
     localVideoUrl: string;
   };
+  music: {
+    title: string;
+    artist: string;
+    audioUrl: string;
+  };
   sundaySchedule: ScheduleItem[];
+  weeklyMeetings: WeeklyMeeting[];
   gallery: GalleryPhoto[];
   faqs: FaqItem[];
   mahaMantra: string;
@@ -74,6 +97,11 @@ export const TEMPLE_DATA: TempleInfo = {
     featuredShortVideoId: "T_mjJVzha24",
     localVideoUrl: "/video/templo-short.mp4"
   },
+  music: {
+    title: "Maha-Mantra Hare Krishna",
+    artist: "Mahatma Das (Kirtan)",
+    audioUrl: "/audio/maha-mantra.mp3"
+  },
   sundaySchedule: [
     {
       time: "10h00 às 10h30",
@@ -98,6 +126,28 @@ export const TEMPLE_DATA: TempleInfo = {
       title: "Prasadam (Almoço Sagrado)",
       description: "Almoço puramente vegetariano, preparado com amor e oferecido a Deus, servido gratuitamente para todos os presentes.",
       iconName: "utensils"
+    }
+  ],
+  weeklyMeetings: [
+    {
+      id: "lapidar-pacoti",
+      title: "Estudo do Bhagavad-gītā Como Ele É",
+      region: "Lapidar Pacoti – CE",
+      tag: "Online • Google Meet",
+      description: "Encontro semanal acolhedor para aprofundar-se nos ensinamentos universais e práticos do Bhagavad-gītā Como Ele É sob a orientação da sabedoria védica.",
+      bookTitle: "Bhagavad-gītā Como Ele É",
+      day: "Todas as terças-feiras",
+      time: "20h00",
+      platform: "Pelo Google Meet (Online)",
+      isOnline: true,
+      contactName: "Manjari Tulasi",
+      contactPhone: "(85) 9793-0976",
+      whatsappUrl: "https://wa.me/5585997930976?text=Ol%C3%A1%20Manjari%20Tulasi%2C%20gostaria%20de%20participar%20do%20encontro%20semanal%20de%20estudo%20do%20Bhagavad-g%C4%ABt%C4%81%20(Lapidar%20Pacoti)!",
+      highlights: [
+        "Estudo verso a verso com comentários de Srila Prabhupada",
+        "Ambiente acolhedor para perguntas, reflexões e aplicação prática",
+        "Acesso livre e 100% gratuito pelo Google Meet"
+      ]
     }
   ],
   gallery: [
@@ -152,6 +202,11 @@ export const TEMPLE_DATA: TempleInfo = {
       id: "entrada",
       question: "A entrada é gratuita? Preciso reservar?",
       answer: "Sim, a entrada é 100% gratuita e aberta a todos! Não é necessário fazer nenhuma reserva antecipada. Basta chegar e participar com a gente."
+    },
+    {
+      id: "experiencia-filosofia",
+      question: "O que vou vivenciar no templo e quais temas são abordados?",
+      answer: "O templo é um espaço sagrado e acolhedor aberto a todas as pessoas e famílias para vivenciar a paz, meditação, música devocional (kirtan), cânticos de mantras, palestras filosóficas que tratam do controle da mente, desapego, simplicidade, estudo dos clássicos védicos e banquete vegetariano gratuito sob a linhagem de Srila Prabhupada."
     },
     {
       id: "vestimenta",

@@ -14,7 +14,7 @@ import { TEMPLE_DATA } from '../data/templeInfo';
 
 export const QuickLinks: React.FC = () => {
   return (
-    <div className="bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-md border border-amber-200/80 mb-8" aria-label="Ações Rápidas" data-testid="quick-links-section">
+    <div id="links" className="scroll-mt-24 bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-md border border-amber-200/80 mb-8" aria-label="Ações Rápidas" data-testid="quick-links-section">
       
       {/* Section Header */}
       <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-amber-100 flex-wrap">

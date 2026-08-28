@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react';
 import { Sparkles, MessageCircle, MapPin, Play, Pause, Volume2, VolumeX, RotateCcw } from 'lucide-react';
 import { TEMPLE_DATA } from '../data/templeInfo';
+import { useAudio } from '../context/AudioContext';
 
 export const Hero: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [isEnded, setIsEnded] = useState<boolean>(false);
+  const { isPlaying: isMusicPlaying, toggleMusic, onVideoPlay, onVideoPause } = useAudio();
 
   const handlePlayToggle = () => {
     if (!videoRef.current) return;
@@ -16,15 +18,18 @@ export const Hero: React.FC = () => {
       videoRef.current.play();
       setIsPlaying(true);
       setIsEnded(false);
+      onVideoPlay();
       return;
     }
 
     if (videoRef.current.paused) {
       videoRef.current.play();
       setIsPlaying(true);
+      onVideoPlay();
     } else {
       videoRef.current.pause();
       setIsPlaying(false);
+      onVideoPause();
     }
   };
 
@@ -36,7 +41,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <div className="bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-10 shadow-md border border-amber-200/80 mb-8 text-stone-800 relative overflow-hidden" data-testid="hero-section">
+    <div id="inicio" className="scroll-mt-24 bg-white/95 backdrop-blur rounded-3xl p-6 sm:p-10 shadow-md border border-amber-200/80 mb-8 text-stone-800 relative overflow-hidden" data-testid="hero-section">
       
       {/* Top Subtle Mandala Accent */}
       <div className="absolute top-0 right-0 transform translate-x-12 -translate-y-12 opacity-5 pointer-events-none text-amber-900">
@@ -71,9 +76,30 @@ export const Hero: React.FC = () => {
 
           {/* Maha Mantra Box */}
           <div className="mb-5 p-4 rounded-2xl bg-amber-50/90 border border-amber-200 shadow-sm text-stone-800">
-            <span className="font-bold text-amber-800 block text-xs tracking-wider uppercase mb-1">
-              Maha-Mantra Hare Krishna
-            </span>
+            <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
+              <span className="font-bold text-amber-800 block text-xs tracking-wider uppercase">
+                Maha-Mantra Hare Krishna
+              </span>
+              <button
+                type="button"
+                onClick={toggleMusic}
+                data-testid="btn-hero-audio-toggle"
+                aria-label={isMusicPlaying ? 'Pausar música do Maha-Mantra' : 'Ouvir Maha-Mantra'}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-200/90 hover:bg-amber-300 text-amber-950 transition-all transform active:scale-95 shadow-xs"
+              >
+                {isMusicPlaying ? (
+                  <>
+                    <Pause className="w-3.5 h-3.5 fill-current" />
+                    <span>Pausar Música</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3.5 h-3.5 fill-current translate-x-0.5" />
+                    <span>Ouvir Mantra</span>
+                  </>
+                )}
+              </button>
+            </div>
             <p className="font-serif italic text-xs sm:text-base leading-relaxed text-stone-700">
               &ldquo;{TEMPLE_DATA.mahaMantra}&rdquo;
             </p>
@@ -81,7 +107,7 @@ export const Hero: React.FC = () => {
 
           {/* Description */}
           <p className="text-stone-600 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
-            Um espaço sagrado e acolhedor aberto a todas as pessoas e famílias para vivenciar a paz, meditação, música devocional (kirtan), estudo dos clássicos védicos e banquete vegetariano gratuito sob a linhagem de <strong>Srila Prabhupada</strong>.
+            Um espaço sagrado e acolhedor aberto a todas as pessoas e famílias para vivenciar a paz, meditação, música devocional (kirtan), cânticos de mantras, palestras filosóficas que tratam do controle da mente, desapego, simplicidade, estudo dos clássicos védicos e banquete vegetariano gratuito sob a linhagem de <strong>Srila Prabhupada</strong>.
           </p>
 
           {/* Action Buttons */}
@@ -131,9 +157,16 @@ export const Hero: React.FC = () => {
                 onEnded={() => {
                   setIsPlaying(false);
                   setIsEnded(true);
+                  onVideoPause();
                 }}
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
+                onPlay={() => {
+                  setIsPlaying(true);
+                  onVideoPlay();
+                }}
+                onPause={() => {
+                  setIsPlaying(false);
+                  onVideoPause();
+                }}
                 className="w-full h-full object-cover"
               />
 
