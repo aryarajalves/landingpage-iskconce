@@ -134,7 +134,7 @@ export const TEMPLE_DATA: TempleInfo = {
     {
       id: "segunda-sangha-feminina",
       title: "Estudo do Bhagavad-gītā (Sangha Feminina)",
-      region: "Online • Google Meet",
+      region: "Online • Grupo Exclusivo",
       tag: "Exclusivo para Mulheres",
       audience: "Exclusivo para mulheres e devotas",
       badge: "Segunda-feira • 20h00",
@@ -142,22 +142,22 @@ export const TEMPLE_DATA: TempleInfo = {
       bookTitle: "Bhagavad-gītā Como Ele É",
       day: "Todas as segundas-feiras",
       time: "20h00",
-      platform: "Pelo Google Meet (Online)",
+      platform: "Online • Grupo Exclusivo",
       isOnline: true,
-      contactName: "Sangha Feminina ISKCON CE",
-      contactPhone: "(85) 98681-7643",
-      whatsappUrl: "https://wa.me/5585986817643?text=Ol%C3%A1%2C%20gostaria%20de%20participar%20do%20encontro%20online%20de%20segunda-feira%20(Sangha%20Feminina%20do%20Bhagavad-g%C4%ABt%C4%81)!",
+      contactName: "Krsna Nandini",
+      contactPhone: "(64) 9202-2787",
+      whatsappUrl: "https://wa.me/556492022787?text=Ol%C3%A1%2C%20Krsna%20Nandini!%20Gostaria%20de%20participar%20do%20encontro%20online%20de%20segunda-feira%20(Sangha%20Feminina)%20e%20entrar%20no%20grupo%20exclusivo.",
       highlights: [
         "Encontro exclusivo para mulheres e devotas com troca de vivências",
         "Estudo temático e verso a verso do Bhagavad-gītā",
         "Ambiente intimista, acolhedor e seguro para dúvidas e partilhas",
-        "Acesso 100% gratuito e livre pelo Google Meet"
+        "Acesso 100% gratuito através do grupo exclusivo com Krsna Nandini"
       ]
     },
     {
       id: "lapidar-pacoti",
       title: "Estudo do Bhagavad-gītā Como Ele É",
-      region: "Lapidar Pacoti – CE",
+      region: "Lapidar Pacoti – CE (Online)",
       tag: "Aberto a Todos • Geral",
       audience: "Aberto a todo o público (iniciantes e praticantes)",
       badge: "Terça-feira • 20h00",
@@ -165,22 +165,22 @@ export const TEMPLE_DATA: TempleInfo = {
       bookTitle: "Bhagavad-gītā Como Ele É",
       day: "Todas as terças-feiras",
       time: "20h00",
-      platform: "Pelo Google Meet (Online)",
+      platform: "Online • Grupo Exclusivo",
       isOnline: true,
       contactName: "Manjari Tulasi",
       contactPhone: "(85) 9793-0976",
-      whatsappUrl: "https://wa.me/5585997930976?text=Ol%C3%A1%20Manjari%20Tulasi%2C%20gostaria%20de%20participar%20do%20encontro%20semanal%20de%20estudo%20do%20Bhagavad-g%C4%ABt%C4%81%20(Lapidar%20Pacoti)!",
+      whatsappUrl: "https://wa.me/5585997930976?text=Ol%C3%A1%20Manjari%20Tulasi%2C%20gostaria%20de%20participar%20do%20encontro%20online%20de%20ter%C3%A7a-feira%20de%20estudo%20do%20Bhagavad-g%C4%ABt%C4%81%20e%20entrar%20no%20grupo%20exclusivo!",
       highlights: [
         "Estudo verso a verso com comentários autorizados de Srila Prabhupada",
         "Condução dedicada e didática com a devota Manjari Tulasi",
         "Espaço aberto para perguntas, reflexões e debates filosóficos",
-        "Acesso livre e 100% gratuito pelo Google Meet"
+        "Acesso 100% gratuito através do grupo exclusivo com a facilitadora"
       ]
     },
     {
       id: "quinta-passatempos-krsna",
       title: "Estudo dos Passatempos de Krishna (Krishna Katha)",
-      region: "Online • Google Meet",
+      region: "Online • Grupo Exclusivo",
       tag: "Aberto a Todos • Devoção & Néctar",
       audience: "Aberto a todo o público (iniciantes e praticantes)",
       badge: "Quinta-feira • 20h00",
@@ -188,16 +188,16 @@ export const TEMPLE_DATA: TempleInfo = {
       bookTitle: "O Livro de Krishna & Srimad-Bhagavatam",
       day: "Todas as quintas-feiras",
       time: "20h00",
-      platform: "Pelo Google Meet (Online)",
+      platform: "Online • Grupo Exclusivo",
       isOnline: true,
-      contactName: "Templo Hare Krishna Fortaleza",
+      contactName: "Coordenação ISKCON Ceará",
       contactPhone: "(85) 98681-7643",
-      whatsappUrl: "https://wa.me/5585986817643?text=Ol%C3%A1%2C%20gostaria%20de%20participar%20do%20encontro%20online%20de%20quinta-feira%20sobre%20os%20Passatempos%20de%20Krishna!",
+      whatsappUrl: "https://wa.me/5585986817643?text=Ol%C3%A1%2C%20gostaria%20de%20participar%20do%20encontro%20online%20de%20quinta-feira%20sobre%20os%20Passatempos%20de%20Krishna%20e%20entrar%20no%20grupo%20exclusivo!",
       highlights: [
         "Narrativas cativantes dos passatempos e infância de Krishna em Vrindavana",
         "Purificação e paz mental através do ouvir sagrado (Sravanam)",
         "Espaço interativo para perguntas e meditação transcendental",
-        "Acesso livre e 100% gratuito pelo Google Meet"
+        "Acesso 100% gratuito através do grupo exclusivo do templo"
       ]
     }
   ],

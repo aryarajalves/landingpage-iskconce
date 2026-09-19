@@ -48,12 +48,22 @@ describe('OnlineProgramsPage Component', () => {
     expect(screen.getByText(/É preciso pagar alguma taxa ou mensalidade\?/i)).toBeInTheDocument();
   });
 
-  it('renders WhatsApp CTA buttons for all 3 programs', async () => {
+  it('renders WhatsApp CTA buttons with representatives, including Krsna Nandini on Monday', async () => {
     await renderComponent();
 
-    expect(screen.getByTestId('btn-join-segunda-sangha-feminina')).toHaveAttribute('href', expect.stringContaining('wa.me'));
+    // Monday representative Krsna Nandini
+    expect(screen.getAllByText(/Krsna Nandini/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByTestId('btn-join-segunda-sangha-feminina')).toHaveAttribute('href', expect.stringContaining('556492022787'));
+
+    // Representative guidance message on card
+    expect(screen.getAllByText(/vai te orientar e te dar acesso ao grupo exclusivo/i).length).toBeGreaterThanOrEqual(1);
+
+    // Verify all 3 CTA links
     expect(screen.getByTestId('btn-join-lapidar-pacoti')).toHaveAttribute('href', expect.stringContaining('wa.me'));
     expect(screen.getByTestId('btn-join-quinta-passatempos-krsna')).toHaveAttribute('href', expect.stringContaining('wa.me'));
+
+    // Ensure no mentions of Google Meet
+    expect(screen.queryByText(/Google Meet/i)).not.toBeInTheDocument();
   });
 
   it('renders navigation return button to linktree', async () => {

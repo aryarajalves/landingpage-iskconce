@@ -9,7 +9,7 @@ describe('WeeklyMeetings Component', () => {
 
     expect(screen.getByTestId('weekly-meetings-section')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: /Encontros Semanais & Grupos de Estudo/i })).toBeInTheDocument();
-    expect(screen.getAllByText(/Google Meet/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/grupos exclusivos/i).length).toBeGreaterThan(0);
   });
 
   it('renders the featured Lapidar Pacoti Bhagavad-gītā study card with exact schedule and contact', () => {

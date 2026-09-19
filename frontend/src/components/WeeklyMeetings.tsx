@@ -20,7 +20,7 @@ export const WeeklyMeetings: React.FC = () => {
           Encontros Semanais & Grupos de Estudo
         </h2>
         <p className="text-stone-600 text-sm sm:text-base mt-2">
-          Além do tradicional Festival de Domingo em Aquiraz, você pode se conectar semanalmente através de encontros de estudo do <em>Bhagavad-gītā</em> pelo Google Meet com participação 100% gratuita.
+          Além do tradicional Festival de Domingo em Aquiraz, você pode se conectar semanalmente através de encontros de estudo do <em>Bhagavad-gītā</em> em nossos grupos exclusivos com participação 100% gratuita.
         </p>
       </div>
 

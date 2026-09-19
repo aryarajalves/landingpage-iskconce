@@ -82,7 +82,7 @@ export const OnlineProgramsPage: React.FC = () => {
           </button>
           <div className="hidden sm:inline-flex items-center gap-1.5 text-amber-800 text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Estudos Semanais 100% Gratuitos pelo Google Meet</span>
+            <span>Estudos Semanais Gratuitos em Grupos Exclusivos</span>
           </div>
         </div>
       </nav>
@@ -94,7 +94,7 @@ export const OnlineProgramsPage: React.FC = () => {
         <section data-testid="online-hero-section" className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100 text-orange-800 text-xs font-bold border border-orange-200 shadow-xs mb-4">
             <Video className="w-4 h-4 text-orange-600 animate-pulse" />
-            <span>Encontros Virtuais ao Vivo • Pelo Google Meet</span>
+            <span>Encontros Virtuais ao Vivo • Grupos Exclusivos</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-stone-900 tracking-tight leading-tight mb-4">
@@ -117,7 +117,7 @@ export const OnlineProgramsPage: React.FC = () => {
                 Nossos Encontros Semanais
               </h2>
               <p className="text-sm text-stone-600 mt-0.5">
-                Escolha o programa que mais combina com seu momento e peça o link de acesso:
+                Escolha o programa desejado e fale com o(a) responsável para entrar no grupo exclusivo:
               </p>
             </div>
           </div>
@@ -158,9 +158,9 @@ export const OnlineProgramsPage: React.FC = () => {
               <div className="w-12 h-12 rounded-2xl bg-orange-500 text-white flex items-center justify-center font-black text-lg mb-3 shadow-md shadow-orange-500/20">
                 2
               </div>
-              <h3 className="font-bold text-stone-900 text-base mb-1.5">Peça o Link no WhatsApp</h3>
+              <h3 className="font-bold text-stone-900 text-base mb-1.5">Fale com o Responsável</h3>
               <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-                Clique no botão de WhatsApp do programa correspondente para receber o link da sala do Google Meet.
+                Ao apertar no botão, você vai falar com o representante do programa, que vai te orientar e dar acesso ao grupo exclusivo.
               </p>
             </div>
 
@@ -168,9 +168,9 @@ export const OnlineProgramsPage: React.FC = () => {
               <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-lg mb-3 shadow-md shadow-emerald-600/20">
                 3
               </div>
-              <h3 className="font-bold text-stone-900 text-base mb-1.5">Acesse às 20h00</h3>
+              <h3 className="font-bold text-stone-900 text-base mb-1.5">Acesse o Grupo Exclusivo</h3>
               <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
-                No horário marcado, clique no link do Google Meet pelo celular ou computador e aproveite o encontro!
+                No grupo exclusivo, você receberá os links de transmissão, materiais de estudo e avisos para participar ativamente.
               </p>
             </div>
           </div>

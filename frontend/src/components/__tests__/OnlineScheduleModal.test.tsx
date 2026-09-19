@@ -16,7 +16,7 @@ describe('OnlineScheduleModal Component', () => {
     expect(screen.getAllByText(/Estudo do Bhagavad-gītā/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/Todas as segundas-feiras/i)).toBeInTheDocument();
     expect(screen.getByText(/20h00/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/Google Meet/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/grupo exclusivo/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/Pedir Link da Reunião no WhatsApp/i)).toBeInTheDocument();
     expect(screen.getByTestId('modal-close-button')).toBeInTheDocument();
   });

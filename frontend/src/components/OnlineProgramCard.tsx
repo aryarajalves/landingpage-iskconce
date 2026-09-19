@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Clock, Video, MessageCircle, Sparkles, ExternalLink, Users, BookOpen } from 'lucide-react';
+import { Calendar, Clock, MessageCircle, Sparkles, ExternalLink, Users, BookOpen } from 'lucide-react';
 import { WeeklyMeeting } from '../data/templeInfo';
 
 interface OnlineProgramCardProps {
@@ -58,7 +58,7 @@ export const OnlineProgramCard: React.FC<OnlineProgramCardProps> = ({ meeting })
             </h3>
             <div className="flex items-center gap-3 text-xs text-stone-500 mt-1 font-medium">
               <span className="flex items-center gap-1 text-emerald-700 font-semibold">
-                <Video className="w-3.5 h-3.5" />
+                <Users className="w-3.5 h-3.5" />
                 {meeting.platform}
               </span>
               <span>•</span>
@@ -76,7 +76,7 @@ export const OnlineProgramCard: React.FC<OnlineProgramCardProps> = ({ meeting })
         </p>
 
         {/* Highlights List */}
-        <div className="bg-stone-50/80 rounded-2xl p-4 border border-stone-200/70 mb-6 space-y-2">
+        <div className="bg-stone-50/80 rounded-2xl p-4 border border-stone-200/70 mb-5 space-y-2">
           <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider block mb-1">
             Destaques do Encontro
           </span>
@@ -89,17 +89,23 @@ export const OnlineProgramCard: React.FC<OnlineProgramCardProps> = ({ meeting })
         </div>
       </div>
 
-      {/* Bottom CTA Action Button */}
-      <div className="pt-2 border-t border-stone-100">
+      {/* Representative guidance & Bottom CTA Action Button */}
+      <div className="pt-4 border-t border-stone-100 space-y-3">
+        <div className="bg-amber-50/80 border border-amber-200/70 rounded-2xl p-3.5 text-left">
+          <p className="text-xs text-stone-700 leading-relaxed">
+            Ao apertar no botão abaixo, você vai falar com {isWomensGroup ? 'a representante' : 'o(a) representante'} do programa (<strong>{meeting.contactName}</strong>), que vai te orientar e te dar acesso ao grupo exclusivo.
+          </p>
+        </div>
+
         <a
           href={meeting.whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
           data-testid={`btn-join-${meeting.id}`}
-          className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 transition-all duration-200 hover:scale-[1.01]"
+          className="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 transition-all duration-200 hover:scale-[1.01]"
         >
           <MessageCircle className="w-4 h-4" />
-          <span>Pedir Link do Meet no WhatsApp</span>
+          <span>Falar com {meeting.contactName} no WhatsApp</span>
           <ExternalLink className="w-3.5 h-3.5 opacity-70" />
         </a>
       </div>

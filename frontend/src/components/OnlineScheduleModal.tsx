@@ -69,7 +69,7 @@ export const OnlineScheduleModal: React.FC<OnlineScheduleModalProps> = ({ isOpen
             Plataforma & Formato
           </div>
           <p className="text-sm text-stone-700 leading-relaxed font-normal">
-            Transmitido ao vivo pelo <strong className="text-stone-900">Google Meet</strong>. Estudo dinâmico com leitura comentada dos versos, espaço aberto para perguntas, reflexões e aplicação prática da sabedoria védica no dia a dia.
+            Transmitido ao vivo em <strong className="text-stone-900">grupo exclusivo</strong>. Estudo dinâmico com leitura comentada dos versos, espaço aberto para perguntas, reflexões e aplicação prática da sabedoria védica no dia a dia.
           </p>
           <ul className="space-y-1.5 pt-1">
             {meeting?.highlights.map((item, idx) => (
