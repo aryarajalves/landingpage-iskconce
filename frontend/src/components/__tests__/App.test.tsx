@@ -17,9 +17,10 @@ describe('App Routing Integration', () => {
     expect(screen.getByTestId('linktree-btn-festival')).toBeInTheDocument();
     expect(screen.getByTestId('linktree-btn-online')).toBeInTheDocument();
 
-    // Landing sections should not be on root
+    // Landing sections and audio widget should not be on root
     expect(screen.queryByTestId('hero-section')).not.toBeInTheDocument();
     expect(screen.queryByTestId('online-hero-section')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('audio-player-widget')).not.toBeInTheDocument();
   });
 
   it('navigates from Linktree to Sunday Festival page and back', async () => {
@@ -31,19 +32,21 @@ describe('App Routing Integration', () => {
     const festivalBtn = screen.getByTestId('linktree-btn-festival');
     fireEvent.click(festivalBtn);
 
-    // 2. Now Sunday Festival Landing page should be rendered
+    // 2. Now Sunday Festival Landing page should be rendered with audio player widget
     expect(screen.getByTestId('hero-section')).toBeInTheDocument();
     expect(screen.getByTestId('schedule-section')).toBeInTheDocument();
     expect(screen.getByTestId('banner-btn-linktree')).toBeInTheDocument();
+    expect(screen.getByTestId('audio-player-widget')).toBeInTheDocument();
     expect(window.location.pathname).toBe('/festivaldedomingo');
 
     // 3. Click return banner button to go back to Linktree
     const returnBannerBtn = screen.getByTestId('banner-btn-linktree');
     fireEvent.click(returnBannerBtn);
 
-    // 4. Linktree should be visible again
+    // 4. Linktree should be visible again and audio player widget removed
     expect(screen.getByRole('heading', { level: 1, name: /Programações do Templo/i })).toBeInTheDocument();
     expect(screen.queryByTestId('hero-section')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('audio-player-widget')).not.toBeInTheDocument();
     expect(window.location.pathname).toBe('/');
   });
 
@@ -56,18 +59,20 @@ describe('App Routing Integration', () => {
     const onlineBtn = screen.getByTestId('linktree-btn-online');
     fireEvent.click(onlineBtn);
 
-    // 2. Now Online Programs Landing page should be rendered
+    // 2. Now Online Programs Landing page should be rendered with audio player widget
     expect(screen.getByTestId('online-hero-section')).toBeInTheDocument();
     expect(screen.getByTestId('online-programs-grid')).toBeInTheDocument();
+    expect(screen.getByTestId('audio-player-widget')).toBeInTheDocument();
     expect(window.location.pathname).toBe('/programacoesonline');
 
     // 3. Click back button to go back to Linktree
     const backBtn = screen.getByTestId('online-btn-back-linktree');
     fireEvent.click(backBtn);
 
-    // 4. Linktree should be visible again
+    // 4. Linktree should be visible again and audio player widget removed
     expect(screen.getByRole('heading', { level: 1, name: /Programações do Templo/i })).toBeInTheDocument();
     expect(screen.queryByTestId('online-hero-section')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('audio-player-widget')).not.toBeInTheDocument();
     expect(window.location.pathname).toBe('/');
   });
 

@@ -1,10 +1,14 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { SundayFestivalPage } from '../SundayFestivalPage';
 import { AudioProvider } from '../../context/AudioContext';
 import { RouterProvider } from '../../context/RouterContext';
 
 describe('SundayFestivalPage Integration', () => {
+  beforeEach(() => {
+    window.history.pushState({}, '', '/festivaldedomingo');
+  });
+
   it('renders navbar, back banner, all divided section cards, audio player and footer correctly', async () => {
     await act(async () => {
       render(

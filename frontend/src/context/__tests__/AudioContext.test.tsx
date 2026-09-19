@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import React from 'react';
 import { AudioProvider, useAudio } from '../AudioContext';
+import { isAudioAllowedPath } from '../../utils/audioRoutes';
+import { RouterProvider, useRouter } from '../RouterContext';
 
 const TestAudioConsumer: React.FC = () => {
   const {
@@ -17,6 +19,7 @@ const TestAudioConsumer: React.FC = () => {
     onVideoPlay,
     onVideoPause,
   } = useAudio();
+  const { navigate } = useRouter();
 
   return (
     <div>
@@ -31,6 +34,9 @@ const TestAudioConsumer: React.FC = () => {
       <button data-testid="btn-set-volume" onClick={() => setVolume(0.5)}>Set Volume</button>
       <button data-testid="btn-video-play-sync" onClick={() => onVideoPlay()}>Video Play</button>
       <button data-testid="btn-video-pause-sync" onClick={() => onVideoPause()}>Video Pause</button>
+      <button data-testid="btn-nav-linktree" onClick={() => navigate('/')}>Go Root</button>
+      <button data-testid="btn-nav-sunday" onClick={() => navigate('/festivaldedomingo')}>Go Sunday</button>
+      <button data-testid="btn-nav-online" onClick={() => navigate('/programacoesonline')}>Go Online</button>
     </div>
   );
 };
@@ -40,6 +46,7 @@ describe('AudioContext', () => {
   let pauseSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
+    window.history.pushState({}, '', '/festivaldedomingo');
     playSpy = vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(async function(this: HTMLMediaElement) {
       Object.defineProperty(this, 'paused', { value: false, configurable: true, writable: true });
       this.dispatchEvent(new Event('play'));
@@ -51,12 +58,27 @@ describe('AudioContext', () => {
     });
   });
 
-  it('auto-starts playback on mount and sets gentle default volume (~35%)', async () => {
+  it('validates isAudioAllowedPath utility function correctly', () => {
+    expect(isAudioAllowedPath('/festivaldedomingo')).toBe(true);
+    expect(isAudioAllowedPath('/festival-de-domingo')).toBe(true);
+    expect(isAudioAllowedPath('/programacoesonline')).toBe(true);
+    expect(isAudioAllowedPath('/programas-online')).toBe(true);
+    expect(isAudioAllowedPath('/programacoes-online')).toBe(true);
+
+    expect(isAudioAllowedPath('/')).toBe(false);
+    expect(isAudioAllowedPath('/politica-de-privacidade')).toBe(false);
+    expect(isAudioAllowedPath('/termos-de-uso')).toBe(false);
+    expect(isAudioAllowedPath('')).toBe(false);
+  });
+
+  it('auto-starts playback on mount on allowed route (/festivaldedomingo)', async () => {
     await act(async () => {
       render(
-        <AudioProvider>
-          <TestAudioConsumer />
-        </AudioProvider>
+        <RouterProvider>
+          <AudioProvider>
+            <TestAudioConsumer />
+          </AudioProvider>
+        </RouterProvider>
       );
     });
 
@@ -78,12 +100,51 @@ describe('AudioContext', () => {
     expect(screen.getByTestId('is-playing')).toHaveTextContent('yes');
   });
 
+  it('does NOT auto-start playback on root Linktree route (/)', async () => {
+    window.history.pushState({}, '', '/');
+    await act(async () => {
+      render(
+        <RouterProvider>
+          <AudioProvider>
+            <TestAudioConsumer />
+          </AudioProvider>
+        </RouterProvider>
+      );
+    });
+
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('no');
+  });
+
+  it('pauses playback when navigating from allowed route to root Linktree', async () => {
+    await act(async () => {
+      render(
+        <RouterProvider>
+          <AudioProvider>
+            <TestAudioConsumer />
+          </AudioProvider>
+        </RouterProvider>
+      );
+    });
+
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('yes');
+
+    // Navigate to root (/)
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('btn-nav-linktree'));
+    });
+
+    expect(pauseSpy).toHaveBeenCalled();
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('no');
+  });
+
   it('pauses background music when onVideoPlay is triggered', async () => {
     await act(async () => {
       render(
-        <AudioProvider>
-          <TestAudioConsumer />
-        </AudioProvider>
+        <RouterProvider>
+          <AudioProvider>
+            <TestAudioConsumer />
+          </AudioProvider>
+        </RouterProvider>
       );
     });
 
@@ -108,9 +169,11 @@ describe('AudioContext', () => {
   it('toggles mute on audio element', async () => {
     await act(async () => {
       render(
-        <AudioProvider>
-          <TestAudioConsumer />
-        </AudioProvider>
+        <RouterProvider>
+          <AudioProvider>
+            <TestAudioConsumer />
+          </AudioProvider>
+        </RouterProvider>
       );
     });
 

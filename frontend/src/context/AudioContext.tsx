@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 import { TEMPLE_DATA } from '../data/templeInfo';
+import { useRouter } from './RouterContext';
+import { isAudioAllowedPath } from '../utils/audioRoutes';
 
 interface AudioContextType {
   isPlaying: boolean;
@@ -18,7 +20,7 @@ interface AudioContextType {
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
-// Soft peaceful background ambient volume (reduced by another 40% to 0.20)
+// Soft peaceful background ambient volume (0.20)
 const DEFAULT_VOLUME = 0.20;
 
 export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -28,6 +30,39 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isPausedByVideo, setIsPausedByVideo] = useState<boolean>(false);
   const [hasStarted, setHasStarted] = useState<boolean>(false);
   const [volume, setVolumeState] = useState<number>(DEFAULT_VOLUME);
+
+  const { currentPath } = useRouter();
+  const currentPathRef = useRef<string>(currentPath);
+  const userPausedRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    currentPathRef.current = currentPath;
+  }, [currentPath]);
+
+  // Handle route transitions: audio only plays on Sunday Festival and Online Programs pages
+  useEffect(() => {
+    const isAllowed = isAudioAllowedPath(currentPath);
+    if (!isAllowed) {
+      // If leaving an allowed route (e.g. going back to Linktree /), pause immediately
+      if (audioRef.current && !audioRef.current.paused) {
+        audioRef.current.pause();
+      }
+      setIsPlaying(false);
+    } else {
+      // Entering an allowed route: start/resume playback if user hasn't explicitly clicked pause
+      if (!userPausedRef.current && audioRef.current && audioRef.current.paused) {
+        audioRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+            setHasStarted(true);
+          })
+          .catch(() => {
+            // Browser autoplay restrictions may require interaction on initial direct load
+          });
+      }
+    }
+  }, [currentPath]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -53,7 +88,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       audioRef.current = audio;
 
-      // Event listener group to trigger audio on any initial interaction (click, touch, scroll, key)
+      // Event listener group to trigger audio on initial user interaction (click, touch, scroll, key)
       const interactionEvents = ['pointerdown', 'click', 'touchstart', 'touchend', 'scroll', 'wheel', 'keydown'];
 
       const removeInteractionListeners = () => {
@@ -64,6 +99,14 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       };
 
       const startAudioOnInteraction = () => {
+        // Only start if we are currently on an audio-allowed page and user did not explicitly pause
+        if (!isAudioAllowedPath(currentPathRef.current)) {
+          return;
+        }
+        if (userPausedRef.current) {
+          return;
+        }
+
         if (audioRef.current && audioRef.current.paused) {
           audioRef.current
             .play()
@@ -78,21 +121,30 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
       };
 
-      // 1. Attempt immediate autoplay
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setIsPlaying(true);
-            setHasStarted(true);
-          })
-          .catch(() => {
-            // Autoplay restricted by browser: attach global interaction listeners with capture phase
-            interactionEvents.forEach((evt) => {
-              document.addEventListener(evt, startAudioOnInteraction, { capture: true, passive: true });
-              window.addEventListener(evt, startAudioOnInteraction, { capture: true, passive: true });
+      // 1. Attempt immediate autoplay ONLY if initial route is an allowed path
+      const initialPath = window.location.pathname || '/';
+      if (isAudioAllowedPath(initialPath)) {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsPlaying(true);
+              setHasStarted(true);
+            })
+            .catch(() => {
+              // Autoplay restricted by browser: attach global interaction listeners with capture phase
+              interactionEvents.forEach((evt) => {
+                document.addEventListener(evt, startAudioOnInteraction, { capture: true, passive: true });
+                window.addEventListener(evt, startAudioOnInteraction, { capture: true, passive: true });
+              });
             });
-          });
+        }
+      } else {
+        // When not on an allowed path, attach interaction listeners so when user navigates, it's ready
+        interactionEvents.forEach((evt) => {
+          document.addEventListener(evt, startAudioOnInteraction, { capture: true, passive: true });
+          window.addEventListener(evt, startAudioOnInteraction, { capture: true, passive: true });
+        });
       }
 
       return () => {
@@ -108,7 +160,9 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const playMusic = useCallback(async () => {
     if (!audioRef.current) return;
+    if (!isAudioAllowedPath(currentPathRef.current)) return;
     try {
+      userPausedRef.current = false;
       setIsPausedByVideo(false);
       await audioRef.current.play();
       setIsPlaying(true);
@@ -124,6 +178,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setIsPlaying(false);
     if (byVideo) {
       setIsPausedByVideo(true);
+    } else {
+      userPausedRef.current = true;
     }
   }, []);
 
@@ -156,7 +212,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [isPlaying, pauseMusic]);
 
   const onVideoPause = useCallback(() => {
-    if (isPausedByVideo && audioRef.current) {
+    if (isPausedByVideo && audioRef.current && isAudioAllowedPath(currentPathRef.current)) {
       playMusic().catch(() => {});
     }
   }, [isPausedByVideo, playMusic]);

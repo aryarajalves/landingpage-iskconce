@@ -2,10 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Hero } from '../Hero';
 import { AudioProvider } from '../../context/AudioContext';
+import { RouterProvider } from '../../context/RouterContext';
 import { TEMPLE_DATA } from '../../data/templeInfo';
 
 describe('Hero Component', () => {
   beforeEach(() => {
+    window.history.pushState({}, '', '/festivaldedomingo');
     vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(async function(this: HTMLMediaElement) {
       Object.defineProperty(this, 'paused', { value: false, configurable: true, writable: true });
       this.dispatchEvent(new Event('play'));
@@ -21,9 +23,11 @@ describe('Hero Component', () => {
     let rendered;
     await act(async () => {
       rendered = render(
-        <AudioProvider>
-          <Hero />
-        </AudioProvider>
+        <RouterProvider>
+          <AudioProvider>
+            <Hero />
+          </AudioProvider>
+        </RouterProvider>
       );
     });
     return rendered;
@@ -79,7 +83,7 @@ describe('Hero Component', () => {
 
     const mantraAudioBtn = screen.getByTestId('btn-hero-audio-toggle');
     expect(mantraAudioBtn).toBeInTheDocument();
-    // Since it auto-starts, it starts with option to pause
+    // Since it auto-starts on allowed route, it starts with option to pause
     expect(mantraAudioBtn).toHaveTextContent('Pausar Música');
 
     await act(async () => {
