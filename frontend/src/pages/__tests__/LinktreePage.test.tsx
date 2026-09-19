@@ -24,7 +24,7 @@ describe('LinktreePage Component', () => {
     // Button 2: Programações Online Durante a Semana
     expect(screen.getByTestId('linktree-btn-online')).toBeInTheDocument();
     expect(screen.getByText('Programações Online Durante a Semana')).toBeInTheDocument();
-    expect(screen.getByText(/Segunda \(devotas\), Terça \(Manjari Tulasi\) e Quinta \(Passatempos de Krishna\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Segunda \(devotas\), Terça \(Lapidar - Bhagavad-gītā\) e Quinta \(Passatempos de Krishna\)/i)).toBeInTheDocument();
 
     // Button 3: Kirtans & Bhajans do Templo (SoundCloud)
     expect(screen.getByTestId('linktree-btn-soundcloud')).toBeInTheDocument();

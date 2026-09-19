@@ -29,9 +29,10 @@ describe('OnlineProgramsPage Component', () => {
     expect(screen.getByText(/Segunda-feira • 20h00/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Exclusivo para Mulheres/i).length).toBeGreaterThanOrEqual(1);
 
-    // Program 2: Terça-feira - Manjari Tulasi
-    expect(screen.getByText(/Estudo do Bhagavad-gītā Como Ele É/i)).toBeInTheDocument();
+    // Program 2: Terça-feira - Lapidar (Bhagavad-gītā com Manjari Tulasi)
+    expect(screen.getByText(/Estudo do Bhagavad-gītā \(Lapidar\)/i)).toBeInTheDocument();
     expect(screen.getByText(/Terça-feira • 20h00/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Lapidar/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Manjari Tulasi/i).length).toBeGreaterThanOrEqual(1);
 
     // Program 3: Quinta-feira - Passatempos de Krishna (Clube do Livro com Arhadana às 19h00)

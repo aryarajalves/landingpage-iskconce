@@ -111,7 +111,7 @@ export const LinktreePage: React.FC = () => {
                   Programações Online Durante a Semana
                 </h2>
                 <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed mt-0.5">
-                  Segunda (devotas), Terça (Manjari Tulasi) e Quinta (Passatempos de Krishna)
+                  Segunda (devotas), Terça (Lapidar - Bhagavad-gītā) e Quinta (Passatempos de Krishna)
                 </p>
               </div>
             </div>
