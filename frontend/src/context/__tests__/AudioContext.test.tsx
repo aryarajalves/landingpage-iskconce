@@ -64,6 +64,10 @@ describe('AudioContext', () => {
     expect(isAudioAllowedPath('/programacoesonline')).toBe(true);
     expect(isAudioAllowedPath('/programas-online')).toBe(true);
     expect(isAudioAllowedPath('/programacoes-online')).toBe(true);
+    expect(isAudioAllowedPath('/calendariodeeventos')).toBe(true);
+    expect(isAudioAllowedPath('/calendario-de-eventos')).toBe(true);
+    expect(isAudioAllowedPath('/calendario')).toBe(true);
+    expect(isAudioAllowedPath('/eventos')).toBe(true);
 
     expect(isAudioAllowedPath('/')).toBe(false);
     expect(isAudioAllowedPath('/politica-de-privacidade')).toBe(false);

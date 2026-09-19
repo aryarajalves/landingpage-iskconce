@@ -138,6 +138,7 @@ describe('App Routing Integration', () => {
     // 2. Now Events Calendar page should be rendered
     expect(screen.getByTestId('calendar-hero-section')).toBeInTheDocument();
     expect(screen.getByTestId('events-grid')).toBeInTheDocument();
+    expect(screen.getByTestId('audio-player-widget')).toBeInTheDocument();
     expect(window.location.pathname).toBe('/calendariodeeventos');
 
     // 3. Click back button to go back to Linktree
@@ -147,6 +148,7 @@ describe('App Routing Integration', () => {
     // 4. Linktree should be visible again
     expect(screen.getByRole('heading', { level: 1, name: /Programações do Templo/i })).toBeInTheDocument();
     expect(screen.queryByTestId('calendar-hero-section')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('audio-player-widget')).not.toBeInTheDocument();
     expect(window.location.pathname).toBe('/');
   });
 
@@ -159,6 +161,7 @@ describe('App Routing Integration', () => {
 
     expect(screen.getByTestId('calendar-hero-section')).toBeInTheDocument();
     expect(screen.getByTestId('events-grid')).toBeInTheDocument();
+    expect(screen.getByTestId('audio-player-widget')).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 1, name: /Programações do Templo/i })).not.toBeInTheDocument();
   });
 });

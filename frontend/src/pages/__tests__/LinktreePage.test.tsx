@@ -1,15 +1,24 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { LinktreePage } from '../LinktreePage';
 import { RouterProvider } from '../../context/RouterContext';
+import { AudioProvider } from '../../context/AudioContext';
 
 describe('LinktreePage Component', () => {
-  it('renders header, title, subtitle and both main buttons correctly', () => {
-    render(
-      <RouterProvider>
-        <LinktreePage />
-      </RouterProvider>
-    );
+  const renderComponent = async () => {
+    return act(async () => {
+      render(
+        <RouterProvider>
+          <AudioProvider>
+            <LinktreePage />
+          </AudioProvider>
+        </RouterProvider>
+      );
+    });
+  };
+
+  it('renders header, title, subtitle and both main buttons correctly', async () => {
+    await renderComponent();
 
     // Title & Brand
     expect(screen.getByRole('heading', { level: 1, name: /Programações do Templo/i })).toBeInTheDocument();
@@ -44,12 +53,8 @@ describe('LinktreePage Component', () => {
     expect(screen.getByLabelText(/Google Maps/i)).toBeInTheDocument();
   });
 
-  it('navigates to /calendariodeeventos when clicking on the calendar button', () => {
-    render(
-      <RouterProvider>
-        <LinktreePage />
-      </RouterProvider>
-    );
+  it('navigates to /calendariodeeventos when clicking on the calendar button', async () => {
+    await renderComponent();
 
     const calendarBtn = screen.getByTestId('linktree-btn-calendar');
     fireEvent.click(calendarBtn);
@@ -57,12 +62,8 @@ describe('LinktreePage Component', () => {
     expect(window.location.pathname).toBe('/calendariodeeventos');
   });
 
-  it('navigates to /programacoesonline when clicking on the second button', () => {
-    render(
-      <RouterProvider>
-        <LinktreePage />
-      </RouterProvider>
-    );
+  it('navigates to /programacoesonline when clicking on the second button', async () => {
+    await renderComponent();
 
     const onlineBtn = screen.getByTestId('linktree-btn-online');
     fireEvent.click(onlineBtn);
@@ -70,12 +71,8 @@ describe('LinktreePage Component', () => {
     expect(window.location.pathname).toBe('/programacoesonline');
   });
 
-  it('navigates to /festivaldedomingo when clicking on the first button', () => {
-    render(
-      <RouterProvider>
-        <LinktreePage />
-      </RouterProvider>
-    );
+  it('navigates to /festivaldedomingo when clicking on the first button', async () => {
+    await renderComponent();
 
     const festivalBtn = screen.getByTestId('linktree-btn-festival');
     fireEvent.click(festivalBtn);
@@ -83,12 +80,8 @@ describe('LinktreePage Component', () => {
     expect(window.location.pathname).toBe('/festivaldedomingo');
   });
 
-  it('renders official legal footer with CNPJ, terms and privacy policy buttons', () => {
-    render(
-      <RouterProvider>
-        <LinktreePage />
-      </RouterProvider>
-    );
+  it('renders official legal footer with CNPJ, terms and privacy policy buttons', async () => {
+    await renderComponent();
 
     expect(screen.getByTestId('legal-footer')).toBeInTheDocument();
     expect(screen.getByText(/47\.096\.698\/0011-26/)).toBeInTheDocument();

@@ -14,17 +14,24 @@ import {
 import { InstagramIcon } from '../components/Icons';
 import { LegalFooter } from '../components/LegalFooter';
 import { useRouter } from '../context/RouterContext';
+import { useAudio } from '../context/AudioContext';
 import { TEMPLE_DATA } from '../data/templeInfo';
 
 export const LinktreePage: React.FC = () => {
   const { navigate } = useRouter();
+  const { unlockAndPlayForRoute } = useAudio();
+
+  const handleNavigateToRoute = (path: string) => {
+    unlockAndPlayForRoute(path).catch(() => {});
+    navigate(path);
+  };
 
   const handleGoToSundayFestival = () => {
-    navigate('/festivaldedomingo');
+    handleNavigateToRoute('/festivaldedomingo');
   };
 
   const handleGoToOnlinePrograms = () => {
-    navigate('/programacoesonline');
+    handleNavigateToRoute('/programacoesonline');
   };
 
   return (
@@ -156,7 +163,7 @@ export const LinktreePage: React.FC = () => {
           {/* Button 4: Calendário de Eventos & Festivais */}
           <button
             type="button"
-            onClick={() => navigate('/calendariodeeventos')}
+            onClick={() => handleNavigateToRoute('/calendariodeeventos')}
             data-testid="linktree-btn-calendar"
             className="group w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-amber-200 hover:border-amber-500 bg-white hover:bg-amber-50/50 active:bg-amber-100/50 shadow-sm hover:shadow-md hover:shadow-amber-500/10 transition-all duration-200 flex items-center justify-between gap-3 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 cursor-pointer"
           >

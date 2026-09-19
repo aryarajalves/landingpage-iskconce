@@ -1,6 +1,6 @@
 /**
  * Utilitário para verificar rotas em que a reprodução de música de fundo devocional é permitida.
- * Apenas na página do Festival de Domingo e na página de Programações Online.
+ * Festival de Domingo, Programações Online e Calendário de Eventos & Festivais.
  */
 export const isAudioAllowedPath = (pathname: string): boolean => {
   if (!pathname) return false;
@@ -10,6 +10,10 @@ export const isAudioAllowedPath = (pathname: string): boolean => {
     normalized === '/festival-de-domingo' ||
     normalized === '/programacoesonline' ||
     normalized === '/programas-online' ||
-    normalized === '/programacoes-online'
+    normalized === '/programacoes-online' ||
+    normalized === '/calendariodeeventos' ||
+    normalized === '/calendario-de-eventos' ||
+    normalized === '/calendario' ||
+    normalized === '/eventos'
   );
 };

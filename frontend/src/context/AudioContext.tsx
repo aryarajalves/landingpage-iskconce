@@ -9,7 +9,8 @@ interface AudioContextType {
   isPausedByVideo: boolean;
   hasStarted: boolean;
   volume: number;
-  playMusic: () => Promise<void>;
+  playMusic: (targetPath?: string) => Promise<void>;
+  unlockAndPlayForRoute: (targetPath: string) => Promise<void>;
   pauseMusic: (byVideo?: boolean) => void;
   toggleMusic: () => Promise<void>;
   toggleMute: () => void;
@@ -70,6 +71,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       audio.loop = true;
       audio.preload = 'auto';
       audio.volume = DEFAULT_VOLUME;
+      audio.load();
 
       const handleEnded = () => {
         setIsPlaying(false);
@@ -158,9 +160,10 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
-  const playMusic = useCallback(async () => {
+  const playMusic = useCallback(async (targetPath?: string) => {
     if (!audioRef.current) return;
-    if (!isAudioAllowedPath(currentPathRef.current)) return;
+    const pathToCheck = targetPath || currentPathRef.current;
+    if (!isAudioAllowedPath(pathToCheck)) return;
     try {
       userPausedRef.current = false;
       setIsPausedByVideo(false);
@@ -171,6 +174,10 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setIsPlaying(false);
     }
   }, []);
+
+  const unlockAndPlayForRoute = useCallback(async (targetPath: string) => {
+    return playMusic(targetPath);
+  }, [playMusic]);
 
   const pauseMusic = useCallback((byVideo: boolean = false) => {
     if (!audioRef.current) return;
@@ -226,6 +233,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         hasStarted,
         volume,
         playMusic,
+        unlockAndPlayForRoute,
         pauseMusic,
         toggleMusic,
         toggleMute,

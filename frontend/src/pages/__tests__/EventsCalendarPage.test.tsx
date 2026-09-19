@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { EventsCalendarPage } from '../EventsCalendarPage';
 import { RouterProvider } from '../../context/RouterContext';
+import { AudioProvider } from '../../context/AudioContext';
 
 describe('EventsCalendarPage Component', () => {
   const renderComponent = async () => {
@@ -9,7 +10,9 @@ describe('EventsCalendarPage Component', () => {
     return act(async () => {
       render(
         <RouterProvider>
-          <EventsCalendarPage />
+          <AudioProvider>
+            <EventsCalendarPage />
+          </AudioProvider>
         </RouterProvider>
       );
     });
@@ -74,5 +77,29 @@ describe('EventsCalendarPage Component', () => {
     expect(backBtn).toBeInTheDocument();
     fireEvent.click(backBtn);
     expect(window.location.pathname).toBe('/');
+  });
+
+  it('renders Chandramukha Swami visit event card with dates 01 a 03 de Outubro de 2026', async () => {
+    await renderComponent();
+
+    // Check Chandramukha Swami card presence
+    const chandramukhaCard = screen.getByTestId('event-card-visita-chandramukha-swami-2026');
+    expect(chandramukhaCard).toBeInTheDocument();
+
+    // Verify Title and Date Period
+    expect(screen.getByText(/Visita de Chandramukha Swami ao Templo do Ceará/i)).toBeInTheDocument();
+    expect(screen.getByText('01 a 03 de Outubro de 2026')).toBeInTheDocument();
+
+    // Verify WhatsApp button for Chandramukha Swami
+    const chandramukhaBtn = screen.getByTestId('btn-event-whatsapp-visita-chandramukha-swami-2026');
+    expect(chandramukhaBtn).toBeInTheDocument();
+    expect(chandramukhaBtn).toHaveAttribute('href', expect.stringContaining('Chandramukha%20Swami'));
+  });
+
+  it('renders floating audio player widget on EventsCalendarPage', async () => {
+    await renderComponent();
+
+    expect(screen.getByTestId('audio-player-widget')).toBeInTheDocument();
+    expect(screen.getByTestId('btn-audio-toggle')).toBeInTheDocument();
   });
 });

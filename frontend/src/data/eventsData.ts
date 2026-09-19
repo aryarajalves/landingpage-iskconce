@@ -54,6 +54,25 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
     badgeColor: 'bg-orange-100 text-orange-900 border-orange-300'
   },
   {
+    id: 'visita-chandramukha-swami-2026',
+    title: 'Visita de Chandramukha Swami ao Templo do Ceará',
+    subtitle: 'Encontro espiritual especial com aulas, kirtans e associação fraterna',
+    category: 'gurus',
+    categoryLabel: 'Visita de Guru',
+    period: '01 a 03 de Outubro de 2026',
+    time: 'Programação Especial (Manhã e Noite)',
+    location: 'Templo ISKCON Ceará (Jacundá, Aquiraz / Grande Fortaleza)',
+    description: 'Com muita alegria e entusiasmo espiritual, o Templo ISKCON Ceará receberá Sua Santidade Chandramukha Swami, renomado mestre espiritual, autor e músico vaisnava brasileiro. Três dias enriquecedores com palestras profundas de Bhakti-yoga, meditação, bhajans tocantes e o tradicional banquete festivo Prasadam.',
+    activities: [
+      'Aulas magnas e palestras temáticas de filosofia védica com Chandramukha Swami',
+      'Kirtans e bhajans meditativos conduzidos pelo Swami',
+      'Roda de perguntas, respostas e associação espiritual próxima com devotos e amigos',
+      'Momento de autógrafos e dedicatórias de livros de sabedoria védica',
+      'Banquete vegetariano sagrado (Prasadam) festivo servido gratuitamente'
+    ],
+    badgeColor: 'bg-amber-100 text-amber-900 border-amber-300'
+  },
+  {
     id: 'sri-krishna-janmastami',
     title: 'Sri Krishna Janmastami',
     subtitle: 'O maior festival do calendário Vaisnava: Advento de Sri Krishna',

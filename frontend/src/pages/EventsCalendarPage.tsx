@@ -16,6 +16,7 @@ import { TEMPLE_DATA } from '../data/templeInfo';
 import { TEMPLE_EVENTS, EventCategory } from '../data/eventsData';
 import { EventCard } from '../components/EventCard';
 import { Footer } from '../components/Footer';
+import { AudioPlayer } from '../components/AudioPlayer';
 
 export const EventsCalendarPage: React.FC = () => {
   const { navigate } = useRouter();
@@ -213,6 +214,9 @@ export const EventsCalendarPage: React.FC = () => {
 
       {/* Full-width Footer with Legal Footer */}
       <Footer />
+
+      {/* Floating Audio Player Widget */}
+      <AudioPlayer />
 
     </div>
   );

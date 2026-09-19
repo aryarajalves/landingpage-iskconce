@@ -69,17 +69,19 @@ export const AudioPlayer: React.FC = () => {
             data-testid="btn-audio-toggle"
             title={isPlaying ? 'Desativar som do Hare Krishna' : 'Ativar som do Hare Krishna'}
             aria-label={isPlaying ? 'Desativar som do Hare Krishna' : 'Ativar som do Hare Krishna'}
-            className="p-1.5 sm:px-2.5 sm:py-1 rounded-full bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-stone-950 font-medium text-xs flex items-center gap-1 transition-all transform active:scale-95 shadow-xs cursor-pointer"
+            className={`px-2 py-1 sm:px-2.5 sm:py-1 rounded-full bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-stone-950 font-medium text-xs flex items-center gap-1 transition-all transform active:scale-95 shadow-xs cursor-pointer ${
+              !isPlaying ? 'ring-2 ring-amber-400/60 animate-pulse' : ''
+            }`}
           >
             {isPlaying ? (
               <>
                 <Pause className="w-3 h-3 fill-current" />
-                <span className="text-[10px] font-bold hidden sm:inline">Desativar</span>
+                <span className="text-[10px] font-bold">Desativar</span>
               </>
             ) : (
               <>
                 <Play className="w-3 h-3 fill-current translate-x-0.5" />
-                <span className="text-[10px] font-bold hidden sm:inline">Ativar</span>
+                <span className="text-[10px] font-bold">Ativar</span>
               </>
             )}
           </button>
