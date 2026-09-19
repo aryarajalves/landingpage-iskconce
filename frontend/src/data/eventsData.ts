@@ -6,6 +6,9 @@ export interface TempleEvent {
   subtitle: string;
   category: 'domingo' | 'gurus' | 'vaisnava';
   categoryLabel: string;
+  date?: string; // YYYY-MM-DD
+  dates?: string[]; // Array of YYYY-MM-DD for multi-day events
+  isRecurringSunday?: boolean;
   period: string;
   time: string;
   location: string;
@@ -22,6 +25,7 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
     subtitle: 'O encontro espiritual mais aguardado de toda a semana',
     category: 'domingo',
     categoryLabel: 'Festival Semanal',
+    isRecurringSunday: true,
     period: 'Todos os Domingos',
     time: '10h00 às 13h00',
     location: 'Templo ISKCON Ceará (Aquiraz - Grande Fortaleza)',
@@ -36,29 +40,12 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
     isRecurring: true
   },
   {
-    id: 'vyasa-puja-srila-prabhupada',
-    title: 'Aparecimento de Srila Prabhupada (Vyasa-puja)',
-    subtitle: 'Celebração sagrada do fundador-acharya da ISKCON',
-    category: 'gurus',
-    categoryLabel: 'Aparição Sagrada',
-    period: 'Agosto / Setembro (Dia seguinte a Janmastami)',
-    time: 'Programação Especial durante o dia',
-    location: 'Templo ISKCON Ceará (Presencial)',
-    description: 'Um dos dias mais auspiciosos do ano! Celebramos o advento de Sua Divina Graça A.C. Bhaktivedanta Swami Prabhupada com leitura de oferendas de gratidão, glorificações, abhishek (banho sagrado de Suas Murti), kirtan e banquete suntuoso.',
-    activities: [
-      'Leitura de homenagens e oferendas de gratidão dos devotos',
-      'Abhisheka cerimonial com flores, água sagrada e óleos',
-      'Apresentação sobre a vida e feitos transcendentais de Prabhupada',
-      'Maha-kirtan e banquete real de oferendas (Feast)'
-    ],
-    badgeColor: 'bg-orange-100 text-orange-900 border-orange-300'
-  },
-  {
     id: 'visita-chandramukha-swami-2026',
     title: 'Visita de Chandramukha Swami ao Templo do Ceará',
     subtitle: 'Encontro espiritual especial com aulas, kirtans e associação fraterna',
     category: 'gurus',
     categoryLabel: 'Visita de Guru',
+    dates: ['2026-10-01', '2026-10-02', '2026-10-03'],
     period: '01 a 03 de Outubro de 2026',
     time: 'Programação Especial (Manhã e Noite)',
     location: 'Templo ISKCON Ceará (Jacundá, Aquiraz / Grande Fortaleza)',
@@ -73,12 +60,32 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
     badgeColor: 'bg-amber-100 text-amber-900 border-amber-300'
   },
   {
+    id: 'vyasa-puja-srila-prabhupada',
+    title: 'Aparecimento de Srila Prabhupada (Vyasa-puja)',
+    subtitle: 'Celebração sagrada do fundador-acharya da ISKCON',
+    category: 'gurus',
+    categoryLabel: 'Aparição Sagrada',
+    date: '2026-09-05',
+    period: '05 de Setembro de 2026 (Dia seguinte a Janmastami)',
+    time: 'Programação Especial durante o dia',
+    location: 'Templo ISKCON Ceará (Presencial)',
+    description: 'Um dos dias mais auspiciosos do ano! Celebramos o advento de Sua Divina Graça A.C. Bhaktivedanta Swami Prabhupada com leitura de oferendas de gratidão, glorificações, abhishek (banho sagrado de Suas Murti), kirtan e banquete suntuoso.',
+    activities: [
+      'Leitura de homenagens e oferendas de gratidão dos devotos',
+      'Abhisheka cerimonial com flores, água sagrada e óleos',
+      'Apresentação sobre a vida e feitos transcendentais de Prabhupada',
+      'Maha-kirtan e banquete real de oferendas (Feast)'
+    ],
+    badgeColor: 'bg-orange-100 text-orange-900 border-orange-300'
+  },
+  {
     id: 'sri-krishna-janmastami',
     title: 'Sri Krishna Janmastami',
     subtitle: 'O maior festival do calendário Vaisnava: Advento de Sri Krishna',
     category: 'vaisnava',
     categoryLabel: 'Grande Festival',
-    period: 'Agosto / Setembro (Data móvel védica)',
+    date: '2026-09-04',
+    period: '04 de Setembro de 2026',
     time: 'Manhã, Tarde e Grande Vigília Noturna',
     location: 'Templo ISKCON Ceará (Presencial)',
     description: 'Celebração transcendental do aparecimento do Senhor Krishna na Terra há 5.000 anos. O templo é ricamente decorado com centenas de flores, incenso, música ininterrupta, peças teatrais e banho cerimonial das Deidades.',
@@ -91,12 +98,32 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
     badgeColor: 'bg-purple-100 text-purple-900 border-purple-300'
   },
   {
+    id: 'radhastami',
+    title: 'Radhastami',
+    subtitle: 'Aparecimento de Srimati Radharani (A personificação da devoção)',
+    category: 'vaisnava',
+    categoryLabel: 'Festival Vaisnava',
+    date: '2026-09-19',
+    period: '19 de Setembro de 2026',
+    time: 'A partir das 11h00 até as 14h00',
+    location: 'Templo ISKCON Ceará (Presencial)',
+    description: 'Celebração do auspicioso aparecimento de Srimati Radharani, a suprema potência de prazer e a mais amada devota de Krishna. Dia de imensa doçura, kirtans sagrados, abhishek e banquete especial.',
+    activities: [
+      'Canto meditativo dos Santos Nomes e glorificações a Sri Radha',
+      'Abhisheka festivo das Deidades',
+      'Palestra sobre o amor puro devocional (Prema-bhakti)',
+      'Banquete sagrado suntuoso oferecido ao meio-dia'
+    ],
+    badgeColor: 'bg-pink-100 text-pink-900 border-pink-300'
+  },
+  {
     id: 'gaura-purnima',
     title: 'Gaura Purnima',
     subtitle: 'Aparecimento de Sri Chaitanya Mahaprabhu (O Pai do Sankirtan)',
     category: 'vaisnava',
     categoryLabel: 'Grande Festival',
-    period: 'Fevereiro / Março (Noite de Lua Cheia de Phalguna)',
+    date: '2026-03-03',
+    period: '03 de Março de 2026 (Lua Cheia de Phalguna)',
     time: 'A partir das 16h00 até o anoitecer',
     location: 'Templo ISKCON Ceará (Presencial)',
     description: 'Celebração do aparecimento dourado de Sri Chaitanya Mahaprabhu em Navadvipa, quem introduziu o canto congregacional do Maha-Mantra Hare Krishna por todo o mundo. Festival com cores, alegria contagiante e banquete.',
@@ -109,30 +136,13 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
     badgeColor: 'bg-yellow-100 text-yellow-900 border-yellow-300'
   },
   {
-    id: 'visitas-gurus-mestres',
-    title: 'Visitas Especiais de Mestres Espirituais e Gurus',
-    subtitle: 'Retiros, palestras exclusivas e seminários filosóficos',
-    category: 'gurus',
-    categoryLabel: 'Eventos Especiais',
-    period: 'Ao longo do ano (Datas anunciadas nos grupos exclusivos)',
-    time: 'Manhã e Noite',
-    location: 'Templo ISKCON Ceará e Centros de Estudo',
-    description: 'O templo recebe periodicamente ilustres gurus da ISKCON, sannyasis e mestres espirituais de renome nacional e internacional para finais de semana imersivos, iniciações e aulas de aprofundamento das escrituras.',
-    activities: [
-      'Aulas matinais do Srimad-Bhagavatam com perguntas e respostas',
-      'Seminários temáticos de japa, meditação e desenvolvimento pessoal',
-      'Kirtans especiais conduzidos pelos gurus visitantes',
-      'Associação pessoal e aconselhamento espiritual'
-    ],
-    badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-300'
-  },
-  {
     id: 'rama-navami',
     title: 'Rama Navami',
     subtitle: 'Aparecimento do Senhor Ramacandra (O Rei Ideal e Nobre)',
     category: 'vaisnava',
     categoryLabel: 'Festival Vaisnava',
-    period: 'Março / Abril (Data móvel védica)',
+    date: '2026-03-27',
+    period: '27 de Março de 2026',
     time: 'A partir das 17h00',
     location: 'Templo ISKCON Ceará (Presencial)',
     description: 'Celebração do advento do Senhor Ramacandra, o exemplo supremo de honra, lealdade, verdade e liderança compassiva narrado no épico transcendental Ramayana.',
@@ -149,7 +159,8 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
     subtitle: 'Aparecimento do Senhor Nrisimhadeva (O Protetor dos Devotos)',
     category: 'vaisnava',
     categoryLabel: 'Festival Vaisnava',
-    period: 'Maio (Data móvel védica)',
+    date: '2026-05-01',
+    period: '01 de Maio de 2026',
     time: 'Ao entardecer (Crepúsculo sagrado)',
     location: 'Templo ISKCON Ceará (Presencial)',
     description: 'Celebração do aparecimento de Nrisimhadeva no entardecer para salvar Seu grande devoto Prahlada Maharaja. Celebração emocionante com kirtan fervoroso e preces sagradas de proteção.',
@@ -160,5 +171,90 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
       'Banquete especial de quebra do jejum'
     ],
     badgeColor: 'bg-rose-100 text-rose-900 border-rose-300'
+  },
+  {
+    id: 'govardhana-puja-diwali',
+    title: 'Govardhana Puja & Festival de Diwali',
+    subtitle: 'Festa das Luzes e adoração da Colina Sagrada de Govardhana',
+    category: 'vaisnava',
+    categoryLabel: 'Grande Celebração',
+    dates: ['2026-11-08', '2026-11-09', '2026-11-10'],
+    period: '08 a 10 de Novembro de 2026',
+    time: 'A partir das 17h00',
+    location: 'Templo ISKCON Ceará (Presencial)',
+    description: 'Celebração mágica com o templo iluminado por centenas de lâmpadas de ghee (Diwali) e a construção da réplica doce da sagrada Colina de Govardhana (Annakuta) decorada com oferendas vegetarianas.',
+    activities: [
+      'Iluminação do templo com lamparinas de ghee tradicionais',
+      'Circumbulação e oferenda de incenso e doces à Colina de Govardhana',
+      'Kirtan com orações do Damodarashtaka no mês sagrado de Kartika',
+      'Distribuição suntuosa do banquete da Colina de Doces'
+    ],
+    badgeColor: 'bg-amber-100 text-amber-900 border-amber-300'
+  },
+  {
+    id: 'gita-jayanti',
+    title: 'Gita Jayanti',
+    subtitle: 'O dia em que Krishna falou o sagrado Bhagavad-gītā',
+    category: 'vaisnava',
+    categoryLabel: 'Celebração Védica',
+    date: '2026-12-20',
+    period: '20 de Dezembro de 2026',
+    time: 'Manhã e Tarde (10h00 às 14h00)',
+    location: 'Templo ISKCON Ceará (Presencial)',
+    description: 'Celebração do dia sagrado no campo de batalha de Kurukshetra em que o Senhor Krishna revelou os 700 versos do Bhagavad-gītā para Arjuna, trazendo luz e guia atemporal para a humanidade.',
+    activities: [
+      'Recitação coletiva dos versos do Bhagavad-gītā em sânscrito',
+      'Cerimônia de fogo sagrado védico (Yajna)',
+      'Distribuição e incentivo à leitura do Bhagavad-gītā Como Ele É',
+      'Prasadam sagrado para todos os participantes'
+    ],
+    badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-300'
   }
 ];
+
+/**
+ * Retorna os eventos associados a uma data específica no formato YYYY-MM-DD.
+ * Inclui festivais com data exata e o Festival de Domingo caso a data caia num domingo.
+ */
+export const getEventsForDate = (dateStr: string): TempleEvent[] => {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const targetDate = new Date(year, month - 1, day);
+  const isSunday = targetDate.getDay() === 0;
+
+  const matched: TempleEvent[] = [];
+
+  TEMPLE_EVENTS.forEach((evt) => {
+    if (evt.date === dateStr || (evt.dates && evt.dates.includes(dateStr))) {
+      matched.push(evt);
+    } else if (isSunday && evt.isRecurringSunday) {
+      matched.push(evt);
+    }
+  });
+
+  return matched;
+};
+
+/**
+ * Retorna todos os eventos cronológicos de um determinado mês e ano.
+ * month: 1 a 12.
+ */
+export const getMonthEvents = (year: number, month: number): { dateStr: string; day: number; event: TempleEvent }[] => {
+  const results: { dateStr: string; day: number; event: TempleEvent }[] = [];
+  const daysInMonth = new Date(year, month, 0).getDate();
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const padDay = String(d).padStart(2, '0');
+    const padMonth = String(month).padStart(2, '0');
+    const dateStr = `${year}-${padMonth}-${padDay}`;
+    const dayEvents = getEventsForDate(dateStr);
+
+    dayEvents.forEach((evt) => {
+      // Evita duplicar o mesmo evento no mesmo dia
+      if (!results.some(r => r.dateStr === dateStr && r.event.id === evt.id)) {
+        results.push({ dateStr, day: d, event: evt });
+      }
+    });
+  }
+
+  return results;
+};

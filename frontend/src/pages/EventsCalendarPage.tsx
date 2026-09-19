@@ -7,20 +7,23 @@ import {
   Crown, 
   Heart, 
   Sun, 
-  MessageCircle,
-  HelpCircle,
-  ExternalLink
+  MessageCircle, 
+  HelpCircle, 
+  ExternalLink,
+  List
 } from 'lucide-react';
 import { useRouter } from '../context/RouterContext';
 import { TEMPLE_DATA } from '../data/templeInfo';
 import { TEMPLE_EVENTS, EventCategory } from '../data/eventsData';
 import { EventCard } from '../components/EventCard';
+import { InteractiveCalendar } from '../components/InteractiveCalendar';
 import { Footer } from '../components/Footer';
 import { AudioPlayer } from '../components/AudioPlayer';
 
 export const EventsCalendarPage: React.FC = () => {
   const { navigate } = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<EventCategory>('todos');
+  const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar');
 
   const filteredEvents = selectedCategory === 'todos'
     ? TEMPLE_EVENTS
@@ -99,7 +102,7 @@ export const EventsCalendarPage: React.FC = () => {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
 
         {/* 1. Hero Section */}
-        <section data-testid="calendar-hero-section" className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+        <section data-testid="calendar-hero-section" className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-900 text-xs font-bold border border-amber-300 shadow-xs mb-4">
             <CalendarDays className="w-4 h-4 text-amber-700" />
             <span>Datas Sagradas & Encontros • Calendário do Templo</span>
@@ -112,13 +115,44 @@ export const EventsCalendarPage: React.FC = () => {
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-stone-600 leading-relaxed font-normal">
-            Descubra os dias em que realizamos nossos festivais presenciais de domingo, celebrações sagradas de aparição de Srila Prabhupada, festivais do calendário Vaisnava e visitas especiais de mestres espirituais.
+          <p className="text-base sm:text-lg text-stone-600 leading-relaxed font-normal mb-6">
+            Acompanhe os meses, dias e anos dos festivais de domingo, aparição de Srila Prabhupada, grandes celebrações Vaisnavas e visitas de mestres espirituais para se planejar com antecedência.
           </p>
+
+          {/* View Mode Toggle */}
+          <div className="inline-flex p-1 rounded-2xl bg-amber-100/80 border border-amber-200 shadow-inner">
+            <button
+              type="button"
+              onClick={() => setViewMode('calendar')}
+              data-testid="btn-view-calendar"
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                viewMode === 'calendar'
+                  ? 'bg-white text-stone-900 shadow-sm'
+                  : 'text-stone-600 hover:text-stone-900'
+              }`}
+            >
+              <CalendarDays className="w-4 h-4 text-amber-600" />
+              <span>Grade de Calendário</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setViewMode('list')}
+              data-testid="btn-view-list"
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                viewMode === 'list'
+                  ? 'bg-white text-stone-900 shadow-sm'
+                  : 'text-stone-600 hover:text-stone-900'
+              }`}
+            >
+              <List className="w-4 h-4 text-amber-600" />
+              <span>Lista de Festivais ({filteredEvents.length})</span>
+            </button>
+          </div>
         </section>
 
         {/* 2. Interactive Filter Tabs */}
-        <section className="flex items-center justify-center flex-wrap gap-2 mb-10">
+        <section className="flex items-center justify-center flex-wrap gap-2 mb-8">
           <button
             type="button"
             onClick={() => setSelectedCategory('todos')}
@@ -176,12 +210,37 @@ export const EventsCalendarPage: React.FC = () => {
           </button>
         </section>
 
-        {/* 3. Events Grid */}
-        <section data-testid="events-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-14 sm:mb-20">
-          {filteredEvents.map((evt) => (
-            <EventCard key={evt.id} event={evt} />
-          ))}
-        </section>
+        {/* 3. Main View: Interactive Calendar Grid OR List View */}
+        {viewMode === 'calendar' ? (
+          <div className="space-y-12">
+            {/* Visual Month/Year Grid */}
+            <InteractiveCalendar selectedCategory={selectedCategory} />
+
+            {/* Upcoming Highlights of Selected Category */}
+            <div>
+              <div className="text-center mb-8">
+                <h2 className="text-2xl sm:text-3xl font-black text-stone-900 mb-2">
+                  Destaques e Próximos Festivais
+                </h2>
+                <p className="text-sm text-stone-600 font-normal">
+                  Confira as informações completas de cada celebração sagrada
+                </p>
+              </div>
+
+              <div data-testid="events-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-14">
+                {filteredEvents.map((evt) => (
+                  <EventCard key={evt.id} event={evt} />
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <section data-testid="events-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-14 sm:mb-20">
+            {filteredEvents.map((evt) => (
+              <EventCard key={evt.id} event={evt} />
+            ))}
+          </section>
+        )}
 
         {/* 4. Information Banner: How to Confirm Dates */}
         <section className="bg-white rounded-3xl p-6 sm:p-10 border border-amber-200/80 shadow-xl shadow-stone-200/50 mb-14 text-center max-w-3xl mx-auto">

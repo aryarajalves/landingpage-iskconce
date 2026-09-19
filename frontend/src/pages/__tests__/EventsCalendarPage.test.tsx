@@ -39,12 +39,12 @@ describe('EventsCalendarPage Component', () => {
     expect(screen.getByTestId('event-card-festival-de-domingo-semanal')).toBeInTheDocument();
     expect(screen.getByTestId('event-card-vyasa-puja-srila-prabhupada')).toBeInTheDocument();
     expect(screen.getByTestId('event-card-sri-krishna-janmastami')).toBeInTheDocument();
-    expect(screen.getByTestId('event-card-visitas-gurus-mestres')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-visita-chandramukha-swami-2026')).toBeInTheDocument();
 
     // Filter to Gurus
     fireEvent.click(screen.getByTestId('filter-tab-gurus'));
     expect(screen.getByTestId('event-card-vyasa-puja-srila-prabhupada')).toBeInTheDocument();
-    expect(screen.getByTestId('event-card-visitas-gurus-mestres')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-visita-chandramukha-swami-2026')).toBeInTheDocument();
     expect(screen.queryByTestId('event-card-festival-de-domingo-semanal')).not.toBeInTheDocument();
 
     // Filter to Domingos
@@ -56,6 +56,24 @@ describe('EventsCalendarPage Component', () => {
     fireEvent.click(screen.getByTestId('filter-tab-todos'));
     expect(screen.getByTestId('event-card-festival-de-domingo-semanal')).toBeInTheDocument();
     expect(screen.getByTestId('event-card-vyasa-puja-srila-prabhupada')).toBeInTheDocument();
+  });
+
+  it('renders InteractiveCalendar and allows toggling between calendar and list view', async () => {
+    await renderComponent();
+
+    // Calendar grid is present by default
+    expect(screen.getByTestId('interactive-calendar')).toBeInTheDocument();
+    expect(screen.getByTestId('btn-view-calendar')).toBeInTheDocument();
+    expect(screen.getByTestId('btn-view-list')).toBeInTheDocument();
+
+    // Switch to List view
+    fireEvent.click(screen.getByTestId('btn-view-list'));
+    expect(screen.queryByTestId('interactive-calendar')).not.toBeInTheDocument();
+    expect(screen.getByTestId('events-grid')).toBeInTheDocument();
+
+    // Switch back to Calendar view
+    fireEvent.click(screen.getByTestId('btn-view-calendar'));
+    expect(screen.getByTestId('interactive-calendar')).toBeInTheDocument();
   });
 
   it('renders WhatsApp inquiry buttons for each event and general consultation', async () => {
@@ -87,8 +105,8 @@ describe('EventsCalendarPage Component', () => {
     expect(chandramukhaCard).toBeInTheDocument();
 
     // Verify Title and Date Period
-    expect(screen.getByText(/Visita de Chandramukha Swami ao Templo do Ceará/i)).toBeInTheDocument();
-    expect(screen.getByText('01 a 03 de Outubro de 2026')).toBeInTheDocument();
+    expect(screen.getAllByText(/Visita de Chandramukha Swami ao Templo do Ceará/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('01 a 03 de Outubro de 2026').length).toBeGreaterThanOrEqual(1);
 
     // Verify WhatsApp button for Chandramukha Swami
     const chandramukhaBtn = screen.getByTestId('btn-event-whatsapp-visita-chandramukha-swami-2026');
