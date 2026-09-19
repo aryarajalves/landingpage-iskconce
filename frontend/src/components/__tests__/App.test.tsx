@@ -94,4 +94,28 @@ describe('App Routing Integration', () => {
     expect(screen.getByTestId('online-programs-grid')).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 1, name: /Programações do Templo/i })).not.toBeInTheDocument();
   });
+
+  it('renders PrivacyPolicyPage directly when URL is /politica-de-privacidade', async () => {
+    window.history.pushState({}, '', '/politica-de-privacidade');
+
+    await act(async () => {
+      render(<App />);
+    });
+
+    expect(screen.getByRole('heading', { level: 1, name: /Política de Privacidade/i })).toBeInTheDocument();
+    expect(screen.getByTestId('btn-back-from-privacy')).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 1, name: /Programações do Templo/i })).not.toBeInTheDocument();
+  });
+
+  it('renders TermsOfUsePage directly when URL is /termos-de-uso', async () => {
+    window.history.pushState({}, '', '/termos-de-uso');
+
+    await act(async () => {
+      render(<App />);
+    });
+
+    expect(screen.getByRole('heading', { level: 1, name: /Termos de Uso/i })).toBeInTheDocument();
+    expect(screen.getByTestId('btn-back-from-terms')).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 1, name: /Programações do Templo/i })).not.toBeInTheDocument();
+  });
 });

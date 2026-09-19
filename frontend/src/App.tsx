@@ -4,6 +4,8 @@ import { RouterProvider, useRouter } from './context/RouterContext';
 import { LinktreePage } from './pages/LinktreePage';
 import { SundayFestivalPage } from './pages/SundayFestivalPage';
 import { OnlineProgramsPage } from './pages/OnlineProgramsPage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
+import { TermsOfUsePage } from './pages/TermsOfUsePage';
 
 export const AppContent: React.FC = () => {
   const { currentPath } = useRouter();
@@ -21,6 +23,14 @@ export const AppContent: React.FC = () => {
     normalizedPath === '/programacoes-online'
   ) {
     return <OnlineProgramsPage />;
+  }
+
+  if (normalizedPath === '/politica-de-privacidade' || normalizedPath === '/privacidade') {
+    return <PrivacyPolicyPage />;
+  }
+
+  if (normalizedPath === '/termos-de-uso' || normalizedPath === '/termos') {
+    return <TermsOfUsePage />;
   }
 
   // Rota padrão (raiz /): Linktree das Programações do Templo
