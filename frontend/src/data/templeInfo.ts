@@ -171,7 +171,7 @@ export const TEMPLE_DATA: TempleInfo = {
       isOnline: true,
       contactName: "Manjari Tulasi",
       contactPhone: "(85) 9793-0976",
-      whatsappUrl: "https://wa.me/5585997930976?text=Ol%C3%A1%2C%20Manjari%20Tulasi!%20Vim%20pelo%20site%20dos%20devotos%20Hare%20Krishna%20do%20Cear%C3%A1%20e%20gostaria%20de%20participar%20do%20encontro%20de%20ter%C3%A7a-feira%20do%20Lapidar%20para%20estudar%20o%20Bhagavad-g%C4%ABt%C4%81%20e%20entrar%20no%20grupo%20exclusivo.",
+      whatsappUrl: "https://wa.me/5585997930976?text=Ol%C3%A1%2C%20Manjari%20Tulasi!%20Vim%20pelo%20site%20dos%20devotos%20do%20Cear%C3%A1%20e%20gostaria%20de%20participar%20do%20encontro%20online%20de%20ter%C3%A7a-feira%20do%20Lapidar%20para%20estudar%20o%20Bhagavad-g%C4%ABt%C4%81%20e%20entrar%20no%20grupo%20exclusivo.",
       highlights: [
         "Encontro oficial do Lapidar com estudo focado no Bhagavad-gītā",
         "Estudo verso a verso com comentários autorizados de Srila Prabhupada",

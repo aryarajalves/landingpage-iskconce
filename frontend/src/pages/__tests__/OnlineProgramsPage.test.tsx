@@ -65,7 +65,9 @@ describe('OnlineProgramsPage Component', () => {
     expect(screen.getAllByText(/vai te orientar e te dar acesso ao grupo exclusivo/i).length).toBeGreaterThanOrEqual(1);
 
     // Verify all 3 CTA links
-    expect(screen.getByTestId('btn-join-lapidar-pacoti')).toHaveAttribute('href', expect.stringContaining('wa.me'));
+    const tuesdayBtn = screen.getByTestId('btn-join-lapidar-pacoti');
+    expect(tuesdayBtn).toHaveAttribute('href', expect.stringContaining('5585997930976'));
+    expect(tuesdayBtn).toHaveAttribute('href', expect.stringContaining('Vim%20pelo%20site%20dos%20devotos%20do%20Cear%C3%A1'));
 
     // Thursday representative Arhadana (Clube do Livro, 5511961854858, mentions temple website)
     const thursdayBtn = screen.getByTestId('btn-join-quinta-passatempos-krsna');
