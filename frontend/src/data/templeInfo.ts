@@ -62,6 +62,7 @@ export interface TempleInfo {
     googleReviewUrl: string;
     featuredShortVideoId: string;
     localVideoUrl: string;
+    soundCloudUrl: string;
   };
   music: {
     title: string;
@@ -94,6 +95,7 @@ export const TEMPLE_DATA: TempleInfo = {
     instagramHandle: "@iskcon_ce",
     instagramUrl: "https://www.instagram.com/iskcon_ce/",
     youtubeUrl: "https://www.youtube.com/channel/UCrllUPB0IpM7Q90apBUL8aw",
+    soundCloudUrl: "https://on.soundcloud.com/eontezEBe8rgYiIVkf",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Hare+Krishna+Fortaleza+ISKCON+Ceara+Aquiraz",
     googleReviewUrl: "https://www.google.com/maps/search/?api=1&query=Hare+Krishna+Fortaleza+ISKCON+Ceara+Aquiraz",
     featuredShortVideoId: "T_mjJVzha24",

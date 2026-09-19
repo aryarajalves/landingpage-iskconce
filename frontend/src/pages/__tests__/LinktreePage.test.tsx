@@ -26,6 +26,13 @@ describe('LinktreePage Component', () => {
     expect(screen.getByText('Programações Online Durante a Semana')).toBeInTheDocument();
     expect(screen.getByText(/Segunda \(devotas\), Terça \(Manjari Tulasi\) e Quinta \(Passatempos de Krishna\)/i)).toBeInTheDocument();
 
+    // Button 3: Kirtans & Bhajans do Templo (SoundCloud)
+    expect(screen.getByTestId('linktree-btn-soundcloud')).toBeInTheDocument();
+    expect(screen.getByText('Kirtans & Bhajans do Templo')).toBeInTheDocument();
+    expect(screen.getByText(/Ouça os kirtaniyas cantando os bhajans sagrados no SoundCloud/i)).toBeInTheDocument();
+    expect(screen.getByTestId('linktree-btn-soundcloud')).toHaveAttribute('href', 'https://on.soundcloud.com/eontezEBe8rgYiIVkf');
+    expect(screen.getByTestId('linktree-btn-soundcloud')).toHaveAttribute('target', '_blank');
+
     // Social & Info Links
     expect(screen.getByLabelText(/Instagram/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/WhatsApp/i)).toBeInTheDocument();

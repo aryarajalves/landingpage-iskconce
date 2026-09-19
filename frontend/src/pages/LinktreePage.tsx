@@ -6,7 +6,9 @@ import {
   MessageCircle, 
   MapPin, 
   Sparkles,
-  Heart
+  Heart,
+  Music,
+  ExternalLink
 } from 'lucide-react';
 import { InstagramIcon } from '../components/Icons';
 import { LegalFooter } from '../components/LegalFooter';
@@ -119,6 +121,36 @@ export const LinktreePage: React.FC = () => {
               <ArrowRight className="w-5 h-5" />
             </div>
           </button>
+
+          {/* Button 3: Kirtans & Bhajans do Templo (SoundCloud) */}
+          <a
+            href={TEMPLE_DATA.contact.soundCloudUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="linktree-btn-soundcloud"
+            className="group w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-amber-300 hover:border-amber-500 bg-white hover:bg-amber-50/40 active:bg-amber-100/50 shadow-sm hover:shadow-md hover:shadow-amber-500/10 transition-all duration-200 flex items-center justify-between gap-3 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 cursor-pointer"
+          >
+            <div className="flex items-center gap-3.5 sm:gap-4 overflow-hidden">
+              {/* Icon Container */}
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-200 shadow-sm">
+                <Music className="w-6 h-6" />
+              </div>
+              {/* Text Info */}
+              <div className="text-left">
+                <h2 className="text-sm sm:text-base font-bold text-stone-900 group-hover:text-amber-800 transition-colors">
+                  Kirtans & Bhajans do Templo
+                </h2>
+                <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed mt-0.5">
+                  Ouça os kirtaniyas cantando os bhajans sagrados no SoundCloud
+                </p>
+              </div>
+            </div>
+
+            {/* Right External Link Arrow */}
+            <div className="w-8 h-8 rounded-full flex items-center justify-center text-stone-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all duration-200 shrink-0">
+              <ExternalLink className="w-5 h-5" />
+            </div>
+          </a>
 
         </div>
 
