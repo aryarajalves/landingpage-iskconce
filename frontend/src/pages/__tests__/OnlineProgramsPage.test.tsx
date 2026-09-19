@@ -24,8 +24,8 @@ describe('OnlineProgramsPage Component', () => {
     expect(screen.getByRole('heading', { level: 1, name: /Programações Online Durante a Semana/i })).toBeInTheDocument();
     expect(screen.getByTestId('online-hero-section')).toBeInTheDocument();
 
-    // Program 1: Segunda-feira - Sangha Feminina
-    expect(screen.getByText(/Estudo do Bhagavad-gītā \(Sangha Feminina\)/i)).toBeInTheDocument();
+    // Program 1: Segunda-feira - Devotas
+    expect(screen.getByText(/Estudo do Bhagavad-gītā \(Devotas\)/i)).toBeInTheDocument();
     expect(screen.getByText(/Segunda-feira • 20h00/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Exclusivo para Mulheres/i).length).toBeGreaterThanOrEqual(1);
 
@@ -53,9 +53,12 @@ describe('OnlineProgramsPage Component', () => {
   it('renders WhatsApp CTA buttons with representatives, including Krsna Nandini on Monday and Arhadana on Thursday', async () => {
     await renderComponent();
 
-    // Monday representative Krsna Nandini
+    // Monday representative Krsna Nandini with updated message
     expect(screen.getAllByText(/Krsna Nandini/i).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByTestId('btn-join-segunda-sangha-feminina')).toHaveAttribute('href', expect.stringContaining('556492022787'));
+    const mondayBtn = screen.getByTestId('btn-join-segunda-sangha-feminina');
+    expect(mondayBtn).toHaveAttribute('href', expect.stringContaining('556492022787'));
+    expect(mondayBtn).toHaveAttribute('href', expect.stringContaining('Vim%20pelo%20site%20dos%20devotos%20Hare%20Krishna%20do%20Cear%C3%A1'));
+    expect(mondayBtn).not.toHaveAttribute('href', expect.stringContaining('Sangha%20Feminina'));
 
     // Representative guidance message on card
     expect(screen.getAllByText(/vai te orientar e te dar acesso ao grupo exclusivo/i).length).toBeGreaterThanOrEqual(1);

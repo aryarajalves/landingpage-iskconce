@@ -100,7 +100,7 @@ export const PrivacyPolicyPage: React.FC = () => {
             <ul className="space-y-2 pl-2">
               <li className="flex items-start gap-2 text-xs sm:text-sm">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <span><strong>Segunda-feira (Sangha Feminina):</strong> Contato direto com a devota Krsna Nandini para orientações e inclusão no grupo exclusivo de estudos para mulheres.</span>
+                <span><strong>Segunda-feira (Devotas):</strong> Contato direto com a devota Krsna Nandini para orientações e inclusão no grupo exclusivo de estudos para mulheres.</span>
               </li>
               <li className="flex items-start gap-2 text-xs sm:text-sm">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />

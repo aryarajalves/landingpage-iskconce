@@ -135,7 +135,7 @@ export const TEMPLE_DATA: TempleInfo = {
   weeklyMeetings: [
     {
       id: "segunda-sangha-feminina",
-      title: "Estudo do Bhagavad-gītā (Sangha Feminina)",
+      title: "Estudo do Bhagavad-gītā (Devotas)",
       region: "Online • Grupo Exclusivo",
       tag: "Exclusivo para Mulheres",
       audience: "Exclusivo para mulheres e devotas",
@@ -148,7 +148,7 @@ export const TEMPLE_DATA: TempleInfo = {
       isOnline: true,
       contactName: "Krsna Nandini",
       contactPhone: "(64) 9202-2787",
-      whatsappUrl: "https://wa.me/556492022787?text=Ol%C3%A1%2C%20Krsna%20Nandini!%20Gostaria%20de%20participar%20do%20encontro%20online%20de%20segunda-feira%20(Sangha%20Feminina)%20e%20entrar%20no%20grupo%20exclusivo.",
+      whatsappUrl: "https://wa.me/556492022787?text=Ol%C3%A1%2C%20Krsna%20Nandini!%20Vim%20pelo%20site%20dos%20devotos%20Hare%20Krishna%20do%20Cear%C3%A1%20e%20gostaria%20de%20participar%20do%20encontro%20online%20de%20segunda-feira%20e%20entrar%20no%20grupo%20exclusivo.",
       highlights: [
         "Encontro exclusivo para mulheres e devotas com troca de vivências",
         "Estudo temático e verso a verso do Bhagavad-gītā",
