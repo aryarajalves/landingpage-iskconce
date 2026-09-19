@@ -2,6 +2,7 @@ import React from 'react';
 import { TEMPLE_DATA } from '../data/templeInfo';
 import { MapPin, Phone, ExternalLink, Star } from 'lucide-react';
 import { InstagramIcon, YoutubeIcon, WhatsappIcon } from './Icons';
+import { LegalFooter } from './LegalFooter';
 
 export const Footer: React.FC = () => {
   return (
@@ -99,10 +100,9 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Legal data & Bottom Bar */}
-        <div className="pt-6 border-t border-amber-200/60 text-center text-[11px] text-stone-500 space-y-1">
-          <p>{TEMPLE_DATA.legalName}</p>
-          <p>{`CNPJ: ${TEMPLE_DATA.cnpj}`}</p>
-          <p className="pt-2 text-stone-700 font-semibold text-xs">
+        <div className="pt-6 border-t border-amber-200/60">
+          <LegalFooter />
+          <p className="pt-1 text-stone-700 font-semibold text-xs text-center">
             Hare Krishna! Todos são muito bem-vindos 🙏
           </p>
         </div>

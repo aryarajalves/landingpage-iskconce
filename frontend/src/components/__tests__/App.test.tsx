@@ -1,28 +1,97 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen, act } from '@testing-library/react';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 import App from '../../App';
 
-describe('App Integration', () => {
-  it('renders navbar, all divided section cards, audio player and footer correctly', async () => {
+describe('App Routing Integration', () => {
+  beforeEach(() => {
+    window.history.pushState({}, '', '/');
+  });
+
+  it('renders LinktreePage on root route (/)', async () => {
     await act(async () => {
       render(<App />);
     });
 
-    // Assert navbar is present
-    expect(screen.getByTestId('navbar-brand')).toBeInTheDocument();
-    expect(screen.getByTestId('desktop-nav')).toBeInTheDocument();
+    // Check Linktree elements
+    expect(screen.getByRole('heading', { level: 1, name: /Programações do Templo/i })).toBeInTheDocument();
+    expect(screen.getByTestId('linktree-btn-festival')).toBeInTheDocument();
+    expect(screen.getByTestId('linktree-btn-online')).toBeInTheDocument();
 
-    // Assert all distinct section cards are present
+    // Landing sections should not be on root
+    expect(screen.queryByTestId('hero-section')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('online-hero-section')).not.toBeInTheDocument();
+  });
+
+  it('navigates from Linktree to Sunday Festival page and back', async () => {
+    await act(async () => {
+      render(<App />);
+    });
+
+    // 1. Click on Festival de Domingo button
+    const festivalBtn = screen.getByTestId('linktree-btn-festival');
+    fireEvent.click(festivalBtn);
+
+    // 2. Now Sunday Festival Landing page should be rendered
     expect(screen.getByTestId('hero-section')).toBeInTheDocument();
-    expect(screen.getByTestId('quick-links-section')).toBeInTheDocument();
     expect(screen.getByTestId('schedule-section')).toBeInTheDocument();
-    expect(screen.getByTestId('weekly-meetings-section')).toBeInTheDocument();
-    expect(screen.getByTestId('gallery-section')).toBeInTheDocument();
-    expect(screen.getByTestId('about-temple-section')).toBeInTheDocument();
-    expect(screen.getByTestId('faq-section')).toBeInTheDocument();
-    expect(screen.getByTestId('footer-section')).toBeInTheDocument();
+    expect(screen.getByTestId('banner-btn-linktree')).toBeInTheDocument();
+    expect(window.location.pathname).toBe('/festivaldedomingo');
 
-    // Assert floating audio player is present
-    expect(screen.getByTestId('audio-player-widget')).toBeInTheDocument();
+    // 3. Click return banner button to go back to Linktree
+    const returnBannerBtn = screen.getByTestId('banner-btn-linktree');
+    fireEvent.click(returnBannerBtn);
+
+    // 4. Linktree should be visible again
+    expect(screen.getByRole('heading', { level: 1, name: /Programações do Templo/i })).toBeInTheDocument();
+    expect(screen.queryByTestId('hero-section')).not.toBeInTheDocument();
+    expect(window.location.pathname).toBe('/');
+  });
+
+  it('navigates from Linktree to Online Programs page and back', async () => {
+    await act(async () => {
+      render(<App />);
+    });
+
+    // 1. Click on Programações Online button
+    const onlineBtn = screen.getByTestId('linktree-btn-online');
+    fireEvent.click(onlineBtn);
+
+    // 2. Now Online Programs Landing page should be rendered
+    expect(screen.getByTestId('online-hero-section')).toBeInTheDocument();
+    expect(screen.getByTestId('online-programs-grid')).toBeInTheDocument();
+    expect(window.location.pathname).toBe('/programacoesonline');
+
+    // 3. Click back button to go back to Linktree
+    const backBtn = screen.getByTestId('online-btn-back-linktree');
+    fireEvent.click(backBtn);
+
+    // 4. Linktree should be visible again
+    expect(screen.getByRole('heading', { level: 1, name: /Programações do Templo/i })).toBeInTheDocument();
+    expect(screen.queryByTestId('online-hero-section')).not.toBeInTheDocument();
+    expect(window.location.pathname).toBe('/');
+  });
+
+  it('renders SundayFestivalPage directly when URL is /festivaldedomingo', async () => {
+    window.history.pushState({}, '', '/festivaldedomingo');
+
+    await act(async () => {
+      render(<App />);
+    });
+
+    expect(screen.getByTestId('hero-section')).toBeInTheDocument();
+    expect(screen.getByTestId('navbar-brand')).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 1, name: /Programações do Templo/i })).not.toBeInTheDocument();
+  });
+
+  it('renders OnlineProgramsPage directly when URL is /programacoesonline', async () => {
+    window.history.pushState({}, '', '/programacoesonline');
+
+    await act(async () => {
+      render(<App />);
+    });
+
+    expect(screen.getByTestId('online-hero-section')).toBeInTheDocument();
+    expect(screen.getByTestId('online-programs-grid')).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 1, name: /Programações do Templo/i })).not.toBeInTheDocument();
   });
 });

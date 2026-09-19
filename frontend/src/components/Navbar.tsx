@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle, MapPin, Calendar, Image as ImageIcon, Sparkles, HelpCircle, Landmark, BookOpen } from 'lucide-react';
+import { Menu, X, MessageCircle, MapPin, Calendar, Image as ImageIcon, Sparkles, HelpCircle, Landmark, BookOpen, ArrowLeft } from 'lucide-react';
 import { TEMPLE_DATA } from '../data/templeInfo';
+import { useRouter } from '../context/RouterContext';
 
 interface NavItem {
   label: string;
@@ -42,6 +43,7 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export const Navbar: React.FC = () => {
+  const { navigate } = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('inicio');
 
@@ -122,6 +124,17 @@ export const Navbar: React.FC = () => {
 
           {/* Right Action Buttons */}
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              data-testid="navbar-btn-linktree"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-100/90 hover:bg-amber-200 text-amber-950 font-semibold text-xs border border-amber-300/80 shadow-xs transition-all active:scale-95 cursor-pointer"
+              title="Voltar para todas as programações"
+            >
+              <ArrowLeft className="w-3.5 h-3.5 text-amber-800" />
+              <span>Programações</span>
+            </button>
+
             <a
               href={TEMPLE_DATA.contact.whatsappUrl}
               target="_blank"
@@ -170,6 +183,18 @@ export const Navbar: React.FC = () => {
           </nav>
 
           <div className="pt-3 border-t border-amber-100 flex flex-col sm:hidden gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                navigate('/');
+              }}
+              data-testid="mobile-navbar-btn-linktree"
+              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 text-xs font-bold border border-amber-300 shadow-xs cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4 text-amber-800" />
+              <span>Ver Todas as Programações (Linktree)</span>
+            </button>
             <a
               href={TEMPLE_DATA.contact.whatsappUrl}
               target="_blank"

@@ -8,8 +8,8 @@ describe('Footer Component', () => {
     render(<Footer />);
 
     expect(screen.getByText(TEMPLE_DATA.name)).toBeInTheDocument();
-    expect(screen.getByText(TEMPLE_DATA.legalName)).toBeInTheDocument();
-    expect(screen.getByText(`CNPJ: ${TEMPLE_DATA.cnpj}`)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(TEMPLE_DATA.legalName, 'i'))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(TEMPLE_DATA.cnpj, 'i'))).toBeInTheDocument();
     expect(screen.getByText(TEMPLE_DATA.address.full)).toBeInTheDocument();
     expect(screen.getByText(`WhatsApp: ${TEMPLE_DATA.contact.phoneFormatted}`)).toBeInTheDocument();
   });

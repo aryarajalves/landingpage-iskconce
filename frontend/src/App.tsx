@@ -1,58 +1,39 @@
 import React from 'react';
 import { AudioProvider } from './context/AudioContext';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { QuickLinks } from './components/QuickLinks';
-import { Schedule } from './components/Schedule';
-import { WeeklyMeetings } from './components/WeeklyMeetings';
-import { Gallery } from './components/Gallery';
-import { AboutTemple } from './components/AboutTemple';
-import { FaqAccordion } from './components/FaqAccordion';
-import { Footer } from './components/Footer';
-import { AudioPlayer } from './components/AudioPlayer';
+import { RouterProvider, useRouter } from './context/RouterContext';
+import { LinktreePage } from './pages/LinktreePage';
+import { SundayFestivalPage } from './pages/SundayFestivalPage';
+import { OnlineProgramsPage } from './pages/OnlineProgramsPage';
+
+export const AppContent: React.FC = () => {
+  const { currentPath } = useRouter();
+
+  // Normalização do caminho (remove trailing slash e converte para minúsculas)
+  const normalizedPath = currentPath.toLowerCase().replace(/\/$/, '');
+
+  if (normalizedPath === '/festivaldedomingo' || normalizedPath === '/festival-de-domingo') {
+    return <SundayFestivalPage />;
+  }
+
+  if (
+    normalizedPath === '/programacoesonline' ||
+    normalizedPath === '/programas-online' ||
+    normalizedPath === '/programacoes-online'
+  ) {
+    return <OnlineProgramsPage />;
+  }
+
+  // Rota padrão (raiz /): Linktree das Programações do Templo
+  return <LinktreePage />;
+};
 
 export const App: React.FC = () => {
   return (
-    <AudioProvider>
-      <div className="min-h-screen bg-gradient-to-b from-amber-50/70 via-orange-50/30 to-amber-100/40 text-stone-800 antialiased selection:bg-amber-200 selection:text-amber-900">
-        
-        {/* Top Sticky Navigation Bar */}
-        <Navbar />
-
-        {/* Top Main Container (Full width on PC, adaptative on Mobile) */}
-        <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-          
-          {/* 1. Hero & Welcome Banner */}
-          <Hero />
-
-          {/* 2. Quick Links Grid */}
-          <QuickLinks />
-
-          {/* 3. Sunday Festival Schedule Grid */}
-          <Schedule />
-
-          {/* 4. Weekly Meetings & Study Groups */}
-          <WeeklyMeetings />
-
-          {/* 5. Gallery of Temple Photos (Above Experience Section) */}
-          <Gallery />
-
-          {/* 5. About Temple & 3 Pillars */}
-          <AboutTemple />
-
-          {/* 6. Visitor Guide & FAQ */}
-          <FaqAccordion />
-
-        </main>
-
-        {/* Full-width Footer */}
-        <Footer />
-
-        {/* Floating Devotional Music Player */}
-        <AudioPlayer />
-
-      </div>
-    </AudioProvider>
+    <RouterProvider>
+      <AudioProvider>
+        <AppContent />
+      </AudioProvider>
+    </RouterProvider>
   );
 };
 
