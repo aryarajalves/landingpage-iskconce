@@ -32,10 +32,14 @@ describe('EventsCalendarPage Component', () => {
     expect(screen.getByTestId('filter-tab-vaisnava')).toBeInTheDocument();
   });
 
-  it('renders all events by default and filters by category when tabs are clicked', async () => {
+  it('renders all events when switching to list view and filters by category when tabs are clicked', async () => {
     await renderComponent();
 
-    // By default, renders all events
+    // Na visualização padrão de calendário, a seção antiga "Destaques e Próximos Festivais" NÃO deve existir
+    expect(screen.queryByText('Destaques e Próximos Festivais')).not.toBeInTheDocument();
+
+    // Ao alternar para modo lista, renderiza todos os cards
+    fireEvent.click(screen.getByTestId('btn-view-list'));
     expect(screen.getByTestId('event-card-festival-de-domingo-semanal')).toBeInTheDocument();
     expect(screen.getByTestId('event-card-vyasa-puja-srila-prabhupada')).toBeInTheDocument();
     expect(screen.getByTestId('event-card-sri-krishna-janmastami')).toBeInTheDocument();
@@ -76,8 +80,10 @@ describe('EventsCalendarPage Component', () => {
     expect(screen.getByTestId('interactive-calendar')).toBeInTheDocument();
   });
 
-  it('renders WhatsApp inquiry buttons for each event and general consultation', async () => {
+  it('renders WhatsApp inquiry buttons for each event in list view and general consultation', async () => {
     await renderComponent();
+
+    fireEvent.click(screen.getByTestId('btn-view-list'));
 
     const prabhupadaBtn = screen.getByTestId('btn-event-whatsapp-vyasa-puja-srila-prabhupada');
     expect(prabhupadaBtn).toBeInTheDocument();
@@ -97,18 +103,20 @@ describe('EventsCalendarPage Component', () => {
     expect(window.location.pathname).toBe('/');
   });
 
-  it('renders Chandramukha Swami visit event card with dates 01 a 03 de Outubro de 2026', async () => {
+  it('renders Chandramukha Swami visit in calendar view and in list view', async () => {
     await renderComponent();
 
-    // Check Chandramukha Swami card presence
+    // No calendário, o evento é referenciado
+    expect(screen.getByTestId('interactive-calendar')).toBeInTheDocument();
+
+    // Ao alternar para modo lista, o card está presente com datas e botão WhatsApp
+    fireEvent.click(screen.getByTestId('btn-view-list'));
     const chandramukhaCard = screen.getByTestId('event-card-visita-chandramukha-swami-2026');
     expect(chandramukhaCard).toBeInTheDocument();
 
-    // Verify Title and Date Period
     expect(screen.getAllByText(/Visita de Chandramukha Swami ao Templo do Ceará/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText('01 a 03 de Outubro de 2026').length).toBeGreaterThanOrEqual(1);
 
-    // Verify WhatsApp button for Chandramukha Swami
     const chandramukhaBtn = screen.getByTestId('btn-event-whatsapp-visita-chandramukha-swami-2026');
     expect(chandramukhaBtn).toBeInTheDocument();
     expect(chandramukhaBtn).toHaveAttribute('href', expect.stringContaining('Chandramukha%20Swami'));

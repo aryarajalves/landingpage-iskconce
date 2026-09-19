@@ -137,7 +137,7 @@ describe('App Routing Integration', () => {
 
     // 2. Now Events Calendar page should be rendered
     expect(screen.getByTestId('calendar-hero-section')).toBeInTheDocument();
-    expect(screen.getByTestId('events-grid')).toBeInTheDocument();
+    expect(screen.getByTestId('interactive-calendar')).toBeInTheDocument();
     expect(screen.getByTestId('audio-player-widget')).toBeInTheDocument();
     expect(window.location.pathname).toBe('/calendariodeeventos');
 
@@ -160,7 +160,7 @@ describe('App Routing Integration', () => {
     });
 
     expect(screen.getByTestId('calendar-hero-section')).toBeInTheDocument();
-    expect(screen.getByTestId('events-grid')).toBeInTheDocument();
+    expect(screen.getByTestId('interactive-calendar')).toBeInTheDocument();
     expect(screen.getByTestId('audio-player-widget')).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 1, name: /Programações do Templo/i })).not.toBeInTheDocument();
   });

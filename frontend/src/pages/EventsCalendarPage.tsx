@@ -212,27 +212,9 @@ export const EventsCalendarPage: React.FC = () => {
 
         {/* 3. Main View: Interactive Calendar Grid OR List View */}
         {viewMode === 'calendar' ? (
-          <div className="space-y-12">
+          <div className="mb-14">
             {/* Visual Month/Year Grid */}
             <InteractiveCalendar selectedCategory={selectedCategory} />
-
-            {/* Upcoming Highlights of Selected Category */}
-            <div>
-              <div className="text-center mb-8">
-                <h2 className="text-2xl sm:text-3xl font-black text-stone-900 mb-2">
-                  Destaques e Próximos Festivais
-                </h2>
-                <p className="text-sm text-stone-600 font-normal">
-                  Confira as informações completas de cada celebração sagrada
-                </p>
-              </div>
-
-              <div data-testid="events-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-14">
-                {filteredEvents.map((evt) => (
-                  <EventCard key={evt.id} event={evt} />
-                ))}
-              </div>
-            </div>
           </div>
         ) : (
           <section data-testid="events-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-14 sm:mb-20">
