@@ -33,10 +33,28 @@ describe('LinktreePage Component', () => {
     expect(screen.getByTestId('linktree-btn-soundcloud')).toHaveAttribute('href', 'https://on.soundcloud.com/eontezEBe8rgYiIVkf');
     expect(screen.getByTestId('linktree-btn-soundcloud')).toHaveAttribute('target', '_blank');
 
+    // Button 4: Calendário de Eventos & Festivais
+    expect(screen.getByTestId('linktree-btn-calendar')).toBeInTheDocument();
+    expect(screen.getByText('Calendário de Eventos & Festivais')).toBeInTheDocument();
+    expect(screen.getByText(/Festivais de domingo, aparição de Srila Prabhupada e celebrações sagradas/i)).toBeInTheDocument();
+
     // Social & Info Links
     expect(screen.getByLabelText(/Instagram/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/WhatsApp/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Google Maps/i)).toBeInTheDocument();
+  });
+
+  it('navigates to /calendariodeeventos when clicking on the calendar button', () => {
+    render(
+      <RouterProvider>
+        <LinktreePage />
+      </RouterProvider>
+    );
+
+    const calendarBtn = screen.getByTestId('linktree-btn-calendar');
+    fireEvent.click(calendarBtn);
+
+    expect(window.location.pathname).toBe('/calendariodeeventos');
   });
 
   it('navigates to /programacoesonline when clicking on the second button', () => {

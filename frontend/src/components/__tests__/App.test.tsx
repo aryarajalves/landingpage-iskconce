@@ -16,10 +16,12 @@ describe('App Routing Integration', () => {
     expect(screen.getByRole('heading', { level: 1, name: /Programações do Templo/i })).toBeInTheDocument();
     expect(screen.getByTestId('linktree-btn-festival')).toBeInTheDocument();
     expect(screen.getByTestId('linktree-btn-online')).toBeInTheDocument();
+    expect(screen.getByTestId('linktree-btn-calendar')).toBeInTheDocument();
 
     // Landing sections and audio widget should not be on root
     expect(screen.queryByTestId('hero-section')).not.toBeInTheDocument();
     expect(screen.queryByTestId('online-hero-section')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('calendar-hero-section')).not.toBeInTheDocument();
     expect(screen.queryByTestId('audio-player-widget')).not.toBeInTheDocument();
   });
 
@@ -121,6 +123,42 @@ describe('App Routing Integration', () => {
 
     expect(screen.getByRole('heading', { level: 1, name: /Termos de Uso/i })).toBeInTheDocument();
     expect(screen.getByTestId('btn-back-from-terms')).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 1, name: /Programações do Templo/i })).not.toBeInTheDocument();
+  });
+
+  it('navigates from Linktree to EventsCalendarPage and back', async () => {
+    await act(async () => {
+      render(<App />);
+    });
+
+    // 1. Click on Calendário de Eventos button
+    const calendarBtn = screen.getByTestId('linktree-btn-calendar');
+    fireEvent.click(calendarBtn);
+
+    // 2. Now Events Calendar page should be rendered
+    expect(screen.getByTestId('calendar-hero-section')).toBeInTheDocument();
+    expect(screen.getByTestId('events-grid')).toBeInTheDocument();
+    expect(window.location.pathname).toBe('/calendariodeeventos');
+
+    // 3. Click back button to go back to Linktree
+    const backBtn = screen.getByTestId('calendar-btn-back-linktree');
+    fireEvent.click(backBtn);
+
+    // 4. Linktree should be visible again
+    expect(screen.getByRole('heading', { level: 1, name: /Programações do Templo/i })).toBeInTheDocument();
+    expect(screen.queryByTestId('calendar-hero-section')).not.toBeInTheDocument();
+    expect(window.location.pathname).toBe('/');
+  });
+
+  it('renders EventsCalendarPage directly when URL is /calendariodeeventos', async () => {
+    window.history.pushState({}, '', '/calendariodeeventos');
+
+    await act(async () => {
+      render(<App />);
+    });
+
+    expect(screen.getByTestId('calendar-hero-section')).toBeInTheDocument();
+    expect(screen.getByTestId('events-grid')).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 1, name: /Programações do Templo/i })).not.toBeInTheDocument();
   });
 });

@@ -6,6 +6,7 @@ import { SundayFestivalPage } from './pages/SundayFestivalPage';
 import { OnlineProgramsPage } from './pages/OnlineProgramsPage';
 import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { TermsOfUsePage } from './pages/TermsOfUsePage';
+import { EventsCalendarPage } from './pages/EventsCalendarPage';
 
 export const AppContent: React.FC = () => {
   const { currentPath } = useRouter();
@@ -23,6 +24,15 @@ export const AppContent: React.FC = () => {
     normalizedPath === '/programacoes-online'
   ) {
     return <OnlineProgramsPage />;
+  }
+
+  if (
+    normalizedPath === '/calendariodeeventos' ||
+    normalizedPath === '/calendario-de-eventos' ||
+    normalizedPath === '/calendario' ||
+    normalizedPath === '/eventos'
+  ) {
+    return <EventsCalendarPage />;
   }
 
   if (normalizedPath === '/politica-de-privacidade' || normalizedPath === '/privacidade') {
