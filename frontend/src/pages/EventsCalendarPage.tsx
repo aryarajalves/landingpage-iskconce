@@ -7,9 +7,6 @@ import {
   Crown, 
   Heart, 
   Sun, 
-  MessageCircle, 
-  HelpCircle, 
-  ExternalLink,
   List
 } from 'lucide-react';
 import { useRouter } from '../context/RouterContext';
@@ -223,33 +220,6 @@ export const EventsCalendarPage: React.FC = () => {
             ))}
           </section>
         )}
-
-        {/* 4. Information Banner: How to Confirm Dates */}
-        <section className="bg-white rounded-3xl p-6 sm:p-10 border border-amber-200/80 shadow-xl shadow-stone-200/50 mb-14 text-center max-w-3xl mx-auto">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center mx-auto mb-4 shadow-md shadow-amber-500/20">
-            <HelpCircle className="w-6 h-6" />
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl font-black text-stone-900 mb-3">
-            Como Funciona o Calendário Vaisnava?
-          </h2>
-
-          <p className="text-stone-600 text-sm sm:text-base leading-relaxed mb-6 font-normal">
-            As datas dos festivais védicos são determinadas pelo calendário lunar védico sagrado (<em>Panjika</em>), variando de ano para ano no calendário solar ocidental. Para saber a data exata da próxima celebração ou visita de mestres espirituais, consulte nossa equipe pelo WhatsApp oficial:
-          </p>
-
-          <a
-            href={TEMPLE_DATA.contact.whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-testid="btn-calendar-whatsapp-official"
-            className="inline-flex items-center gap-2 py-3.5 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-sm sm:text-base shadow-md transition-all cursor-pointer"
-          >
-            <MessageCircle className="w-5 h-5" />
-            <span>Consultar Próxima Data no WhatsApp Oficial</span>
-            <ExternalLink className="w-4 h-4 opacity-75" />
-          </a>
-        </section>
 
       </main>
 

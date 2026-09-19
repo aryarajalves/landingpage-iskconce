@@ -80,18 +80,18 @@ describe('EventsCalendarPage Component', () => {
     expect(screen.getByTestId('interactive-calendar')).toBeInTheDocument();
   });
 
-  it('renders WhatsApp inquiry buttons for each event in list view and general consultation', async () => {
+  it('validates absence of Como Funciona o Calendario Vaisnava banner and renders WhatsApp buttons in list view', async () => {
     await renderComponent();
 
-    fireEvent.click(screen.getByTestId('btn-view-list'));
+    // O banner informativo "Como Funciona o Calendário Vaisnava?" NÃO deve estar na página
+    expect(screen.queryByText(/Como Funciona o Calendário Vaisnava/i)).not.toBeInTheDocument();
+    expect(screen.queryByTestId('btn-calendar-whatsapp-official')).not.toBeInTheDocument();
 
+    // Ao alternar para modo lista, botões de WhatsApp de cada evento estão presentes
+    fireEvent.click(screen.getByTestId('btn-view-list'));
     const prabhupadaBtn = screen.getByTestId('btn-event-whatsapp-vyasa-puja-srila-prabhupada');
     expect(prabhupadaBtn).toBeInTheDocument();
     expect(prabhupadaBtn).toHaveAttribute('href', expect.stringContaining('Vyasa-puja'));
-
-    const generalConsultationBtn = screen.getByTestId('btn-calendar-whatsapp-official');
-    expect(generalConsultationBtn).toBeInTheDocument();
-    expect(generalConsultationBtn).toHaveAttribute('href', expect.stringContaining('5585986817643'));
   });
 
   it('renders navigation button to return to Linktree', async () => {
