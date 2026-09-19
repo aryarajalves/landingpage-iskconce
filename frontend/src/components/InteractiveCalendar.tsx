@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { TempleEvent, getEventsForDate, EventCategory } from '../data/eventsData';
 import { TEMPLE_DATA } from '../data/templeInfo';
+import { EventDetailModal } from './EventDetailModal';
 
 const MONTH_NAMES = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -29,10 +30,27 @@ interface InteractiveCalendarProps {
 export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
   selectedCategory = 'todos'
 }) => {
-  // Default to October 2026 where Chandramukha Swami visits, or September 2026
-  const [currentYear, setCurrentYear] = useState<number>(2026);
-  const [currentMonth, setCurrentMonth] = useState<number>(10); // 1-12 (10 = Outubro)
-  const [selectedDate, setSelectedDate] = useState<string>('2026-10-01');
+  // Cálculo dinâmico do dia de hoje
+  const today = useMemo(() => new Date(), []);
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth() + 1; // 1-12
+  const todayDay = today.getDate();
+  const todayDateStr = `${todayYear}-${String(todayMonth).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`;
+
+  // Inicializa com o mês e ano atuais
+  const [currentYear, setCurrentYear] = useState<number>(todayYear);
+  const [currentMonth, setCurrentMonth] = useState<number>(todayMonth);
+  const [selectedDate, setSelectedDate] = useState<string>(todayDateStr);
+
+  // Estados do Popup Modal de Eventos
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalEvents, setModalEvents] = useState<TempleEvent[]>([]);
+  const [modalDateStr, setModalDateStr] = useState<string>('');
+
+  const availableYears = useMemo(() => {
+    const set = new Set([2026, 2027, todayYear]);
+    return Array.from(set).sort();
+  }, [todayYear]);
 
   // Month navigation
   const handlePrevMonth = () => {
@@ -66,6 +84,7 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
       days.push({
         dayNumber: prevMonthTotalDays - i,
         isCurrentMonth: false,
+        isToday: false,
         dateStr: ''
       });
     }
@@ -76,6 +95,7 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
       const padD = String(d).padStart(2, '0');
       const dateStr = `${currentYear}-${padM}-${padD}`;
       const allDayEvents = getEventsForDate(dateStr);
+      const isToday = dateStr === todayDateStr;
 
       const filteredEvents = selectedCategory === 'todos'
         ? allDayEvents
@@ -85,6 +105,7 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
         dayNumber: d,
         isCurrentMonth: true,
         dateStr,
+        isToday,
         isSunday: new Date(currentYear, currentMonth - 1, d).getDay() === 0,
         events: filteredEvents,
         hasSpecialFestival: filteredEvents.some(e => !e.isRecurringSunday),
@@ -98,12 +119,22 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
       days.push({
         dayNumber: j,
         isCurrentMonth: false,
+        isToday: false,
         dateStr: ''
       });
     }
 
     return days;
-  }, [currentYear, currentMonth, selectedCategory]);
+  }, [currentYear, currentMonth, selectedCategory, todayDateStr]);
+
+  const handleDayClick = (item: { dateStr: string; events?: TempleEvent[] }) => {
+    setSelectedDate(item.dateStr);
+    if (item.events && item.events.length > 0) {
+      setModalEvents(item.events);
+      setModalDateStr(item.dateStr);
+      setIsModalOpen(true);
+    }
+  };
 
   const selectedDayEvents = useMemo(() => {
     if (!selectedDate) return [];
@@ -136,7 +167,7 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
           </div>
 
           {/* Navigation & Year Selector */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap justify-end">
             
             {/* Year Selector */}
             <select
@@ -144,11 +175,27 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
               onChange={(e) => setCurrentYear(Number(e.target.value))}
               data-testid="calendar-select-year"
               aria-label="Selecionar Ano"
-              className="bg-white/20 hover:bg-white/30 text-white font-bold text-xs sm:text-sm px-3 py-2 rounded-xl border border-white/30 backdrop-blur-md focus:outline-none cursor-pointer"
+              className="bg-white/20 hover:bg-white/30 text-white font-bold text-xs sm:text-sm px-2.5 sm:px-3 py-2 rounded-xl border border-white/30 backdrop-blur-md focus:outline-none cursor-pointer"
             >
-              <option value={2026} className="text-stone-900">2026</option>
-              <option value={2027} className="text-stone-900">2027</option>
+              {availableYears.map((yr) => (
+                <option key={yr} value={yr} className="text-stone-900">{yr}</option>
+              ))}
             </select>
+
+            {/* Quick jump to Today */}
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentYear(todayYear);
+                setCurrentMonth(todayMonth);
+                setSelectedDate(todayDateStr);
+              }}
+              data-testid="btn-jump-today"
+              title="Ir para a data de hoje"
+              className="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-black text-xs px-2.5 sm:px-3 py-2 rounded-xl shadow-xs transition-colors cursor-pointer"
+            >
+              Hoje
+            </button>
 
             {/* Quick jump to October (Chandramukha Swami visit) */}
             <button
@@ -159,7 +206,7 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                 setSelectedDate('2026-10-01');
               }}
               data-testid="btn-jump-october-2026"
-              className="bg-white text-amber-900 hover:bg-amber-50 active:bg-amber-100 font-bold text-xs px-3 py-2 rounded-xl shadow-sm transition-colors cursor-pointer"
+              className="bg-white text-amber-900 hover:bg-amber-50 active:bg-amber-100 font-bold text-xs px-2.5 sm:px-3 py-2 rounded-xl shadow-sm transition-colors cursor-pointer"
             >
               Outubro 2026
             </button>
@@ -221,16 +268,21 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
 
               const isSelected = selectedDate === item.dateStr;
               const hasEvents = item.events && item.events.length > 0;
+              const isToday = item.isToday;
 
               return (
                 <button
                   type="button"
                   key={item.dateStr}
-                  onClick={() => setSelectedDate(item.dateStr)}
+                  onClick={() => handleDayClick(item)}
                   data-testid={`calendar-day-${item.dateStr}`}
                   aria-label={`Dia ${item.dayNumber} de ${MONTH_NAMES[currentMonth - 1]}`}
                   className={`min-h-[64px] sm:min-h-[85px] p-1 sm:p-2 rounded-xl border text-left flex flex-col justify-between transition-all duration-150 cursor-pointer ${
-                    isSelected
+                    isToday
+                      ? isSelected
+                        ? 'border-emerald-600 bg-emerald-100/80 shadow-md ring-2 ring-emerald-500'
+                        : 'border-emerald-500 bg-emerald-50/80 shadow-xs ring-2 ring-emerald-400/60 hover:bg-emerald-100/60'
+                      : isSelected
                       ? 'border-amber-500 bg-amber-50/90 shadow-md ring-2 ring-amber-400/50'
                       : item.hasSpecialFestival
                       ? 'border-orange-300 bg-orange-50/50 hover:bg-orange-50 hover:border-orange-400'
@@ -240,17 +292,29 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                   }`}
                 >
                   <div className="flex items-center justify-between w-full">
-                    <span className={`text-xs sm:text-sm font-extrabold ${
-                      isSelected
-                        ? 'text-amber-950 font-black'
-                        : item.hasSpecialFestival
-                        ? 'text-orange-950 font-black'
-                        : item.isSunday
-                        ? 'text-amber-800'
-                        : 'text-stone-700'
-                    }`}>
-                      {item.dayNumber}
-                    </span>
+                    <div className="flex items-center gap-1">
+                      <span className={`text-xs sm:text-sm font-extrabold ${
+                        isToday
+                          ? 'text-emerald-950 font-black'
+                          : isSelected
+                          ? 'text-amber-950 font-black'
+                          : item.hasSpecialFestival
+                          ? 'text-orange-950 font-black'
+                          : item.isSunday
+                          ? 'text-amber-800'
+                          : 'text-stone-700'
+                      }`}>
+                        {item.dayNumber}
+                      </span>
+                      {isToday && (
+                        <span 
+                          data-testid="badge-today"
+                          className="px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-600 text-white shadow-2xs leading-tight"
+                        >
+                          Hoje
+                        </span>
+                      )}
+                    </div>
 
                     {/* Indicator Icon / Dot */}
                     {item.hasSpecialFestival && (
@@ -293,9 +357,9 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
 
         {/* Selected Date Details Drawer */}
         <div className="bg-amber-50/50 border-t border-amber-200/70 p-4 sm:p-6" data-testid="selected-date-details">
-          <div className="flex items-center justify-between gap-2 mb-4">
+          <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-amber-600" />
+              <Sparkles className="w-5 h-5 text-amber-600 shrink-0" />
               <h3 className="text-base sm:text-lg font-black text-stone-900">
                 Programação para {selectedDate ? (() => {
                   const [y, m, d] = selectedDate.split('-');
@@ -303,9 +367,27 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                 })() : 'Data selecionada'}
               </h3>
             </div>
-            <span className="text-xs text-stone-500 font-semibold">
-              {selectedDayEvents.length} {selectedDayEvents.length === 1 ? 'evento' : 'eventos'}
-            </span>
+
+            <div className="flex items-center gap-2">
+              {selectedDayEvents.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setModalEvents(selectedDayEvents);
+                    setModalDateStr(selectedDate);
+                    setIsModalOpen(true);
+                  }}
+                  data-testid="btn-open-day-modal"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-200/80 hover:bg-amber-300 active:bg-amber-400 text-amber-950 text-xs font-black transition-colors cursor-pointer shadow-2xs"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+                  <span>Ver em Popup</span>
+                </button>
+              )}
+              <span className="text-xs text-stone-500 font-semibold">
+                {selectedDayEvents.length} {selectedDayEvents.length === 1 ? 'evento' : 'eventos'}
+              </span>
+            </div>
           </div>
 
           {selectedDayEvents.length === 0 ? (
@@ -352,19 +434,34 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                     </p>
                   </div>
 
-                  <a
-                    href={`${TEMPLE_DATA.contact.whatsappUrl}&text=${encodeURIComponent(
-                      `Olá! Gostaria de confirmar informações e tirar dúvidas sobre o evento: ${evt.title} (${evt.period}).`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-testid={`btn-calendar-day-whatsapp-${evt.id}`}
-                    className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer w-full mt-2"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    <span>Tirar Dúvidas sobre este Dia no WhatsApp</span>
-                    <ExternalLink className="w-3 h-3 opacity-75" />
-                  </a>
+                  <div className="flex items-center gap-2 mt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setModalEvents([evt]);
+                        setModalDateStr(selectedDate);
+                        setIsModalOpen(true);
+                      }}
+                      data-testid={`btn-card-popup-${evt.id}`}
+                      className="inline-flex items-center justify-center gap-1 py-2.5 px-3 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold text-xs transition-colors cursor-pointer"
+                    >
+                      <span>Detalhes</span>
+                    </button>
+
+                    <a
+                      href={`${TEMPLE_DATA.contact.whatsappUrl}&text=${encodeURIComponent(
+                        `Olá! Gostaria de confirmar informações e tirar dúvidas sobre o evento: ${evt.title} (${evt.period}).`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-testid={`btn-calendar-day-whatsapp-${evt.id}`}
+                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer flex-1"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      <span>WhatsApp</span>
+                      <ExternalLink className="w-3 h-3 opacity-75" />
+                    </a>
+                  </div>
                 </div>
               ))}
             </div>
@@ -372,6 +469,14 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
         </div>
 
       </div>
+
+      {/* Event Detail Modal Popup */}
+      <EventDetailModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        dateStr={modalDateStr}
+        events={modalEvents}
+      />
 
     </section>
   );
