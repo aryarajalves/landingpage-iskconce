@@ -34,9 +34,11 @@ describe('OnlineProgramsPage Component', () => {
     expect(screen.getByText(/Terça-feira • 20h00/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Manjari Tulasi/i).length).toBeGreaterThanOrEqual(1);
 
-    // Program 3: Quinta-feira - Passatempos de Krishna
+    // Program 3: Quinta-feira - Passatempos de Krishna (Clube do Livro com Arhadana às 19h00)
     expect(screen.getByText(/Estudo dos Passatempos de Krishna \(Krishna Katha\)/i)).toBeInTheDocument();
-    expect(screen.getByText(/Quinta-feira • 20h00/i)).toBeInTheDocument();
+    expect(screen.getByText(/Quinta-feira • 19h00/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Clube do Livro/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Arhadana/i).length).toBeGreaterThanOrEqual(1);
   });
 
   it('renders step-by-step participation guide and FAQ section', async () => {
@@ -48,7 +50,7 @@ describe('OnlineProgramsPage Component', () => {
     expect(screen.getByText(/É preciso pagar alguma taxa ou mensalidade\?/i)).toBeInTheDocument();
   });
 
-  it('renders WhatsApp CTA buttons with representatives, including Krsna Nandini on Monday', async () => {
+  it('renders WhatsApp CTA buttons with representatives, including Krsna Nandini on Monday and Arhadana on Thursday', async () => {
     await renderComponent();
 
     // Monday representative Krsna Nandini
@@ -60,7 +62,11 @@ describe('OnlineProgramsPage Component', () => {
 
     // Verify all 3 CTA links
     expect(screen.getByTestId('btn-join-lapidar-pacoti')).toHaveAttribute('href', expect.stringContaining('wa.me'));
-    expect(screen.getByTestId('btn-join-quinta-passatempos-krsna')).toHaveAttribute('href', expect.stringContaining('wa.me'));
+
+    // Thursday representative Arhadana (Clube do Livro, 5511961854858, mentions temple website)
+    const thursdayBtn = screen.getByTestId('btn-join-quinta-passatempos-krsna');
+    expect(thursdayBtn).toHaveAttribute('href', expect.stringContaining('5511961854858'));
+    expect(thursdayBtn).toHaveAttribute('href', expect.stringContaining('Templo%20da%20ISKCON%20Cear'));
 
     // Ensure no mentions of Google Meet
     expect(screen.queryByText(/Google Meet/i)).not.toBeInTheDocument();

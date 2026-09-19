@@ -108,7 +108,7 @@ export const PrivacyPolicyPage: React.FC = () => {
               </li>
               <li className="flex items-start gap-2 text-xs sm:text-sm">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <span><strong>Quinta-feira (Passatempos de Krishna):</strong> Atendimento pela coordenação oficial do templo.</span>
+                <span><strong>Quinta-feira (Passatempos de Krishna):</strong> Contato direto com a devota Arhadana, coordenadora pelo Clube do Livro.</span>
               </li>
               <li className="flex items-start gap-2 text-xs sm:text-sm">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />

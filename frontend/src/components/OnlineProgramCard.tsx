@@ -22,6 +22,12 @@ export const OnlineProgramCard: React.FC<OnlineProgramCardProps> = ({ meeting })
     ? 'bg-gradient-to-br from-sky-500 to-indigo-600 text-white shadow-sky-500/20'
     : 'bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-orange-500/20';
 
+  const coordinatorLabel = isWomensGroup
+    ? 'a representante'
+    : isPastimes
+    ? 'a coordenadora do Clube do Livro'
+    : 'a facilitadora';
+
   return (
     <div
       data-testid={`online-program-card-${meeting.id}`}
@@ -93,7 +99,7 @@ export const OnlineProgramCard: React.FC<OnlineProgramCardProps> = ({ meeting })
       <div className="pt-4 border-t border-stone-100 space-y-3">
         <div className="bg-amber-50/80 border border-amber-200/70 rounded-2xl p-3.5 text-left">
           <p className="text-xs text-stone-700 leading-relaxed">
-            Ao apertar no botão abaixo, você vai falar com {isWomensGroup ? 'a representante' : 'o(a) representante'} do programa (<strong>{meeting.contactName}</strong>), que vai te orientar e te dar acesso ao grupo exclusivo.
+            Ao apertar no botão abaixo, você vai falar com {coordinatorLabel} (<strong>{meeting.contactName}</strong>), que vai te orientar e te dar acesso ao grupo exclusivo.
           </p>
         </div>
 

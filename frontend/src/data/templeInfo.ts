@@ -180,24 +180,24 @@ export const TEMPLE_DATA: TempleInfo = {
     {
       id: "quinta-passatempos-krsna",
       title: "Estudo dos Passatempos de Krishna (Krishna Katha)",
-      region: "Online • Grupo Exclusivo",
-      tag: "Aberto a Todos • Devoção & Néctar",
+      region: "Online • Clube do Livro",
+      tag: "Aberto a Todos • Clube do Livro",
       audience: "Aberto a todo o público (iniciantes e praticantes)",
-      badge: "Quinta-feira • 20h00",
-      description: "Mergulho profundo nas narrativas transcendentais e passatempos doces de Sri Krishna descritos no Livro de Krishna e no Srimad-Bhagavatam, despertando a doçura do amor a Deus e o poder curativo do ouvir sagrado (Sravanam).",
+      badge: "Quinta-feira • 19h00",
+      description: "Mergulho profundo nas narrativas transcendentais e passatempos doces de Sri Krishna descritos no Livro de Krishna e no Srimad-Bhagavatam. Encontro especial promovido e coordenado pelo Clube do Livro para despertar a doçura e a paz do ouvir sagrado (Sravanam).",
       bookTitle: "O Livro de Krishna & Srimad-Bhagavatam",
       day: "Todas as quintas-feiras",
-      time: "20h00",
-      platform: "Online • Grupo Exclusivo",
+      time: "19h00",
+      platform: "Online • Clube do Livro",
       isOnline: true,
-      contactName: "Coordenação ISKCON Ceará",
-      contactPhone: "(85) 98681-7643",
-      whatsappUrl: "https://wa.me/5585986817643?text=Ol%C3%A1%2C%20gostaria%20de%20participar%20do%20encontro%20online%20de%20quinta-feira%20sobre%20os%20Passatempos%20de%20Krishna%20e%20entrar%20no%20grupo%20exclusivo!",
+      contactName: "Arhadana",
+      contactPhone: "(11) 96185-4858",
+      whatsappUrl: "https://wa.me/5511961854858?text=Ol%C3%A1%2C%20Arhadana!%20Vim%20pelo%20site%20do%20Templo%20da%20ISKCON%20Cear%C3%A1%20e%20gostaria%20de%20participar%20do%20estudo%20dos%20Passatempos%20de%20Krishna%20(Clube%20do%20Livro)%20e%20entrar%20no%20grupo%20exclusivo.",
       highlights: [
         "Narrativas cativantes dos passatempos e infância de Krishna em Vrindavana",
-        "Purificação e paz mental através do ouvir sagrado (Sravanam)",
-        "Espaço interativo para perguntas e meditação transcendental",
-        "Acesso 100% gratuito através do grupo exclusivo do templo"
+        "Encontro coordenado pelo Clube do Livro às 19h00",
+        "Condução e acolhimento dedicado com a devota Arhadana",
+        "Acesso 100% gratuito através do grupo exclusivo com Arhadana"
       ]
     }
   ],
