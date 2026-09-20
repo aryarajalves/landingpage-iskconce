@@ -34,10 +34,14 @@ Este documento consolida as decisões e regras de domínio do sistema para o Tem
 
 ## 3. Calendário de Eventos e Visitas de Gurus
 
-- **Visita Especial de Chandramukha Swami ao Templo do Ceará:**
-  - **Data Confirmada:** 01 a 03 de Outubro de 2026.
-  - **Participação:** Aulas magnas, kirtans, associação com devotos, autógrafos de livros e banquete sagrado.
+- **Programação Especial de Chandramukha Swami (Outubro de 2026):**
+  - **01/10/2026 (Quinta-feira):** Chegada de Chandramukha Swami ao Ceará. **Sem programação pública** com o Maharaj neste dia (reservado para acolhimento e descanso).
+  - **02/10/2026 (Sexta-feira, 19h00):** Programação especial com o Maharaj no **Espaço Clara Luz** em Fortaleza (palestra de sabedoria védica e kirtan meditativo).
+  - **03/10/2026 (Sábado, 17h00):** Grande celebração no **Templo ISKCON Ceará em Aquiraz** (aula magna, kirtan festivo e banquete sagrado Prasadam).
   - **Contato/Inscrições:** Templo ISKCON Ceará via WhatsApp.
+- **Domingo 04 de Outubro de 2026 (Templo Fechado):**
+  - **Regra:** Não haverá Festival de Domingo nem programação presencial no templo no dia 04/10/2026.
+  - As atividades normais de domingo retornam no dia 11/10/2026.
 - **Aparecimento de Srila Prabhupada (Vyasa-puja):**
   - Data seguinte ao Janmastami (Agosto/Setembro).
 - **Grandes Festivais Vaisnavas:**

@@ -43,23 +43,32 @@ describe('EventsCalendarPage Component', () => {
     expect(screen.getByTestId('event-card-festival-de-domingo-semanal')).toBeInTheDocument();
     expect(screen.getByTestId('event-card-vyasa-puja-srila-prabhupada')).toBeInTheDocument();
     expect(screen.getByTestId('event-card-sri-krishna-janmastami')).toBeInTheDocument();
-    expect(screen.getByTestId('event-card-visita-chandramukha-swami-2026')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-chegada-chandramukha-swami-2026')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-chandramukha-swami-espaco-clara-luz-2026')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-chandramukha-swami-templo-aquiraz-2026')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-templo-fechado-2026-10-04')).toBeInTheDocument();
 
     // Filter to Gurus
     fireEvent.click(screen.getByTestId('filter-tab-gurus'));
     expect(screen.getByTestId('event-card-vyasa-puja-srila-prabhupada')).toBeInTheDocument();
-    expect(screen.getByTestId('event-card-visita-chandramukha-swami-2026')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-chegada-chandramukha-swami-2026')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-chandramukha-swami-espaco-clara-luz-2026')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-chandramukha-swami-templo-aquiraz-2026')).toBeInTheDocument();
     expect(screen.queryByTestId('event-card-festival-de-domingo-semanal')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('event-card-templo-fechado-2026-10-04')).not.toBeInTheDocument();
 
     // Filter to Domingos
     fireEvent.click(screen.getByTestId('filter-tab-domingo'));
     expect(screen.getByTestId('event-card-festival-de-domingo-semanal')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-templo-fechado-2026-10-04')).toBeInTheDocument();
     expect(screen.queryByTestId('event-card-vyasa-puja-srila-prabhupada')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('event-card-chegada-chandramukha-swami-2026')).not.toBeInTheDocument();
 
     // Filter back to Todos
     fireEvent.click(screen.getByTestId('filter-tab-todos'));
     expect(screen.getByTestId('event-card-festival-de-domingo-semanal')).toBeInTheDocument();
     expect(screen.getByTestId('event-card-vyasa-puja-srila-prabhupada')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-templo-fechado-2026-10-04')).toBeInTheDocument();
   });
 
   it('renders InteractiveCalendar and allows toggling between calendar and list view', async () => {
@@ -103,23 +112,40 @@ describe('EventsCalendarPage Component', () => {
     expect(window.location.pathname).toBe('/');
   });
 
-  it('renders Chandramukha Swami visit in calendar view and in list view', async () => {
+  it('renders Chandramukha Swami visit schedule and temple closed notice in list view', async () => {
     await renderComponent();
 
-    // No calendário, o evento é referenciado
+    // No calendário, o componente interativo está presente
     expect(screen.getByTestId('interactive-calendar')).toBeInTheDocument();
 
-    // Ao alternar para modo lista, o card está presente com datas e botão WhatsApp
+    // Ao alternar para modo lista, todos os cards específicos estão presentes com botões WhatsApp
     fireEvent.click(screen.getByTestId('btn-view-list'));
-    const chandramukhaCard = screen.getByTestId('event-card-visita-chandramukha-swami-2026');
-    expect(chandramukhaCard).toBeInTheDocument();
 
-    expect(screen.getAllByText(/Visita de Chandramukha Swami ao Templo do Ceará/i).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText('01 a 03 de Outubro de 2026').length).toBeGreaterThanOrEqual(1);
+    // 01/10: Chegada
+    const cardChegada = screen.getByTestId('event-card-chegada-chandramukha-swami-2026');
+    expect(cardChegada).toBeInTheDocument();
+    expect(screen.getAllByText(/Chegada de Chandramukha Swami \(Sem Programação Pública\)/i).length).toBeGreaterThanOrEqual(1);
 
-    const chandramukhaBtn = screen.getByTestId('btn-event-whatsapp-visita-chandramukha-swami-2026');
-    expect(chandramukhaBtn).toBeInTheDocument();
-    expect(chandramukhaBtn).toHaveAttribute('href', expect.stringContaining('Chandramukha%20Swami'));
+    // 02/10: Espaço Clara Luz
+    const cardClaraLuz = screen.getByTestId('event-card-chandramukha-swami-espaco-clara-luz-2026');
+    expect(cardClaraLuz).toBeInTheDocument();
+    expect(screen.getAllByText(/Chandramukha Swami no Espaço Clara Luz/i).length).toBeGreaterThanOrEqual(1);
+    const btnClaraLuz = screen.getByTestId('btn-event-whatsapp-chandramukha-swami-espaco-clara-luz-2026');
+    expect(btnClaraLuz).toBeInTheDocument();
+    expect(btnClaraLuz).toHaveAttribute('href', expect.stringContaining('Clara%20Luz'));
+
+    // 03/10: Templo de Aquiraz
+    const cardAquiraz = screen.getByTestId('event-card-chandramukha-swami-templo-aquiraz-2026');
+    expect(cardAquiraz).toBeInTheDocument();
+    expect(screen.getAllByText(/Chandramukha Swami no Templo de Aquiraz/i).length).toBeGreaterThanOrEqual(1);
+    const btnAquiraz = screen.getByTestId('btn-event-whatsapp-chandramukha-swami-templo-aquiraz-2026');
+    expect(btnAquiraz).toBeInTheDocument();
+    expect(btnAquiraz).toHaveAttribute('href', expect.stringContaining('Aquiraz'));
+
+    // 04/10: Templo Fechado
+    const cardFechado = screen.getByTestId('event-card-templo-fechado-2026-10-04');
+    expect(cardFechado).toBeInTheDocument();
+    expect(screen.getAllByText(/Sem Programação no Templo \(Templo Fechado\)/i).length).toBeGreaterThanOrEqual(1);
   });
 
   it('renders floating audio player widget on EventsCalendarPage', async () => {

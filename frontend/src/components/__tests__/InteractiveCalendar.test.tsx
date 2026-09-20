@@ -61,7 +61,7 @@ describe('InteractiveCalendar Component', () => {
     expect(screen.getByTestId('calendar-current-title')).toHaveTextContent(/Outubro de 2026/i);
   });
 
-  it('opens event popup modal when clicking on a day with an event (Chandramukha Swami visit)', async () => {
+  it('opens event popup modal when clicking on October 01 (Chandramukha Swami arrival - no public program)', async () => {
     render(<InteractiveCalendar />);
 
     // Go to October 2026
@@ -69,20 +69,20 @@ describe('InteractiveCalendar Component', () => {
       fireEvent.click(screen.getByTestId('btn-jump-october-2026'));
     });
 
-    // Select October 01 which has the Chandramukha Swami visit
     const day01Btn = screen.getByTestId('calendar-day-2026-10-01');
     expect(day01Btn).toBeInTheDocument();
+    expect(within(day01Btn).getByText('Chegada do Swami')).toBeInTheDocument();
 
     await act(async () => {
       fireEvent.click(day01Btn);
     });
 
-    // Modal should now be open
+    // Modal should now be open with arrival details
     const modal = screen.getByTestId('event-detail-modal');
     expect(modal).toBeInTheDocument();
     expect(within(modal).getByText('Detalhes da Programação')).toBeInTheDocument();
-    expect(within(modal).getByText(/Visita de Chandramukha Swami ao Templo do Ceará/i)).toBeInTheDocument();
-    expect(within(modal).getByTestId('btn-modal-event-whatsapp-visita-chandramukha-swami-2026')).toBeInTheDocument();
+    expect(within(modal).getByText(/Chegada de Chandramukha Swami \(Sem Programação Pública\)/i)).toBeInTheDocument();
+    expect(within(modal).getByTestId('btn-modal-event-whatsapp-chegada-chandramukha-swami-2026')).toBeInTheDocument();
 
     // Close modal
     const closeBtn = within(modal).getByTestId('btn-modal-close');
@@ -92,26 +92,85 @@ describe('InteractiveCalendar Component', () => {
     expect(screen.queryByTestId('event-detail-modal')).not.toBeInTheDocument();
   });
 
-  it('opens event popup modal when clicking on a Sunday with weekly festival', async () => {
+  it('opens event popup modal when clicking on October 02 (Espaço Clara Luz 19h) and October 03 (Templo Aquiraz 17h)', async () => {
     render(<InteractiveCalendar />);
 
-    // Go to October 2026
     await act(async () => {
       fireEvent.click(screen.getByTestId('btn-jump-october-2026'));
     });
 
-    // 04 of October 2026 is a Sunday
+    // Day 02: Espaço Clara Luz às 19h
+    const day02Btn = screen.getByTestId('calendar-day-2026-10-02');
+    expect(within(day02Btn).getByText('Clara Luz 19h')).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(day02Btn);
+    });
+
+    const modal02 = screen.getByTestId('event-detail-modal');
+    expect(within(modal02).getAllByText(/Chandramukha Swami no Espaço Clara Luz/i).length).toBeGreaterThanOrEqual(1);
+    expect(within(modal02).getByText(/19h00/i)).toBeInTheDocument();
+    expect(within(modal02).getByTestId('btn-modal-event-whatsapp-chandramukha-swami-espaco-clara-luz-2026')).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(within(modal02).getByTestId('btn-modal-close'));
+    });
+
+    // Day 03: Templo de Aquiraz às 17h
+    const day03Btn = screen.getByTestId('calendar-day-2026-10-03');
+    expect(within(day03Btn).getByText('Templo Aquiraz 17h')).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(day03Btn);
+    });
+
+    const modal03 = screen.getByTestId('event-detail-modal');
+    expect(within(modal03).getAllByText(/Chandramukha Swami no Templo de Aquiraz/i).length).toBeGreaterThanOrEqual(1);
+    expect(within(modal03).getByText(/17h00/i)).toBeInTheDocument();
+    expect(within(modal03).getByTestId('btn-modal-event-whatsapp-chandramukha-swami-templo-aquiraz-2026')).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(within(modal03).getByTestId('btn-modal-close'));
+    });
+  });
+
+  it('displays temple closed notice on Sunday 04 of October 2026 without recurring Sunday festival', async () => {
+    render(<InteractiveCalendar />);
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('btn-jump-october-2026'));
+    });
+
+    // Day 04: Sunday without temple program
     const sunday04Btn = screen.getByTestId('calendar-day-2026-10-04');
     expect(sunday04Btn).toBeInTheDocument();
+    expect(within(sunday04Btn).getByText('Templo Fechado')).toBeInTheDocument();
+    expect(within(sunday04Btn).queryByText('Festival de Domingo')).not.toBeInTheDocument();
 
     await act(async () => {
       fireEvent.click(sunday04Btn);
     });
 
-    // Modal opens for Sunday festival
+    // Modal opens showing closed notice
     const modal = screen.getByTestId('event-detail-modal');
     expect(modal).toBeInTheDocument();
-    expect(within(modal).getByText(/Festival Tradicional de Domingo/i)).toBeInTheDocument();
-    expect(within(modal).getByTestId('btn-modal-event-whatsapp-festival-de-domingo-semanal')).toBeInTheDocument();
+    expect(within(modal).getByText(/Sem Programação no Templo \(Templo Fechado\)/i)).toBeInTheDocument();
+    expect(within(modal).getAllByText(/Templo Fechado/i).length).toBeGreaterThanOrEqual(1);
+    expect(within(modal).getByTestId('btn-modal-event-whatsapp-templo-fechado-2026-10-04')).toBeInTheDocument();
+    expect(within(modal).queryByText(/Festival Tradicional de Domingo/i)).not.toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(within(modal).getByTestId('btn-modal-close'));
+    });
+
+    // Verify next Sunday (11/10/2026) has normal festival
+    const sunday11Btn = screen.getByTestId('calendar-day-2026-10-11');
+    expect(within(sunday11Btn).getByText('Festival de Domingo')).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(sunday11Btn);
+    });
+    const modal11 = screen.getByTestId('event-detail-modal');
+    expect(within(modal11).getByText(/Festival Tradicional de Domingo/i)).toBeInTheDocument();
   });
 });

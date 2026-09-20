@@ -103,7 +103,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
           className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 transition-all duration-200 hover:scale-[1.01]"
         >
           <MessageCircle className="w-4 h-4" />
-          <span>Tirar Dúvidas sobre este Evento no WhatsApp</span>
+          <span>{event.isCancelled ? 'Tirar Dúvidas com o Templo no WhatsApp' : 'Tirar Dúvidas sobre este Evento no WhatsApp'}</span>
           <ExternalLink className="w-3.5 h-3.5 opacity-70" />
         </a>
       </div>

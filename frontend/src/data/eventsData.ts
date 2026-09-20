@@ -16,6 +16,8 @@ export interface TempleEvent {
   activities: string[];
   badgeColor: string;
   isRecurring?: boolean;
+  shortBadge?: string;
+  isCancelled?: boolean;
 }
 
 export const TEMPLE_EVENTS: TempleEvent[] = [
@@ -40,24 +42,82 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
     isRecurring: true
   },
   {
-    id: 'visita-chandramukha-swami-2026',
-    title: 'Visita de Chandramukha Swami ao Templo do Ceará',
-    subtitle: 'Encontro espiritual especial com aulas, kirtans e associação fraterna',
+    id: 'chegada-chandramukha-swami-2026',
+    title: 'Chegada de Chandramukha Swami (Sem Programação Pública)',
+    subtitle: 'Chegada do Maharaj ao Ceará • Sem atividades públicas com ele neste dia',
     category: 'gurus',
     categoryLabel: 'Visita de Guru',
-    dates: ['2026-10-01', '2026-10-02', '2026-10-03'],
-    period: '01 a 03 de Outubro de 2026',
-    time: 'Programação Especial (Manhã e Noite)',
-    location: 'Templo ISKCON Ceará (Jacundá, Aquiraz / Grande Fortaleza)',
-    description: 'Com muita alegria e entusiasmo espiritual, o Templo ISKCON Ceará receberá Sua Santidade Chandramukha Swami, renomado mestre espiritual, autor e músico vaisnava brasileiro. Três dias enriquecedores com palestras profundas de Bhakti-yoga, meditação, bhajans tocantes e o tradicional banquete festivo Prasadam.',
+    date: '2026-10-01',
+    period: '01 de Outubro de 2026 (Quinta-feira)',
+    time: 'Chegada ao Ceará (Sem programação aberta)',
+    location: 'Fortaleza / Aquiraz - CE',
+    description: 'Sua Santidade Chandramukha Swami desembarca no Ceará nesta quinta-feira. Informamos a todos os devotos e amigos que neste primeiro dia não haverá programação aberta ao público com o Maharaj, sendo um dia reservado exclusivamente para acolhimento e descanso da viagem. As programações oficiais abertas ao público ocorrerão nos dias 02 e 03 de Outubro.',
     activities: [
-      'Aulas magnas e palestras temáticas de filosofia védica com Chandramukha Swami',
-      'Kirtans e bhajans meditativos conduzidos pelo Swami',
-      'Roda de perguntas, respostas e associação espiritual próxima com devotos e amigos',
-      'Momento de autógrafos e dedicatórias de livros de sabedoria védica',
-      'Banquete vegetariano sagrado (Prasadam) festivo servido gratuitamente'
+      'Chegada e acolhimento fraterno de Chandramukha Swami no Ceará',
+      'Dia reservado: sem palestras ou programações públicas com o Maharaj',
+      'Programações oficiais abertas ao público nos dias 02/10 (Clara Luz) e 03/10 (Templo Aquiraz)'
     ],
-    badgeColor: 'bg-amber-100 text-amber-900 border-amber-300'
+    badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
+    shortBadge: 'Chegada do Swami'
+  },
+  {
+    id: 'chandramukha-swami-espaco-clara-luz-2026',
+    title: 'Chandramukha Swami no Espaço Clara Luz',
+    subtitle: 'Palestra especial de Bhakti-yoga e kirtan meditativo com o Maharaj',
+    category: 'gurus',
+    categoryLabel: 'Espaço Clara Luz',
+    date: '2026-10-02',
+    period: '02 de Outubro de 2026 (Sexta-feira)',
+    time: '19h00',
+    location: 'Espaço Clara Luz (Fortaleza - CE)',
+    description: 'Encontro espiritual imperdível com Sua Santidade Chandramukha Swami no Espaço Clara Luz em Fortaleza. Uma noite acolhedora com canto meditativo de mantras (kirtan), reflexões profundas sobre filosofia védica e diálogo fraterno com perguntas e respostas.',
+    activities: [
+      '19h00: Abertura e canto meditativo de mantras (Bhajanas e Kirtan)',
+      'Palestra especial de sabedoria védica com Chandramukha Swami',
+      'Momento de perguntas, respostas e convívio espiritual'
+    ],
+    badgeColor: 'bg-orange-100 text-orange-900 border-orange-300',
+    shortBadge: 'Clara Luz 19h'
+  },
+  {
+    id: 'chandramukha-swami-templo-aquiraz-2026',
+    title: 'Chandramukha Swami no Templo de Aquiraz',
+    subtitle: 'Grande celebração presencial com aula magna, kirtan festivo e banquete sagrado',
+    category: 'gurus',
+    categoryLabel: 'Templo de Aquiraz',
+    date: '2026-10-03',
+    period: '03 de Outubro de 2026 (Sábado)',
+    time: '17h00',
+    location: 'Templo ISKCON Ceará (Jacundá, Aquiraz / Grande Fortaleza)',
+    description: 'Grande celebração com a presença ilustre de Sua Santidade Chandramukha Swami no Templo ISKCON Ceará em Aquiraz! Tarde inesquecível de sábado repleta de música sagrada ao vivo, palestra inspiradora sobre os ensinamentos védicos, associação devocional e a consagração do banquete puramente vegetariano Prasadam.',
+    activities: [
+      '17h00: Início com kirtan festivo e acolhimento dos devotos e visitantes',
+      'Aula magna e discurso filosófico com Chandramukha Swami',
+      'Cerimônia de arati com música devocional ao vivo',
+      'Consagração do tradicional banquete vegetariano sagrado (Prasadam)'
+    ],
+    badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
+    shortBadge: 'Templo Aquiraz 17h'
+  },
+  {
+    id: 'templo-fechado-2026-10-04',
+    title: 'Sem Programação no Templo (Templo Fechado)',
+    subtitle: 'Aviso Importante: Neste domingo não haverá o tradicional Festival de Domingo',
+    category: 'domingo',
+    categoryLabel: 'Aviso do Templo',
+    date: '2026-10-04',
+    period: '04 de Outubro de 2026 (Domingo)',
+    time: 'Templo Fechado',
+    location: 'Templo ISKCON Ceará (Aquiraz - Grande Fortaleza)',
+    description: 'Informamos a toda a congregação, amigos e visitantes que no domingo, 04 de outubro de 2026, não haverá programação presencial no templo (templo fechado). O tradicional Festival de Domingo presencial retornará normalmente no domingo seguinte (11/10/2026). Agradecemos a compreensão e o carinho de todos!',
+    activities: [
+      'Templo fechado para atividades públicas e visitas neste dia',
+      'Não haverá o tradicional Festival de Domingo presencial',
+      'Retorno das atividades normais no domingo seguinte (11 de Outubro)'
+    ],
+    badgeColor: 'bg-stone-200 text-stone-800 border-stone-400',
+    shortBadge: 'Templo Fechado',
+    isCancelled: true
   },
   {
     id: 'vyasa-puja-srila-prabhupada',
@@ -213,8 +273,15 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
 ];
 
 /**
+ * Lista de domingos específicos (formato YYYY-MM-DD) em que não haverá o festival tradicional de domingo
+ * (ex: templo fechado para descanso ou reformas).
+ */
+export const SUNDAYS_WITHOUT_FESTIVAL: string[] = ['2026-10-04'];
+
+/**
  * Retorna os eventos associados a uma data específica no formato YYYY-MM-DD.
- * Inclui festivais com data exata e o Festival de Domingo caso a data caia num domingo.
+ * Inclui festivais com data exata e o Festival de Domingo caso a data caia num domingo
+ * (exceto se a data constar na lista de domingos cancelados/sem templo).
  */
 export const getEventsForDate = (dateStr: string): TempleEvent[] => {
   const [year, month, day] = dateStr.split('-').map(Number);
@@ -226,7 +293,7 @@ export const getEventsForDate = (dateStr: string): TempleEvent[] => {
   TEMPLE_EVENTS.forEach((evt) => {
     if (evt.date === dateStr || (evt.dates && evt.dates.includes(dateStr))) {
       matched.push(evt);
-    } else if (isSunday && evt.isRecurringSunday) {
+    } else if (isSunday && evt.isRecurringSunday && !SUNDAYS_WITHOUT_FESTIVAL.includes(dateStr)) {
       matched.push(evt);
     }
   });

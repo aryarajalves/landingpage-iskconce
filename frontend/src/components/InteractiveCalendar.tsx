@@ -1,25 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Sun, 
-  Sparkles, 
-  Calendar as CalendarIcon, 
-  Clock, 
-  MapPin, 
-  MessageCircle, 
-  ExternalLink,
-  Crown
+  ChevronLeft, ChevronRight, Sun, Sparkles, Calendar as CalendarIcon, 
+  Clock, MapPin, MessageCircle, ExternalLink, Crown 
 } from 'lucide-react';
 import { TempleEvent, getEventsForDate, EventCategory } from '../data/eventsData';
 import { TEMPLE_DATA } from '../data/templeInfo';
 import { EventDetailModal } from './EventDetailModal';
 
-const MONTH_NAMES = [
-  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-];
-
+const MONTH_NAMES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 const WEEKDAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 interface InteractiveCalendarProps {
@@ -54,21 +42,13 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
 
   // Month navigation
   const handlePrevMonth = () => {
-    if (currentMonth === 1) {
-      setCurrentMonth(12);
-      setCurrentYear(y => y - 1);
-    } else {
-      setCurrentMonth(m => m - 1);
-    }
+    if (currentMonth === 1) { setCurrentMonth(12); setCurrentYear(y => y - 1); }
+    else { setCurrentMonth(m => m - 1); }
   };
 
   const handleNextMonth = () => {
-    if (currentMonth === 12) {
-      setCurrentMonth(1);
-      setCurrentYear(y => y + 1);
-    } else {
-      setCurrentMonth(m => m + 1);
-    }
+    if (currentMonth === 12) { setCurrentMonth(1); setCurrentYear(y => y + 1); }
+    else { setCurrentMonth(m => m + 1); }
   };
 
   // Calendar days grid computation
@@ -101,15 +81,21 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
         ? allDayEvents
         : allDayEvents.filter(e => e.category === selectedCategory);
 
+      const isSunday = new Date(currentYear, currentMonth - 1, d).getDay() === 0;
+      const hasSundayFestival = filteredEvents.some(e => e.isRecurringSunday);
+      const hasSpecialFestival = filteredEvents.some(e => !e.isRecurringSunday && !e.isCancelled);
+      const isCancelledDay = filteredEvents.some(e => e.isCancelled);
+
       days.push({
         dayNumber: d,
         isCurrentMonth: true,
         dateStr,
         isToday,
-        isSunday: new Date(currentYear, currentMonth - 1, d).getDay() === 0,
+        isSunday,
         events: filteredEvents,
-        hasSpecialFestival: filteredEvents.some(e => !e.isRecurringSunday),
-        hasSundayFestival: filteredEvents.some(e => e.isRecurringSunday)
+        hasSpecialFestival,
+        hasSundayFestival,
+        isCancelledDay
       });
     }
 
@@ -284,9 +270,11 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                         : 'border-emerald-500 bg-emerald-50/80 shadow-xs ring-2 ring-emerald-400/60 hover:bg-emerald-100/60'
                       : isSelected
                       ? 'border-amber-500 bg-amber-50/90 shadow-md ring-2 ring-amber-400/50'
+                      : item.isCancelledDay
+                      ? 'border-stone-200 bg-stone-100/80 hover:bg-stone-200/80'
                       : item.hasSpecialFestival
                       ? 'border-orange-300 bg-orange-50/50 hover:bg-orange-50 hover:border-orange-400'
-                      : item.isSunday
+                      : item.isSunday && item.hasSundayFestival
                       ? 'border-amber-200 bg-amber-50/30 hover:bg-amber-50'
                       : 'border-stone-100 hover:border-amber-200 hover:bg-stone-50/80 bg-white'
                   }`}
@@ -298,9 +286,11 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                           ? 'text-emerald-950 font-black'
                           : isSelected
                           ? 'text-amber-950 font-black'
+                          : item.isCancelledDay
+                          ? 'text-stone-500 font-bold'
                           : item.hasSpecialFestival
                           ? 'text-orange-950 font-black'
-                          : item.isSunday
+                          : item.isSunday && item.hasSundayFestival
                           ? 'text-amber-800'
                           : 'text-stone-700'
                       }`}>
@@ -320,7 +310,7 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                     {item.hasSpecialFestival && (
                       <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse shrink-0" title="Festival Especial" />
                     )}
-                    {!item.hasSpecialFestival && item.isSunday && (
+                    {!item.hasSpecialFestival && item.isSunday && item.hasSundayFestival && (
                       <Sun className="w-3 h-3 text-amber-500 shrink-0" />
                     )}
                   </div>
@@ -338,12 +328,22 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                           </span>
                         );
                       }
+                      if (evt.isCancelled) {
+                        return (
+                          <span 
+                            key={evt.id}
+                            className="block text-[9px] sm:text-[10px] leading-tight font-bold text-stone-700 bg-stone-200/90 px-1 py-0.5 rounded truncate border border-stone-300"
+                          >
+                            {evt.shortBadge || 'Templo Fechado'}
+                          </span>
+                        );
+                      }
                       return (
                         <span 
                           key={evt.id}
                           className="block text-[9px] sm:text-[10px] leading-tight font-black text-orange-900 bg-orange-200/90 px-1 py-0.5 rounded truncate shadow-2xs"
                         >
-                          {evt.title.length > 18 ? evt.title.substring(0, 18) + '...' : evt.title}
+                          {evt.shortBadge || (evt.title.length > 18 ? evt.title.substring(0, 18) + '...' : evt.title)}
                         </span>
                       );
                     })}

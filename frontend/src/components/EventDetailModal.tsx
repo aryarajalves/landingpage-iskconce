@@ -97,8 +97,14 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
             >
               {/* Category Badge & Period */}
               <div className="flex items-center justify-between gap-2 mb-2.5 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-amber-200/80 text-amber-950 shadow-2xs">
-                  {evt.isRecurringSunday ? (
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black shadow-2xs ${
+                  evt.isCancelled 
+                    ? 'bg-stone-200 text-stone-800' 
+                    : 'bg-amber-200/80 text-amber-950'
+                }`}>
+                  {evt.isCancelled ? (
+                    <CalendarDays className="w-3.5 h-3.5 text-stone-600" />
+                  ) : evt.isRecurringSunday ? (
                     <Sun className="w-3.5 h-3.5 text-amber-700" />
                   ) : (
                     <Crown className="w-3.5 h-3.5 text-orange-600" />
@@ -147,7 +153,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>Confirmar Presença / Dúvidas no WhatsApp</span>
+                <span>{evt.isCancelled ? 'Tirar Dúvidas com o Templo no WhatsApp' : 'Confirmar Presença / Dúvidas no WhatsApp'}</span>
                 <ExternalLink className="w-3.5 h-3.5 opacity-80" />
               </a>
             </article>
