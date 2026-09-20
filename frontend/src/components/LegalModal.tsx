@@ -11,6 +11,16 @@ interface LegalModalProps {
 }
 
 export const LegalModal: React.FC<LegalModalProps> = ({ type, isOpen, onClose }) => {
+  // Trava a rolagem da página de fundo (body) enquanto o modal estiver aberto
+  React.useEffect(() => {
+    if (!isOpen || !type) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen, type]);
+
   if (!isOpen || !type) return null;
 
   const isPrivacy = type === 'privacy';

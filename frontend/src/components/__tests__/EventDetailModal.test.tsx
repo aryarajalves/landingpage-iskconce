@@ -124,4 +124,22 @@ describe('EventDetailModal Component', () => {
     expect(screen.getByText('Tirar Dúvidas com o Templo no WhatsApp')).toBeInTheDocument();
     expect(screen.queryByText(/Confirmar Presença/i)).not.toBeInTheDocument();
   });
+
+  it('locks body scroll (overflow hidden) when open and restores it when unmounted', () => {
+    document.body.style.overflow = 'auto';
+
+    const { unmount } = render(
+      <EventDetailModal
+        isOpen={true}
+        onClose={vi.fn()}
+        dateStr="2026-09-18"
+        events={[mockEvent]}
+      />
+    );
+
+    expect(document.body.style.overflow).toBe('hidden');
+
+    unmount();
+    expect(document.body.style.overflow).toBe('auto');
+  });
 });

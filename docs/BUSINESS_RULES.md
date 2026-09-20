@@ -48,6 +48,7 @@ Este documento consolida as decisões e regras de domínio do sistema para o Tem
   - A interface, cards e modais do sistema devem informar **apenas que é a data do nascimento de uma das formas de Deus** (ou de sua consorte divina/associada eterna), voltada para oração e meditação pessoal.
   - É expressamente proibido divulgar que haverá festival, celebração presencial ou vigília no templo nesses dias específicos.
   - As comemorações e celebrações comunitárias com congregação e banquete sagrado (Prasadam) são sempre realizadas durante os tradicionais **Festivais de Domingo**.
+- **Radhastami em 2026:** A data sagrada do aparecimento de Srimati Radharani em 2026 é no dia **18 de Setembro de 2026 (Sexta-feira)** (e não no dia 19).
 - **Aparecimento de Srila Prabhupada (Vyasa-puja):**
   - Data seguinte ao Janmastami (Agosto/Setembro). Registrada no calendário como data de aparição sagrada do fundador-acharya, com homenagens comunitárias integradas aos encontros do templo.
 

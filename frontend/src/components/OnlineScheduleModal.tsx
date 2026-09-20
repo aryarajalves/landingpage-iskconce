@@ -8,6 +8,16 @@ interface OnlineScheduleModalProps {
 }
 
 export const OnlineScheduleModal: React.FC<OnlineScheduleModalProps> = ({ isOpen, onClose }) => {
+  // Trava a rolagem da página de fundo (body) enquanto o modal estiver aberto
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const meeting = TEMPLE_DATA.weeklyMeetings[0];

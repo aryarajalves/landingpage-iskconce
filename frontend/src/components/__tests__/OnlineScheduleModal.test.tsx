@@ -41,4 +41,14 @@ describe('OnlineScheduleModal Component', () => {
     // Deve respeitar a regra: fechamento forçado apenas via botão
     expect(handleClose).not.toHaveBeenCalled();
   });
+
+  it('locks body scroll (overflow hidden) when open and restores it when unmounted', () => {
+    document.body.style.overflow = 'auto';
+
+    const { unmount } = render(<OnlineScheduleModal isOpen={true} onClose={vi.fn()} />);
+    expect(document.body.style.overflow).toBe('hidden');
+
+    unmount();
+    expect(document.body.style.overflow).toBe('auto');
+  });
 });

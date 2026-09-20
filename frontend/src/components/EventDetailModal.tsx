@@ -36,6 +36,18 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
   dateStr,
   events
 }) => {
+  // Trava a rolagem da página de fundo (body) enquanto o modal estiver aberto
+  React.useEffect(() => {
+    if (!isOpen || events.length === 0) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen, events.length]);
+
   if (!isOpen || events.length === 0) return null;
 
   // Format date display
@@ -50,7 +62,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs transition-opacity duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs overscroll-contain touch-none transition-opacity duration-200"
       data-testid="event-detail-modal-backdrop"
       // Backdrop does NOT close on click per RULE[experiencia-usuario.md]
     >
@@ -59,7 +71,7 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
         aria-modal="true"
         aria-labelledby="event-modal-title"
         data-testid="event-detail-modal"
-        className="bg-white rounded-3xl shadow-2xl border-2 border-amber-300 w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+        className="bg-white rounded-3xl shadow-2xl border-2 border-amber-300 w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 touch-auto overscroll-contain"
       >
         {/* Modal Header */}
         <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 px-5 py-4 text-white flex items-center justify-between shrink-0 shadow-sm">
