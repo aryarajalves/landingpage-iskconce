@@ -2,13 +2,21 @@ version: '3.8'
 
 services:
   iskcon_landingpage:
-    image: aryalvesfernandes/landingpage-iskcon-ce:1.0.3
+    image: aryalvesfernandes/landingpage-iskcon-ce:1.0.5
     hostname: "{{.Service.Name}}.{{.Task.Slot}}"
     networks:
       - network_swarm_public
     deploy:
       mode: replicated
       replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 2s
+        order: stop-first
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        order: stop-first
       placement:
         constraints:
           - node.role == manager
