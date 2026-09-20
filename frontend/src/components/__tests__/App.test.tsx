@@ -4,6 +4,7 @@ import App from '../../App';
 
 describe('App Routing Integration', () => {
   beforeEach(() => {
+    localStorage.clear();
     window.history.pushState({}, '', '/');
   });
 

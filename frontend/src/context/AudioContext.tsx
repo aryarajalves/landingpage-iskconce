@@ -7,9 +7,10 @@ interface AudioContextType {
   isPlaying: boolean;
   isMuted: boolean;
   isPausedByVideo: boolean;
+  isManuallyPaused: boolean;
   hasStarted: boolean;
   volume: number;
-  playMusic: (targetPath?: string) => Promise<void>;
+  playMusic: (targetPath?: string, isManualAction?: boolean) => Promise<void>;
   unlockAndPlayForRoute: (targetPath: string) => Promise<void>;
   pauseMusic: (byVideo?: boolean) => void;
   toggleMusic: () => Promise<void>;
@@ -24,23 +25,68 @@ const AudioContext = createContext<AudioContextType | undefined>(undefined);
 // Soft peaceful background ambient volume (0.20)
 const DEFAULT_VOLUME = 0.20;
 
+const STORAGE_KEY_MANUALLY_PAUSED = 'iskcon_audio_manually_paused';
+
+const isStorageManuallyPaused = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  try {
+    return localStorage.getItem(STORAGE_KEY_MANUALLY_PAUSED) === 'true';
+  } catch {
+    return false;
+  }
+};
+
+const setStorageManuallyPaused = (paused: boolean) => {
+  if (typeof window === 'undefined') return;
+  try {
+    if (paused) {
+      localStorage.setItem(STORAGE_KEY_MANUALLY_PAUSED, 'true');
+    } else {
+      localStorage.removeItem(STORAGE_KEY_MANUALLY_PAUSED);
+    }
+  } catch {
+    // Fallback silencioso caso cookies/storage estejam desabilitados
+  }
+};
+
 export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [isPausedByVideo, setIsPausedByVideo] = useState<boolean>(false);
+  const [isManuallyPaused, setIsManuallyPaused] = useState<boolean>(() => isStorageManuallyPaused());
   const [hasStarted, setHasStarted] = useState<boolean>(false);
   const [volume, setVolumeState] = useState<number>(DEFAULT_VOLUME);
 
   const { currentPath } = useRouter();
   const currentPathRef = useRef<string>(currentPath);
-  const userPausedRef = useRef<boolean>(false);
+  const userPausedRef = useRef<boolean>(isStorageManuallyPaused());
 
   useEffect(() => {
     currentPathRef.current = currentPath;
   }, [currentPath]);
 
-  // Handle route transitions: audio only plays on Sunday Festival and Online Programs pages
+  // Sincronização entre abas do navegador via StorageEvent
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY_MANUALLY_PAUSED) {
+        const isPaused = e.newValue === 'true';
+        userPausedRef.current = isPaused;
+        setIsManuallyPaused(isPaused);
+        if (isPaused && audioRef.current && !audioRef.current.paused) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  // Handle route transitions: audio only plays on Sunday Festival, Online Programs and Calendar pages
   useEffect(() => {
     const isAllowed = isAudioAllowedPath(currentPath);
     if (!isAllowed) {
@@ -50,8 +96,11 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
       setIsPlaying(false);
     } else {
-      // Entering an allowed route: start/resume playback if user hasn't explicitly clicked pause
-      if (!userPausedRef.current && audioRef.current && audioRef.current.paused) {
+      // Entering an allowed route: se o usuário pausou manualmente, NUNCA ligar sozinho!
+      if (userPausedRef.current) {
+        return;
+      }
+      if (audioRef.current && audioRef.current.paused) {
         audioRef.current
           .play()
           .then(() => {
@@ -123,9 +172,9 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
       };
 
-      // 1. Attempt immediate autoplay ONLY if initial route is an allowed path
+      // 1. Attempt immediate autoplay ONLY if initial route is an allowed path and user hasn't manually paused
       const initialPath = window.location.pathname || '/';
-      if (isAudioAllowedPath(initialPath)) {
+      if (isAudioAllowedPath(initialPath) && !userPausedRef.current) {
         const playPromise = audio.play();
         if (playPromise !== undefined) {
           playPromise
@@ -142,7 +191,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             });
         }
       } else {
-        // When not on an allowed path, attach interaction listeners so when user navigates, it's ready
+        // When not on an allowed path or manually paused, attach interaction listeners
         interactionEvents.forEach((evt) => {
           document.addEventListener(evt, startAudioOnInteraction, { capture: true, passive: true });
           window.addEventListener(evt, startAudioOnInteraction, { capture: true, passive: true });
@@ -160,12 +209,22 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
-  const playMusic = useCallback(async (targetPath?: string) => {
+  const playMusic = useCallback(async (targetPath?: string, isManualAction: boolean = true) => {
     if (!audioRef.current) return;
     const pathToCheck = targetPath || currentPathRef.current;
     if (!isAudioAllowedPath(pathToCheck)) return;
+
+    // Se for tentativa automática/indireta mas o usuário pausou manualmente, respeita a pausa manual
+    if (!isManualAction && userPausedRef.current) {
+      return;
+    }
+
     try {
-      userPausedRef.current = false;
+      if (isManualAction) {
+        userPausedRef.current = false;
+        setIsManuallyPaused(false);
+        setStorageManuallyPaused(false);
+      }
       setIsPausedByVideo(false);
       await audioRef.current.play();
       setIsPlaying(true);
@@ -176,7 +235,11 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const unlockAndPlayForRoute = useCallback(async (targetPath: string) => {
-    return playMusic(targetPath);
+    // Se o usuário pausou manualmente, respeita e não força o som a ligar sozinho
+    if (userPausedRef.current) {
+      return;
+    }
+    return playMusic(targetPath, false);
   }, [playMusic]);
 
   const pauseMusic = useCallback((byVideo: boolean = false) => {
@@ -187,6 +250,8 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setIsPausedByVideo(true);
     } else {
       userPausedRef.current = true;
+      setIsManuallyPaused(true);
+      setStorageManuallyPaused(true);
     }
   }, []);
 
@@ -194,7 +259,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (isPlaying) {
       pauseMusic(false);
     } else {
-      await playMusic();
+      await playMusic(undefined, true);
     }
   }, [isPlaying, pauseMusic, playMusic]);
 
@@ -220,7 +285,9 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const onVideoPause = useCallback(() => {
     if (isPausedByVideo && audioRef.current && isAudioAllowedPath(currentPathRef.current)) {
-      playMusic().catch(() => {});
+      if (!userPausedRef.current) {
+        playMusic(undefined, false).catch(() => {});
+      }
     }
   }, [isPausedByVideo, playMusic]);
 
@@ -230,6 +297,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         isPlaying,
         isMuted,
         isPausedByVideo,
+        isManuallyPaused,
         hasStarted,
         volume,
         playMusic,

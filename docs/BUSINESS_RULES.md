@@ -19,6 +19,7 @@ Este documento consolida as decisões e regras de domínio do sistema para o Tem
   - Permite pausar/desativar com 1 toque a qualquer momento.
   - Permite mutar/desmutar e reativar caso o visitante deseje.
   - Pausa automática ao dar play em qualquer vídeo local do templo, e retomada após pausa do vídeo.
+  - **Pausa Manual com Persistência Estrita:** Caso o visitante pause o som manualmente (clique em "Desativar"), essa preferência é salva no `localStorage` (`iskcon_audio_manually_paused`) e sincronizada entre abas (`StorageEvent`). Enquanto pausado manualmente, o som **JAMAIS** voltará a tocar automaticamente ao mudar de abas, transitar entre rotas autorizadas ou clicar nos botões do Linktree. O áudio só volta a tocar se o visitante for manualmente no botão e clicar em `▶ Ativar`.
 
 ---
 

@@ -1,10 +1,14 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { LinktreePage } from '../LinktreePage';
 import { RouterProvider } from '../../context/RouterContext';
 import { AudioProvider } from '../../context/AudioContext';
 
 describe('LinktreePage Component', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   const renderComponent = async () => {
     return act(async () => {
       render(

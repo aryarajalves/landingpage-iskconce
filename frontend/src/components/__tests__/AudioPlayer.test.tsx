@@ -6,6 +6,7 @@ import { RouterProvider } from '../../context/RouterContext';
 
 describe('AudioPlayer Component', () => {
   beforeEach(() => {
+    localStorage.clear();
     window.history.pushState({}, '', '/festivaldedomingo');
     vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(async function(this: HTMLMediaElement) {
       Object.defineProperty(this, 'paused', { value: false, configurable: true, writable: true });

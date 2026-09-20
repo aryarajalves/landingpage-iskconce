@@ -10,8 +10,10 @@ const TestAudioConsumer: React.FC = () => {
     isPlaying,
     isMuted,
     isPausedByVideo,
+    isManuallyPaused,
     volume,
     playMusic,
+    unlockAndPlayForRoute,
     pauseMusic,
     toggleMusic,
     toggleMute,
@@ -26,6 +28,7 @@ const TestAudioConsumer: React.FC = () => {
       <span data-testid="is-playing">{isPlaying ? 'yes' : 'no'}</span>
       <span data-testid="is-muted">{isMuted ? 'yes' : 'no'}</span>
       <span data-testid="is-paused-by-video">{isPausedByVideo ? 'yes' : 'no'}</span>
+      <span data-testid="is-manually-paused">{isManuallyPaused ? 'yes' : 'no'}</span>
       <span data-testid="audio-volume">{volume}</span>
       <button data-testid="btn-play" onClick={() => playMusic()}>Play</button>
       <button data-testid="btn-pause" onClick={() => pauseMusic()}>Pause</button>
@@ -34,6 +37,7 @@ const TestAudioConsumer: React.FC = () => {
       <button data-testid="btn-set-volume" onClick={() => setVolume(0.5)}>Set Volume</button>
       <button data-testid="btn-video-play-sync" onClick={() => onVideoPlay()}>Video Play</button>
       <button data-testid="btn-video-pause-sync" onClick={() => onVideoPause()}>Video Pause</button>
+      <button data-testid="btn-unlock-route" onClick={() => unlockAndPlayForRoute('/programacoesonline')}>Unlock Route</button>
       <button data-testid="btn-nav-linktree" onClick={() => navigate('/')}>Go Root</button>
       <button data-testid="btn-nav-sunday" onClick={() => navigate('/festivaldedomingo')}>Go Sunday</button>
       <button data-testid="btn-nav-online" onClick={() => navigate('/programacoesonline')}>Go Online</button>
@@ -46,6 +50,7 @@ describe('AudioContext', () => {
   let pauseSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
+    localStorage.clear();
     window.history.pushState({}, '', '/festivaldedomingo');
     playSpy = vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(async function(this: HTMLMediaElement) {
       Object.defineProperty(this, 'paused', { value: false, configurable: true, writable: true });
@@ -190,6 +195,148 @@ describe('AudioContext', () => {
       fireEvent.click(screen.getByTestId('btn-mute'));
     });
     expect(screen.getByTestId('is-muted')).toHaveTextContent('no');
+  });
+
+  it('does NOT auto-start sound on navigating to other allowed routes if paused manually', async () => {
+    await act(async () => {
+      render(
+        <RouterProvider>
+          <AudioProvider>
+            <TestAudioConsumer />
+          </AudioProvider>
+        </RouterProvider>
+      );
+    });
+
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('yes');
+
+    // Pausar manualmente
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('btn-pause'));
+    });
+
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('no');
+    expect(screen.getByTestId('is-manually-paused')).toHaveTextContent('yes');
+    expect(localStorage.getItem('iskcon_audio_manually_paused')).toBe('true');
+
+    // Navega para outra aba/rota permitida (/programacoesonline)
+    playSpy.mockClear();
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('btn-nav-online'));
+    });
+
+    // O som NÃO deve ligar sozinho!
+    expect(playSpy).not.toHaveBeenCalled();
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('no');
+
+    // Navega para outra aba permitida (/festivaldedomingo)
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('btn-nav-sunday'));
+    });
+
+    // O som continua sem ligar sozinho!
+    expect(playSpy).not.toHaveBeenCalled();
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('no');
+  });
+
+  it('unlockAndPlayForRoute respects manual pause and does NOT force sound to play', async () => {
+    await act(async () => {
+      render(
+        <RouterProvider>
+          <AudioProvider>
+            <TestAudioConsumer />
+          </AudioProvider>
+        </RouterProvider>
+      );
+    });
+
+    // Pausar manualmente
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('btn-pause'));
+    });
+    expect(screen.getByTestId('is-manually-paused')).toHaveTextContent('yes');
+
+    // Tentar destravar rota
+    playSpy.mockClear();
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('btn-unlock-route'));
+    });
+
+    // NÃO deve tocar
+    expect(playSpy).not.toHaveBeenCalled();
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('no');
+  });
+
+  it('manually clicking play/toggle resets manual pause and plays sound', async () => {
+    await act(async () => {
+      render(
+        <RouterProvider>
+          <AudioProvider>
+            <TestAudioConsumer />
+          </AudioProvider>
+        </RouterProvider>
+      );
+    });
+
+    // Pausar manualmente
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('btn-pause'));
+    });
+    expect(screen.getByTestId('is-manually-paused')).toHaveTextContent('yes');
+
+    // Usuário clica manualmente em Play
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('btn-play'));
+    });
+
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('yes');
+    expect(screen.getByTestId('is-manually-paused')).toHaveTextContent('no');
+    expect(localStorage.getItem('iskcon_audio_manually_paused')).toBeNull();
+  });
+
+  it('initializes as paused without auto-playing if localStorage indicates previous manual pause', async () => {
+    localStorage.setItem('iskcon_audio_manually_paused', 'true');
+    playSpy.mockClear();
+
+    await act(async () => {
+      render(
+        <RouterProvider>
+          <AudioProvider>
+            <TestAudioConsumer />
+          </AudioProvider>
+        </RouterProvider>
+      );
+    });
+
+    expect(playSpy).not.toHaveBeenCalled();
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('no');
+    expect(screen.getByTestId('is-manually-paused')).toHaveTextContent('yes');
+  });
+
+  it('synchronizes manual pause across browser tabs via storage event', async () => {
+    await act(async () => {
+      render(
+        <RouterProvider>
+          <AudioProvider>
+            <TestAudioConsumer />
+          </AudioProvider>
+        </RouterProvider>
+      );
+    });
+
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('yes');
+
+    // Simula evento de storage disparado por outra aba do navegador
+    await act(async () => {
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'iskcon_audio_manually_paused',
+        newValue: 'true'
+      }));
+    });
+
+    expect(pauseSpy).toHaveBeenCalled();
+    expect(screen.getByTestId('is-playing')).toHaveTextContent('no');
+    expect(screen.getByTestId('is-manually-paused')).toHaveTextContent('yes');
   });
 
   it('throws error when useAudio is used outside provider', () => {
