@@ -18,6 +18,8 @@ export interface TempleEvent {
   isRecurring?: boolean;
   shortBadge?: string;
   isCancelled?: boolean;
+  isBirthDateOfGod?: boolean;
+  noPublicEventOnDate?: boolean;
 }
 
 export const TEMPLE_EVENTS: TempleEvent[] = [
@@ -122,153 +124,172 @@ export const TEMPLE_EVENTS: TempleEvent[] = [
   {
     id: 'vyasa-puja-srila-prabhupada',
     title: 'Aparecimento de Srila Prabhupada (Vyasa-puja)',
-    subtitle: 'Celebração sagrada do fundador-acharya da ISKCON',
+    subtitle: 'Aparição sagrada do fundador-acharya da ISKCON',
     category: 'gurus',
     categoryLabel: 'Aparição Sagrada',
     date: '2026-09-05',
     period: '05 de Setembro de 2026 (Dia seguinte a Janmastami)',
-    time: 'Programação Especial durante o dia',
-    location: 'Templo ISKCON Ceará (Presencial)',
-    description: 'Um dos dias mais auspiciosos do ano! Celebramos o advento de Sua Divina Graça A.C. Bhaktivedanta Swami Prabhupada com leitura de oferendas de gratidão, glorificações, abhishek (banho sagrado de Suas Murti), kirtan e banquete suntuoso.',
+    time: 'Data sagrada no calendário (Sem festival aberto neste dia)',
+    location: 'Calendário devocional (Celebrações nos Festivais de Domingo)',
+    description: 'Data sagrada que recorda o advento de Sua Divina Graça A.C. Bhaktivedanta Swami Prabhupada, mestre espiritual e fundador da ISKCON. Informamos que o templo não realiza festival aberto neste mesmo dia exato. Nossas homenagens e comemorações comunitárias acontecem nos Festivais de Domingo.',
     activities: [
-      'Leitura de homenagens e oferendas de gratidão dos devotos',
-      'Abhisheka cerimonial com flores, água sagrada e óleos',
-      'Apresentação sobre a vida e feitos transcendentais de Prabhupada',
-      'Maha-kirtan e banquete real de oferendas (Feast)'
+      'Data de homenagem ao mestre espiritual fundador da ISKCON',
+      'Dia dedicado à leitura, oração pessoal e gratidão aos ensinamentos',
+      'Atenção: Não há festival aberto no templo nesta data exata',
+      'Homenagens comunitárias ocorrem nos Festivais de Domingo'
     ],
-    badgeColor: 'bg-orange-100 text-orange-900 border-orange-300'
+    badgeColor: 'bg-orange-100 text-orange-900 border-orange-300',
+    shortBadge: 'Srila Prabhupada',
+    noPublicEventOnDate: true
   },
   {
     id: 'sri-krishna-janmastami',
     title: 'Sri Krishna Janmastami',
-    subtitle: 'O maior festival do calendário Vaisnava: Advento de Sri Krishna',
+    subtitle: 'Data do nascimento de uma das formas de Deus: Sri Krishna',
     category: 'vaisnava',
-    categoryLabel: 'Grande Festival',
+    categoryLabel: 'Nascimento de Forma de Deus',
     date: '2026-09-04',
     period: '04 de Setembro de 2026',
-    time: 'Manhã, Tarde e Grande Vigília Noturna',
-    location: 'Templo ISKCON Ceará (Presencial)',
-    description: 'Celebração transcendental do aparecimento do Senhor Krishna na Terra há 5.000 anos. O templo é ricamente decorado com centenas de flores, incenso, música ininterrupta, peças teatrais e banho cerimonial das Deidades.',
+    time: 'Data no calendário (Sem festival neste dia)',
+    location: 'Calendário devocional (Celebrações nos Festivais de Domingo)',
+    description: 'Esta data marca o nascimento de uma das formas de Deus: Sri Krishna, a Suprema Personalidade de Deus. Informamos que o templo não realiza festival nem comemoração aberta neste mesmo dia específico no templo — trata-se do registro da data sagrada no calendário devocional para oração e meditação pessoal. As comemorações comunitárias acontecem nos nossos Festivais de Domingo.',
     activities: [
-      'Maha-Abhisheka das Deidades com leite, mel e pétalas',
-      'Kirtan ininterrupto de 12 horas com devotos e convidados',
-      'Discurso sobre os doces passatempos de Krishna em Vrindavana',
-      'Meia-noite sagrada: Maha-arati e banquete vegetariano'
+      'Data do nascimento de uma das formas de Deus (Sri Krishna)',
+      'Dia dedicado à meditação pessoal, leitura védica e orações',
+      'Atenção: Não há festival presencial no templo nesta data exata',
+      'Celebrações comunitárias são realizadas nos Festivais de Domingo'
     ],
-    badgeColor: 'bg-purple-100 text-purple-900 border-purple-300'
+    badgeColor: 'bg-purple-100 text-purple-900 border-purple-300',
+    shortBadge: 'Nasc. Sri Krishna',
+    isBirthDateOfGod: true,
+    noPublicEventOnDate: true
   },
   {
     id: 'radhastami',
     title: 'Radhastami',
-    subtitle: 'Aparecimento de Srimati Radharani (A personificação da devoção)',
+    subtitle: 'Data do nascimento de Srimati Radharani',
     category: 'vaisnava',
-    categoryLabel: 'Festival Vaisnava',
+    categoryLabel: 'Data Sagrada Vaisnava',
     date: '2026-09-19',
     period: '19 de Setembro de 2026',
-    time: 'A partir das 11h00 até as 14h00',
-    location: 'Templo ISKCON Ceará (Presencial)',
-    description: 'Celebração do auspicioso aparecimento de Srimati Radharani, a suprema potência de prazer e a mais amada devota de Krishna. Dia de imensa doçura, kirtans sagrados, abhishek e banquete especial.',
+    time: 'Data no calendário (Sem festival neste dia)',
+    location: 'Calendário devocional (Celebrações nos Festivais de Domingo)',
+    description: 'Esta data sagrada marca o nascimento de Srimati Radharani, a contraparte e eterna associada de Sri Krishna, personificando a devoção e o amor puro a Deus. Informamos que o templo não realiza comemoração nem festival aberto neste mesmo dia específico. As celebrações com a congregação acontecem nos nossos Festivais de Domingo.',
     activities: [
-      'Canto meditativo dos Santos Nomes e glorificações a Sri Radha',
-      'Abhisheka festivo das Deidades',
-      'Palestra sobre o amor puro devocional (Prema-bhakti)',
-      'Banquete sagrado suntuoso oferecido ao meio-dia'
+      'Data do nascimento sagrado de Srimati Radharani',
+      'Dia propício para recolhimento, orações e canto dos Santos Nomes',
+      'Atenção: Não há festival presencial no templo nesta data exata',
+      'Celebrações comunitárias são realizadas nos Festivais de Domingo'
     ],
-    badgeColor: 'bg-pink-100 text-pink-900 border-pink-300'
+    badgeColor: 'bg-pink-100 text-pink-900 border-pink-300',
+    shortBadge: 'Nasc. Radharani',
+    isBirthDateOfGod: true,
+    noPublicEventOnDate: true
   },
   {
     id: 'gaura-purnima',
     title: 'Gaura Purnima',
-    subtitle: 'Aparecimento de Sri Chaitanya Mahaprabhu (O Pai do Sankirtan)',
+    subtitle: 'Data do nascimento de uma das formas de Deus: Sri Chaitanya Mahaprabhu',
     category: 'vaisnava',
-    categoryLabel: 'Grande Festival',
+    categoryLabel: 'Nascimento de Forma de Deus',
     date: '2026-03-03',
     period: '03 de Março de 2026 (Lua Cheia de Phalguna)',
-    time: 'A partir das 16h00 até o anoitecer',
-    location: 'Templo ISKCON Ceará (Presencial)',
-    description: 'Celebração do aparecimento dourado de Sri Chaitanya Mahaprabhu em Navadvipa, quem introduziu o canto congregacional do Maha-Mantra Hare Krishna por todo o mundo. Festival com cores, alegria contagiante e banquete.',
+    time: 'Data no calendário (Sem festival neste dia)',
+    location: 'Calendário devocional (Celebrações nos Festivais de Domingo)',
+    description: 'Esta data marca o nascimento de uma das formas de Deus: Sri Chaitanya Mahaprabhu, o avatar dourado que introduziu o canto congregacional do Maha-Mantra Hare Krishna por todo o mundo. O templo não realiza festival nem comemoração aberta neste mesmo dia exato. As festividades comunitárias com banquete acontecem nos Festivais de Domingo.',
     activities: [
-      'Abhisheka de Gaura-Nitai com cantos dos Santos Nomes',
-      'Palestra sobre a misericórdia incomparável do avatar dourado',
-      'Kirtan extático com instrumentos tradicionais',
-      'Banquete festivo servido após o nascimento da lua cheia'
+      'Data do nascimento de uma das formas de Deus (Sri Chaitanya Mahaprabhu)',
+      'Dia sagrado no calendário védico para oração, reflexão e estudo espiritual',
+      'Atenção: Não há festival presencial no templo nesta data exata',
+      'Celebrações comunitárias são realizadas nos Festivais de Domingo'
     ],
-    badgeColor: 'bg-yellow-100 text-yellow-900 border-yellow-300'
+    badgeColor: 'bg-yellow-100 text-yellow-900 border-yellow-300',
+    shortBadge: 'Nasc. Chaitanya',
+    isBirthDateOfGod: true,
+    noPublicEventOnDate: true
   },
   {
     id: 'rama-navami',
     title: 'Rama Navami',
-    subtitle: 'Aparecimento do Senhor Ramacandra (O Rei Ideal e Nobre)',
+    subtitle: 'Data do nascimento de uma das formas de Deus: Senhor Ramacandra',
     category: 'vaisnava',
-    categoryLabel: 'Festival Vaisnava',
+    categoryLabel: 'Nascimento de Forma de Deus',
     date: '2026-03-27',
     period: '27 de Março de 2026',
-    time: 'A partir das 17h00',
-    location: 'Templo ISKCON Ceará (Presencial)',
-    description: 'Celebração do advento do Senhor Ramacandra, o exemplo supremo de honra, lealdade, verdade e liderança compassiva narrado no épico transcendental Ramayana.',
+    time: 'Data no calendário (Sem festival neste dia)',
+    location: 'Calendário devocional (Celebrações nos Festivais de Domingo)',
+    description: 'Esta data marca o nascimento de uma das formas de Deus: o Senhor Ramacandra, o nobre avatar que personifica a honra, retidão e verdade. O templo não realiza comemoração nem festival aberto neste mesmo dia no templo. As comemorações e festejos comunitários ocorrem durante os Festivais de Domingo.',
     activities: [
-      'Leitura de passagens heróicas do Ramayana',
-      'Cantos especiais de orações a Sri Rama e Lakshmana',
-      'Banquete sagrado preparado em honra ao Senhor Rama'
+      'Data do nascimento de uma das formas de Deus (Senhor Ramacandra)',
+      'Dia sagrado para contemplação dos nobres ensinamentos do Ramayana',
+      'Atenção: Não há festival presencial no templo nesta data exata',
+      'Celebrações comunitárias são realizadas nos Festivais de Domingo'
     ],
-    badgeColor: 'bg-sky-100 text-sky-900 border-sky-300'
+    badgeColor: 'bg-sky-100 text-sky-900 border-sky-300',
+    shortBadge: 'Nasc. Senhor Rama',
+    isBirthDateOfGod: true,
+    noPublicEventOnDate: true
   },
   {
     id: 'nrisimha-caturdasi',
     title: 'Nrisimha Caturdasi',
-    subtitle: 'Aparecimento do Senhor Nrisimhadeva (O Protetor dos Devotos)',
+    subtitle: 'Data do nascimento de uma das formas de Deus: Senhor Nrisimhadeva',
     category: 'vaisnava',
-    categoryLabel: 'Festival Vaisnava',
+    categoryLabel: 'Nascimento de Forma de Deus',
     date: '2026-05-01',
     period: '01 de Maio de 2026',
-    time: 'Ao entardecer (Crepúsculo sagrado)',
-    location: 'Templo ISKCON Ceará (Presencial)',
-    description: 'Celebração do aparecimento de Nrisimhadeva no entardecer para salvar Seu grande devoto Prahlada Maharaja. Celebração emocionante com kirtan fervoroso e preces sagradas de proteção.',
+    time: 'Data no calendário (Sem festival neste dia)',
+    location: 'Calendário devocional (Celebrações nos Festivais de Domingo)',
+    description: 'Esta data marca o nascimento de uma das formas de Deus: o Senhor Nrisimhadeva, a encarnação divina que protege os devotos de todos os obstáculos espirituais. O templo não realiza festival nem comemoração aberta neste mesmo dia específico. As celebrações com a congregação acontecem nos Festivais de Domingo.',
     activities: [
-      'Canto das orações do Sri Nrisimha Pranama e orações védicas',
-      'Abhisheka cerimonial no entardecer',
-      'Palestra sobre a firmeza na fé de Prahlada Maharaja',
-      'Banquete especial de quebra do jejum'
+      'Data do nascimento de uma das formas de Deus (Senhor Nrisimhadeva)',
+      'Dia sagrado para orações pessoais de proteção espiritual e paz interior',
+      'Atenção: Não há festival presencial no templo nesta data exata',
+      'Celebrações comunitárias são realizadas nos Festivais de Domingo'
     ],
-    badgeColor: 'bg-rose-100 text-rose-900 border-rose-300'
+    badgeColor: 'bg-rose-100 text-rose-900 border-rose-300',
+    shortBadge: 'Nasc. Nrisimhadeva',
+    isBirthDateOfGod: true,
+    noPublicEventOnDate: true
   },
   {
     id: 'govardhana-puja-diwali',
     title: 'Govardhana Puja & Festival de Diwali',
-    subtitle: 'Festa das Luzes e adoração da Colina Sagrada de Govardhana',
+    subtitle: 'Datas sagradas de Diwali e reverência à Colina de Govardhana',
     category: 'vaisnava',
-    categoryLabel: 'Grande Celebração',
+    categoryLabel: 'Data Sagrada Vaisnava',
     dates: ['2026-11-08', '2026-11-09', '2026-11-10'],
     period: '08 a 10 de Novembro de 2026',
-    time: 'A partir das 17h00',
-    location: 'Templo ISKCON Ceará (Presencial)',
-    description: 'Celebração mágica com o templo iluminado por centenas de lâmpadas de ghee (Diwali) e a construção da réplica doce da sagrada Colina de Govardhana (Annakuta) decorada com oferendas vegetarianas.',
+    time: 'Data no calendário (Celebrações no Festival de Domingo)',
+    location: 'Calendário devocional (Celebrações nos Festivais de Domingo)',
+    description: 'Datas sagradas do calendário védico tradicional. O templo realiza celebrações comunitárias durante os tradicionais Festivais de Domingo do período.',
     activities: [
-      'Iluminação do templo com lamparinas de ghee tradicionais',
-      'Circumbulação e oferenda de incenso e doces à Colina de Govardhana',
-      'Kirtan com orações do Damodarashtaka no mês sagrado de Kartika',
-      'Distribuição suntuosa do banquete da Colina de Doces'
+      'Datas sagradas no calendário védico tradicional',
+      'Dias dedicados a orações devocionais e meditação em família',
+      'Celebrações comunitárias são realizadas nos Festivais de Domingo'
     ],
-    badgeColor: 'bg-amber-100 text-amber-900 border-amber-300'
+    badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
+    shortBadge: 'Govardhana & Diwali',
+    noPublicEventOnDate: true
   },
   {
     id: 'gita-jayanti',
     title: 'Gita Jayanti',
-    subtitle: 'O dia em que Krishna falou o sagrado Bhagavad-gītā',
+    subtitle: 'Data sagrada em que Krishna falou o Bhagavad-gītā',
     category: 'vaisnava',
-    categoryLabel: 'Celebração Védica',
+    categoryLabel: 'Data Sagrada Védica',
     date: '2026-12-20',
     period: '20 de Dezembro de 2026',
-    time: 'Manhã e Tarde (10h00 às 14h00)',
-    location: 'Templo ISKCON Ceará (Presencial)',
-    description: 'Celebração do dia sagrado no campo de batalha de Kurukshetra em que o Senhor Krishna revelou os 700 versos do Bhagavad-gītā para Arjuna, trazendo luz e guia atemporal para a humanidade.',
+    time: '10h00 às 13h00 (Durante o Festival de Domingo)',
+    location: 'Templo ISKCON Ceará (Durante o Festival de Domingo)',
+    description: 'Data sagrada que recorda o diálogo transcendental do Bhagavad-gītā revelado por Krishna a Arjuna. Como coincide com um domingo (20/12), as homenagens e leituras ocorrem durante o tradicional Festival de Domingo.',
     activities: [
-      'Recitação coletiva dos versos do Bhagavad-gītā em sânscrito',
-      'Cerimônia de fogo sagrado védico (Yajna)',
-      'Distribuição e incentivo à leitura do Bhagavad-gītā Como Ele É',
-      'Prasadam sagrado para todos os participantes'
+      'Celebração do diálogo milenar do Bhagavad-gītā Como Ele É',
+      'Leituras e palestras especiais durante o Festival de Domingo de 20/12',
+      'Banquete sagrado vegetariano gratuito no domingo'
     ],
-    badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-300'
+    badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+    shortBadge: 'Gita Jayanti'
   }
 ];
 

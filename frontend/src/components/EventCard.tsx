@@ -24,9 +24,12 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
     ? 'bg-gradient-to-br from-orange-500 to-amber-600 text-white shadow-orange-500/20'
     : 'bg-gradient-to-br from-purple-500 to-indigo-600 text-white shadow-purple-500/20';
 
-  const whatsappInquiryUrl = `https://wa.me/5585997930976?text=Ol%C3%A1!%20Vim%20pelo%20site%20do%20Templo%20da%20ISKCON%20Cear%C3%A1%20e%20gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20o%20evento%3A%20${encodeURIComponent(
-    event.title
-  )}`;
+  const isNoPublic = event.isCancelled || event.noPublicEventOnDate || event.isBirthDateOfGod;
+  const inquiryText = isNoPublic
+    ? `Olá! Vim pelo site do Templo da ISKCON Ceará e gostaria de tirar dúvidas sobre a data de: ${event.title}`
+    : `Olá! Vim pelo site do Templo da ISKCON Ceará e gostaria de informações sobre o evento: ${event.title}`;
+
+  const whatsappInquiryUrl = `https://wa.me/5585997930976?text=${encodeURIComponent(inquiryText)}`;
 
   return (
     <div
@@ -82,7 +85,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
         {/* Program Activities */}
         <div className="bg-amber-50/40 rounded-2xl p-4 border border-amber-200/60 mb-5 space-y-2">
           <span className="text-[11px] font-bold text-amber-800 uppercase tracking-wider block mb-1">
-            Programação e Atividades
+            {event.isBirthDateOfGod ? 'Significado e Práticas Devocionais' : 'Programação e Atividades'}
           </span>
           {event.activities.map((act, idx) => (
             <div key={idx} className="flex items-start gap-2 text-xs text-stone-700">
@@ -103,7 +106,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
           className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 transition-all duration-200 hover:scale-[1.01]"
         >
           <MessageCircle className="w-4 h-4" />
-          <span>{event.isCancelled ? 'Tirar Dúvidas com o Templo no WhatsApp' : 'Tirar Dúvidas sobre este Evento no WhatsApp'}</span>
+          <span>{isNoPublic ? 'Tirar Dúvidas com o Templo no WhatsApp' : 'Tirar Dúvidas sobre este Evento no WhatsApp'}</span>
           <ExternalLink className="w-3.5 h-3.5 opacity-70" />
         </a>
       </div>

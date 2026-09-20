@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { 
   ChevronLeft, ChevronRight, Sun, Sparkles, Calendar as CalendarIcon, 
-  Clock, MapPin, MessageCircle, ExternalLink, Crown 
+  Clock, MapPin, MessageCircle, ExternalLink, Crown, Heart 
 } from 'lucide-react';
 import { TempleEvent, getEventsForDate, EventCategory } from '../data/eventsData';
 import { TEMPLE_DATA } from '../data/templeInfo';
@@ -61,12 +61,7 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
 
     // Previous month padding
     for (let i = firstDayIndex - 1; i >= 0; i--) {
-      days.push({
-        dayNumber: prevMonthTotalDays - i,
-        isCurrentMonth: false,
-        isToday: false,
-        dateStr: ''
-      });
+      days.push({ dayNumber: prevMonthTotalDays - i, isCurrentMonth: false, isToday: false, dateStr: '' });
     }
 
     // Current month days
@@ -87,27 +82,15 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
       const isCancelledDay = filteredEvents.some(e => e.isCancelled);
 
       days.push({
-        dayNumber: d,
-        isCurrentMonth: true,
-        dateStr,
-        isToday,
-        isSunday,
-        events: filteredEvents,
-        hasSpecialFestival,
-        hasSundayFestival,
-        isCancelledDay
+        dayNumber: d, isCurrentMonth: true, dateStr, isToday, isSunday,
+        events: filteredEvents, hasSpecialFestival, hasSundayFestival, isCancelledDay
       });
     }
 
     // Next month padding to fill row
     const remainingCells = (7 - (days.length % 7)) % 7;
     for (let j = 1; j <= remainingCells; j++) {
-      days.push({
-        dayNumber: j,
-        isCurrentMonth: false,
-        isToday: false,
-        dateStr: ''
-      });
+      days.push({ dayNumber: j, isCurrentMonth: false, isToday: false, dateStr: '' });
     }
 
     return days;
@@ -171,11 +154,7 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
             {/* Quick jump to Today */}
             <button
               type="button"
-              onClick={() => {
-                setCurrentYear(todayYear);
-                setCurrentMonth(todayMonth);
-                setSelectedDate(todayDateStr);
-              }}
+              onClick={() => { setCurrentYear(todayYear); setCurrentMonth(todayMonth); setSelectedDate(todayDateStr); }}
               data-testid="btn-jump-today"
               title="Ir para a data de hoje"
               className="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-black text-xs px-2.5 sm:px-3 py-2 rounded-xl shadow-xs transition-colors cursor-pointer"
@@ -186,11 +165,7 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
             {/* Quick jump to October (Chandramukha Swami visit) */}
             <button
               type="button"
-              onClick={() => {
-                setCurrentYear(2026);
-                setCurrentMonth(10);
-                setSelectedDate('2026-10-01');
-              }}
+              onClick={() => { setCurrentYear(2026); setCurrentMonth(10); setSelectedDate('2026-10-01'); }}
               data-testid="btn-jump-october-2026"
               className="bg-white text-amber-900 hover:bg-amber-50 active:bg-amber-100 font-bold text-xs px-2.5 sm:px-3 py-2 rounded-xl shadow-sm transition-colors cursor-pointer"
             >
@@ -243,10 +218,7 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
             {calendarGrid.map((item, idx) => {
               if (!item.isCurrentMonth) {
                 return (
-                  <div 
-                    key={`empty-${idx}`} 
-                    className="min-h-[64px] sm:min-h-[85px] p-1 sm:p-2 bg-stone-50/50 rounded-xl opacity-30 cursor-not-allowed select-none"
-                  >
+                  <div key={`empty-${idx}`} className="min-h-[64px] sm:min-h-[85px] p-1 sm:p-2 bg-stone-50/50 rounded-xl opacity-30 cursor-not-allowed select-none">
                     <span className="text-xs text-stone-400 font-medium">{item.dayNumber}</span>
                   </div>
                 );
@@ -265,17 +237,11 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                   aria-label={`Dia ${item.dayNumber} de ${MONTH_NAMES[currentMonth - 1]}`}
                   className={`min-h-[64px] sm:min-h-[85px] p-1 sm:p-2 rounded-xl border text-left flex flex-col justify-between transition-all duration-150 cursor-pointer ${
                     isToday
-                      ? isSelected
-                        ? 'border-emerald-600 bg-emerald-100/80 shadow-md ring-2 ring-emerald-500'
-                        : 'border-emerald-500 bg-emerald-50/80 shadow-xs ring-2 ring-emerald-400/60 hover:bg-emerald-100/60'
-                      : isSelected
-                      ? 'border-amber-500 bg-amber-50/90 shadow-md ring-2 ring-amber-400/50'
-                      : item.isCancelledDay
-                      ? 'border-stone-200 bg-stone-100/80 hover:bg-stone-200/80'
-                      : item.hasSpecialFestival
-                      ? 'border-orange-300 bg-orange-50/50 hover:bg-orange-50 hover:border-orange-400'
-                      : item.isSunday && item.hasSundayFestival
-                      ? 'border-amber-200 bg-amber-50/30 hover:bg-amber-50'
+                      ? isSelected ? 'border-emerald-600 bg-emerald-100/80 shadow-md ring-2 ring-emerald-500' : 'border-emerald-500 bg-emerald-50/80 shadow-xs ring-2 ring-emerald-400/60 hover:bg-emerald-100/60'
+                      : isSelected ? 'border-amber-500 bg-amber-50/90 shadow-md ring-2 ring-amber-400/50'
+                      : item.isCancelledDay ? 'border-stone-200 bg-stone-100/80 hover:bg-stone-200/80'
+                      : item.hasSpecialFestival ? 'border-orange-300 bg-orange-50/50 hover:bg-orange-50 hover:border-orange-400'
+                      : item.isSunday && item.hasSundayFestival ? 'border-amber-200 bg-amber-50/30 hover:bg-amber-50'
                       : 'border-stone-100 hover:border-amber-200 hover:bg-stone-50/80 bg-white'
                   }`}
                 >
@@ -308,14 +274,21 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
 
                     {/* Indicator Icon / Dot */}
                     {item.hasSpecialFestival && (
-                      <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse shrink-0" title="Festival Especial" />
+                      <span 
+                        className={`w-2.5 h-2.5 rounded-full shrink-0 ${
+                          item.events?.some(e => e.isBirthDateOfGod)
+                            ? 'bg-purple-500'
+                            : 'bg-orange-500 animate-pulse'
+                        }`}
+                        title={item.events?.some(e => e.isBirthDateOfGod) ? "Data Sagrada (Nascimento de Forma de Deus)" : "Evento Especial"} 
+                      />
                     )}
                     {!item.hasSpecialFestival && item.isSunday && item.hasSundayFestival && (
                       <Sun className="w-3 h-3 text-amber-500 shrink-0" />
                     )}
                   </div>
 
-                  {/* Festival Mini Badges */}
+                  {/* Festival / Sacred Date Mini Badges */}
                   <div className="w-full mt-1 space-y-0.5 overflow-hidden">
                     {hasEvents && item.events.map((evt) => {
                       if (evt.isRecurringSunday) {
@@ -335,6 +308,16 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                             className="block text-[9px] sm:text-[10px] leading-tight font-bold text-stone-700 bg-stone-200/90 px-1 py-0.5 rounded truncate border border-stone-300"
                           >
                             {evt.shortBadge || 'Templo Fechado'}
+                          </span>
+                        );
+                      }
+                      if (evt.isBirthDateOfGod) {
+                        return (
+                          <span 
+                            key={evt.id}
+                            className="block text-[9px] sm:text-[10px] leading-tight font-bold text-purple-900 bg-purple-100/95 px-1 py-0.5 rounded truncate border border-purple-200"
+                          >
+                            {evt.shortBadge || (evt.title.length > 18 ? evt.title.substring(0, 18) + '...' : evt.title)}
                           </span>
                         );
                       }
@@ -404,8 +387,14 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-2">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-900">
-                        {evt.isRecurringSunday ? <Sun className="w-3 h-3 text-amber-600" /> : <Crown className="w-3 h-3 text-orange-600" />}
+                      <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                        evt.isCancelled
+                          ? 'bg-stone-200 text-stone-800'
+                          : evt.isBirthDateOfGod
+                          ? 'bg-purple-100 text-purple-900 border border-purple-200'
+                          : 'bg-amber-100 text-amber-900'
+                      }`}>
+                        {evt.isCancelled ? <CalendarIcon className="w-3 h-3 text-stone-600" /> : evt.isBirthDateOfGod ? <Heart className="w-3 h-3 text-purple-700" /> : evt.isRecurringSunday ? <Sun className="w-3 h-3 text-amber-600" /> : <Crown className="w-3 h-3 text-orange-600" />}
                         {evt.categoryLabel}
                       </span>
                       <span className="text-xs text-stone-500 font-bold">{evt.period}</span>
@@ -450,7 +439,9 @@ export const InteractiveCalendar: React.FC<InteractiveCalendarProps> = ({
 
                     <a
                       href={`${TEMPLE_DATA.contact.whatsappUrl}&text=${encodeURIComponent(
-                        `Olá! Gostaria de confirmar informações e tirar dúvidas sobre o evento: ${evt.title} (${evt.period}).`
+                        evt.isBirthDateOfGod || evt.noPublicEventOnDate || evt.isCancelled
+                          ? `Olá! Vi no calendário a data de "${evt.title}" (${evt.period}) e gostaria de tirar dúvidas com o templo.`
+                          : `Olá! Gostaria de confirmar informações e tirar dúvidas sobre a programação: ${evt.title} (${evt.period}).`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

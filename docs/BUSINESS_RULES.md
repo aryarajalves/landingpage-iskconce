@@ -43,13 +43,13 @@ Este documento consolida as decisões e regras de domínio do sistema para o Tem
 - **Domingo 04 de Outubro de 2026 (Templo Fechado):**
   - **Regra:** Não haverá Festival de Domingo nem programação presencial no templo no dia 04/10/2026.
   - As atividades normais de domingo retornam no dia 11/10/2026.
+- **Aparecimento das Formas de Deus (Datas Sagradas no Calendário):**
+  - **Regra Estrita:** O templo **NÃO** comemora nem realiza festivais ou celebrações no mesmo dia em que cai a data civil/védica do aparecimento (ex: Sri Krishna Janmastami, Gaura Purnima, Rama Navami, Nrisimha Caturdasi e Radhastami).
+  - A interface, cards e modais do sistema devem informar **apenas que é a data do nascimento de uma das formas de Deus** (ou de sua consorte divina/associada eterna), voltada para oração e meditação pessoal.
+  - É expressamente proibido divulgar que haverá festival, celebração presencial ou vigília no templo nesses dias específicos.
+  - As comemorações e celebrações comunitárias com congregação e banquete sagrado (Prasadam) são sempre realizadas durante os tradicionais **Festivais de Domingo**.
 - **Aparecimento de Srila Prabhupada (Vyasa-puja):**
-  - Data seguinte ao Janmastami (Agosto/Setembro).
-- **Grandes Festivais Vaisnavas:**
-  - *Sri Krishna Janmastami* (Agosto/Setembro)
-  - *Gaura Purnima* (Fevereiro/Março)
-  - *Rama Navami* (Março/Abril)
-  - *Nrisimha Caturdasi* (Maio)
+  - Data seguinte ao Janmastami (Agosto/Setembro). Registrada no calendário como data de aparição sagrada do fundador-acharya, com homenagens comunitárias integradas aos encontros do templo.
 
 ---
 

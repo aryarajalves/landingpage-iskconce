@@ -90,4 +90,38 @@ describe('EventDetailModal Component', () => {
     fireEvent.click(closeIcon);
     expect(handleClose).toHaveBeenCalledTimes(2);
   });
+
+  it('renders birth date of God with proper badge and inquiry WhatsApp button', () => {
+    const godBirthEvent: TempleEvent = {
+      id: 'sri-krishna-janmastami',
+      title: 'Sri Krishna Janmastami',
+      subtitle: 'Data do nascimento de uma das formas de Deus: Sri Krishna',
+      category: 'vaisnava',
+      categoryLabel: 'Nascimento de Forma de Deus',
+      period: '04 de Setembro de 2026',
+      date: '2026-09-04',
+      time: 'Data no calendário (Sem festival neste dia)',
+      location: 'Calendário devocional (Celebrações nos Festivais de Domingo)',
+      description: 'Esta data marca o nascimento de uma das formas de Deus: Sri Krishna. O templo não realiza festival neste dia.',
+      activities: ['Data do nascimento de uma das formas de Deus', 'Sem festival presencial nesta data'],
+      badgeColor: 'purple',
+      isBirthDateOfGod: true,
+      noPublicEventOnDate: true
+    };
+
+    render(
+      <EventDetailModal
+        isOpen={true}
+        onClose={vi.fn()}
+        dateStr="2026-09-04"
+        events={[godBirthEvent]}
+      />
+    );
+
+    expect(screen.getByText('Nascimento de Forma de Deus')).toBeInTheDocument();
+    expect(screen.getByText('Data do nascimento de uma das formas de Deus: Sri Krishna')).toBeInTheDocument();
+    expect(screen.getByText(/Sem festival neste dia/i)).toBeInTheDocument();
+    expect(screen.getByText('Tirar Dúvidas com o Templo no WhatsApp')).toBeInTheDocument();
+    expect(screen.queryByText(/Confirmar Presença/i)).not.toBeInTheDocument();
+  });
 });

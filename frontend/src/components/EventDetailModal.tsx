@@ -7,6 +7,7 @@ import {
   ExternalLink, 
   Sun, 
   Crown, 
+  Heart,
   CalendarDays
 } from 'lucide-react';
 import { TempleEvent } from '../data/eventsData';
@@ -100,10 +101,14 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
                 <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black shadow-2xs ${
                   evt.isCancelled 
                     ? 'bg-stone-200 text-stone-800' 
+                    : evt.isBirthDateOfGod
+                    ? 'bg-purple-100 text-purple-950 border border-purple-200'
                     : 'bg-amber-200/80 text-amber-950'
                 }`}>
                   {evt.isCancelled ? (
                     <CalendarDays className="w-3.5 h-3.5 text-stone-600" />
+                  ) : evt.isBirthDateOfGod ? (
+                    <Heart className="w-3.5 h-3.5 text-purple-700" />
                   ) : evt.isRecurringSunday ? (
                     <Sun className="w-3.5 h-3.5 text-amber-700" />
                   ) : (
@@ -143,19 +148,26 @@ export const EventDetailModal: React.FC<EventDetailModalProps> = ({
               </p>
 
               {/* WhatsApp Action Button */}
-              <a
-                href={`${TEMPLE_DATA.contact.whatsappUrl}&text=${encodeURIComponent(
-                  `Olá! Gostaria de confirmar presença e saber mais sobre o evento "${evt.title}" (${formattedDate}) que vi no calendário do site.`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-testid={`btn-modal-event-whatsapp-${evt.id}`}
-                className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>{evt.isCancelled ? 'Tirar Dúvidas com o Templo no WhatsApp' : 'Confirmar Presença / Dúvidas no WhatsApp'}</span>
-                <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-              </a>
+              {(() => {
+                const isNoPublicProgram = evt.isCancelled || evt.noPublicEventOnDate || evt.isBirthDateOfGod;
+                const whatsappMessage = isNoPublicProgram
+                  ? `Olá! Vi no calendário do site a data de "${evt.title}" (${formattedDate}) e gostaria de tirar dúvidas com o templo.`
+                  : `Olá! Gostaria de confirmar presença e saber mais sobre a programação "${evt.title}" (${formattedDate}) que vi no calendário do site.`;
+
+                return (
+                  <a
+                    href={`${TEMPLE_DATA.contact.whatsappUrl}&text=${encodeURIComponent(whatsappMessage)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-testid={`btn-modal-event-whatsapp-${evt.id}`}
+                    className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>{isNoPublicProgram ? 'Tirar Dúvidas com o Templo no WhatsApp' : 'Confirmar Presença / Dúvidas no WhatsApp'}</span>
+                    <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+                  </a>
+                );
+              })()}
             </article>
           ))}
         </div>

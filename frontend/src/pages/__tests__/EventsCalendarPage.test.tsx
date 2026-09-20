@@ -30,6 +30,7 @@ describe('EventsCalendarPage Component', () => {
     expect(screen.getByTestId('filter-tab-domingo')).toBeInTheDocument();
     expect(screen.getByTestId('filter-tab-gurus')).toBeInTheDocument();
     expect(screen.getByTestId('filter-tab-vaisnava')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-tab-vaisnava')).toHaveTextContent('Datas Sagradas & Formas de Deus');
   });
 
   it('renders all events when switching to list view and filters by category when tabs are clicked', async () => {
@@ -62,6 +63,14 @@ describe('EventsCalendarPage Component', () => {
     expect(screen.getByTestId('event-card-festival-de-domingo-semanal')).toBeInTheDocument();
     expect(screen.getByTestId('event-card-templo-fechado-2026-10-04')).toBeInTheDocument();
     expect(screen.queryByTestId('event-card-vyasa-puja-srila-prabhupada')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('event-card-chegada-chandramukha-swami-2026')).not.toBeInTheDocument();
+
+    // Filter to Vaisnava (Datas Sagradas & Formas de Deus)
+    fireEvent.click(screen.getByTestId('filter-tab-vaisnava'));
+    expect(screen.getByTestId('event-card-sri-krishna-janmastami')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-radhastami')).toBeInTheDocument();
+    expect(screen.getByTestId('event-card-gaura-purnima')).toBeInTheDocument();
+    expect(screen.queryByTestId('event-card-festival-de-domingo-semanal')).not.toBeInTheDocument();
     expect(screen.queryByTestId('event-card-chegada-chandramukha-swami-2026')).not.toBeInTheDocument();
 
     // Filter back to Todos

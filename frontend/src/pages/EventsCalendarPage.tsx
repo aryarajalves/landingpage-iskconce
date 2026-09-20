@@ -113,7 +113,7 @@ export const EventsCalendarPage: React.FC = () => {
           </h1>
 
           <p className="text-base sm:text-lg text-stone-600 leading-relaxed font-normal mb-6">
-            Acompanhe os meses, dias e anos dos festivais de domingo, aparição de Srila Prabhupada, grandes celebrações Vaisnavas e visitas de mestres espirituais para se planejar com antecedência.
+            Acompanhe os meses, dias e anos dos festivais de domingo, datas de nascimento das formas de Deus, aparição de Srila Prabhupada e visitas de mestres espirituais para se planejar com antecedência.
           </p>
 
           {/* View Mode Toggle */}
@@ -203,7 +203,7 @@ export const EventsCalendarPage: React.FC = () => {
             }`}
           >
             <Heart className="w-4 h-4" />
-            <span>Grandes Celebrações Vaisnavas</span>
+            <span>Datas Sagradas & Formas de Deus</span>
           </button>
         </section>
 
